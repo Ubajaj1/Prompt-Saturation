@@ -1,37 +1,26 @@
 """
-GreenPES: Green Prompt Efficiency Score
+GreenPES: Prompt Saturation Analysis Framework
 
-A framework for measuring and optimizing LLM prompt efficiency.
+A framework for studying LLM prompt efficiency and quality saturation.
+GreenPES metric code archived — see archive/ARCHIVE_RATIONALE.md.
 """
 
-from .metrics import GreenPESCalculator, GreenPESScore, PromptResult
-from .scorer import GreenPromptScorer, PromptAnalysis
-from .evaluators import QualityEvaluator, QAEvaluator, SummarizationEvaluator, get_evaluator
-from .optimizer import PromptOptimizer, BaselineCompressor, OptimizationResult
+from .evaluators import QualityEvaluator, QAEvaluator, SummarizationEvaluator, get_evaluator, MathReasoningEvaluator, ProductExtractionEvaluator
 from .llm import (
     LLMProvider, GeminiProvider, GroqProvider, OpenAIProvider,
     AnthropicProvider, TogetherProvider, MockProvider, LLMResponse
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
-    # Core
-    "GreenPromptScorer",
-    "PromptAnalysis",
-    # Metrics
-    "GreenPESCalculator",
-    "GreenPESScore",
-    "PromptResult",
     # Evaluators
     "QualityEvaluator",
     "QAEvaluator",
     "SummarizationEvaluator",
+    "MathReasoningEvaluator",
+    "ProductExtractionEvaluator",
     "get_evaluator",
-    # Optimizer
-    "PromptOptimizer",
-    "BaselineCompressor",
-    "OptimizationResult",
     # LLM Providers
     "LLMProvider",
     "GeminiProvider",

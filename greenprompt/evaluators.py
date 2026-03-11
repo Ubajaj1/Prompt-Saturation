@@ -340,6 +340,18 @@ class LLMJudgeEvaluator(QualityEvaluator):
             "Conciseness rewards appropriate brevity. "
             "Reasoning Quality assesses overall response clarity."
         ),
+        'math_reasoning': (
+            "Focus on Correctness (does the final numerical answer match the reference?). "
+            "Completeness checks if work is shown. "
+            "Reasoning Quality assesses whether the solution steps are logical. "
+            "Conciseness penalizes unnecessary verbosity beyond the solution."
+        ),
+        'product_extraction': (
+            "Focus on Correctness (do the extracted fields match the reference values?). "
+            "Completeness checks if all 4 fields (name, price, brand, category) are present. "
+            "Reasoning Quality is less relevant — focus on extraction accuracy. "
+            "Conciseness rewards clean JSON output without extra text."
+        ),
     }
 
     _JUDGE_PROMPT = """\

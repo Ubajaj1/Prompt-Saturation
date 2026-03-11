@@ -44,7 +44,7 @@ from experiments.saturation_prompts import (
 from experiments.prompting_strategies import BENCHMARK_EXAMPLES
 
 
-TASKS = ['qa', 'summarization', 'classification', 'instruction_following']
+TASKS = ['qa', 'summarization', 'classification', 'instruction_following', 'math_reasoning', 'product_extraction']
 
 MODEL_CONFIGS: dict[str, dict] = {
     'llama-3.1-8b':  {'provider_cls': GroqProvider,      'model': 'llama-3.1-8b-instant',          'env_key': 'GROQ_API_KEY'},
