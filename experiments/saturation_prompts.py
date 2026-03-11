@@ -13,6 +13,8 @@ TASK_INPUT_KEY = {
     'summarization':          'text',
     'classification':         'text',
     'instruction_following':  'instruction',
+    'math_reasoning':         'problem',
+    'product_extraction':     'product_text',
 }
 
 SATURATION_TEMPLATES: dict[str, list[str]] = {
@@ -289,6 +291,158 @@ SATURATION_TEMPLATES: dict[str, list[str]] = {
             "Response: Waves wash wonderfully.\n\n"
             "Now follow:\n"
             "Instruction: {instruction}"
+        ),
+    ],
+
+    # ── MATH REASONING ──────────────────────────────────────────────────────────
+    'math_reasoning': [
+        # Level 1: bare problem
+        "{problem}",
+
+        # Level 2: + task label
+        "Solve this math problem: {problem}",
+
+        # Level 3: + answer format
+        (
+            "Solve this math problem. "
+            "Give only the final numerical answer.\n\n"
+            "{problem}"
+        ),
+
+        # Level 4: + show work instruction
+        (
+            "Solve this math problem. "
+            "Show your work step by step, then give the final numerical answer.\n\n"
+            "{problem}"
+        ),
+
+        # Level 5: + role persona
+        (
+            "You are a precise math tutor. "
+            "Solve the following math problem step by step, "
+            "then give the final numerical answer.\n\n"
+            "{problem}"
+        ),
+
+        # Level 6: + detailed guidelines
+        (
+            "You are a precise math tutor. "
+            "Solve the following math problem.\n\n"
+            "Guidelines:\n"
+            "- Read the problem carefully and identify all given values\n"
+            "- Identify what is being asked\n"
+            "- Show each calculation step clearly\n"
+            "- Double-check your arithmetic\n"
+            "- State the final answer as a single number\n"
+            "- Include units only if specified in the problem\n\n"
+            "{problem}"
+        ),
+
+        # Level 7: + worked example
+        (
+            "You are a precise math tutor. "
+            "Solve the following math problem.\n\n"
+            "Guidelines:\n"
+            "- Read the problem carefully and identify all given values\n"
+            "- Identify what is being asked\n"
+            "- Show each calculation step clearly\n"
+            "- Double-check your arithmetic\n"
+            "- State the final answer as a single number\n"
+            "- Include units only if specified in the problem\n\n"
+            "Example:\n"
+            "Problem: A store sells 4 notebooks at $3 each and 2 pens at $1.50 each. "
+            "What is the total cost?\n"
+            "Solution: Notebooks: 4 × $3 = $12. Pens: 2 × $1.50 = $3. "
+            "Total: $12 + $3 = $15.\n"
+            "Answer: 15\n\n"
+            "Now solve:\n"
+            "{problem}"
+        ),
+    ],
+
+    # ── PRODUCT EXTRACTION ──────────────────────────────────────────────────────
+    'product_extraction': [
+        # Level 1: bare
+        "Extract product info: {product_text}",
+
+        # Level 2: + field names
+        "Extract the product name, price, brand, and category from this text: {product_text}",
+
+        # Level 3: + output format
+        (
+            "Extract the product name, price, brand, and category from this text. "
+            "Return as JSON with keys: name, price, brand, category.\n\n"
+            "{product_text}"
+        ),
+
+        # Level 4: + field definitions
+        (
+            "Extract the following fields from this product description. "
+            "Return as JSON with keys: name, price, brand, category.\n\n"
+            "Field definitions:\n"
+            "- name: the full product name as stated\n"
+            "- price: numeric value only (no currency symbols)\n"
+            "- brand: the manufacturer or brand name\n"
+            "- category: the general product type (one or two words)\n\n"
+            "{product_text}"
+        ),
+
+        # Level 5: + role + edge case handling
+        (
+            "You are a product data specialist. "
+            "Extract structured information from the product description below. "
+            "Return as JSON with keys: name, price, brand, category.\n\n"
+            "Field definitions:\n"
+            "- name: the full product name as stated\n"
+            "- price: numeric value only (no currency symbols)\n"
+            "- brand: the manufacturer or brand name\n"
+            "- category: the general product type (one or two words)\n\n"
+            "If a field cannot be determined, use \"unknown\".\n\n"
+            "{product_text}"
+        ),
+
+        # Level 6: + detailed guidelines
+        (
+            "You are a product data specialist. "
+            "Extract structured information from the product description below. "
+            "Return as JSON with keys: name, price, brand, category.\n\n"
+            "Field definitions:\n"
+            "- name: the full product name as stated in the text\n"
+            "- price: numeric value only — strip currency symbols and commas\n"
+            "- brand: the manufacturer, not the retailer or seller\n"
+            "- category: a single general product type (e.g., 'laptop', 'headphones', 'shoes')\n\n"
+            "Guidelines:\n"
+            "- Use the exact product name as written in the text\n"
+            "- If price is written in words, convert to digits\n"
+            "- If brand is only in the product name, extract it from there\n"
+            "- If a field cannot be determined, use \"unknown\"\n"
+            "- Return ONLY valid JSON, no extra text\n\n"
+            "{product_text}"
+        ),
+
+        # Level 7: + worked example
+        (
+            "You are a product data specialist. "
+            "Extract structured information from the product description below. "
+            "Return as JSON with keys: name, price, brand, category.\n\n"
+            "Field definitions:\n"
+            "- name: the full product name as stated in the text\n"
+            "- price: numeric value only — strip currency symbols and commas\n"
+            "- brand: the manufacturer, not the retailer or seller\n"
+            "- category: a single general product type (e.g., 'laptop', 'headphones', 'shoes')\n\n"
+            "Guidelines:\n"
+            "- Use the exact product name as written in the text\n"
+            "- If price is written in words, convert to digits\n"
+            "- If brand is only in the product name, extract it from there\n"
+            "- If a field cannot be determined, use \"unknown\"\n"
+            "- Return ONLY valid JSON, no extra text\n\n"
+            "Example:\n"
+            "Text: The new Bose SoundLink Flex portable speaker offers 12 hours of battery "
+            "life and IP67 waterproofing. Now available for $149.00.\n"
+            "Output: {\"name\": \"Bose SoundLink Flex\", \"price\": \"149\", "
+            "\"brand\": \"Bose\", \"category\": \"speaker\"}\n\n"
+            "Now extract:\n"
+            "{product_text}"
         ),
     ],
 }
