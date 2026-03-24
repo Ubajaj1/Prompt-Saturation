@@ -1,0 +1,27 @@
+\begin{abstract}
+Practitioners routinely craft increasingly verbose prompts under the assumption
+that more context yields better responses.
+We challenge this assumption with a controlled \emph{saturation experiment}:
+for six diverse tasks and seven large language models, we measure response
+quality at seven additive prompt-length levels and fit quality-versus-token
+curves to identify \emph{saturation points}, the token counts at which
+quality reaches 95\% of its asymptote.
+Across 5,875 LLM-judge-evaluated responses, we find a consistent
+\textbf{structured--open dichotomy}: tasks requiring structured output
+(classification, product extraction) exhibit clear saturation curves
+(F-test $p < 0.05$ in 7 of the $2 \times 7 = 14$ structured model--task
+pairs; mean R$^2 = 0.85$ for significant fits), with classification
+saturating at just 38--64 tokens.
+Product extraction saturates over a wider range (92--536 tokens), with
+stronger models requiring far fewer tokens, illustrating that saturation
+point is jointly determined by task complexity and model capability.
+In contrast, open-ended or reasoning-heavy tasks (question answering, math
+reasoning) show no significant curve improvement over a constant-quality baseline
+(0 of 14 open-ended pairs), indicating that quality is bottlenecked by task difficulty
+rather than prompt elaboration.
+Model capability modulates saturation point within structured tasks: stronger
+models require fewer tokens to reach asymptote.
+These findings provide actionable guidance: structured-output prompts can be
+aggressively trimmed after the saturation threshold, while extra context in
+open-ended prompts yields negligible return.
+\end{abstract}

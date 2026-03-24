@@ -1,0 +1,49 @@
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Prompt compression.}
+LLMLingua~\citep{jiang2023llmlingua} and LLMLingua-2~\citep{pan2024llmlingua2}
+show that prompts can be compressed 3--20$\times$ with minimal quality loss,
+demonstrating substantial token redundancy.
+\citet{chevalier2023autocompressors} train models to summarise prompts into
+soft tokens.
+More recent pipelines such as CompactPrompt~\citep{wang2025compactprompt}
+combine token pruning with n-gram abbreviation for end-to-end compression.
+These methods \emph{assume} some prompt content is dispensable; our work
+provides the first controlled characterisation of \emph{how much} is
+dispensable as a function of task type.
+
+\paragraph{Prompt engineering.}
+Chain-of-thought~\citep{wei2022cot} and few-shot~\citep{brown2020gpt3}
+prompting add tokens in exchange for quality gains on reasoning tasks.
+\citet{zhou2022large} show that task-description quality matters more than
+length for many tasks.
+Recent surveys of prompting strategies~\citep{sahoo2024systematic,
+schulhoff2024prompt} and automatic prompt
+optimisation~\citep{amatriain2025survey} catalogue dozens of techniques but
+do not measure their marginal effect as a function of token count.
+Our work complements these by quantifying the return of each successive
+elaboration layer.
+
+\paragraph{Long-context performance.}
+\citet{liu2023lost} demonstrate that LLMs underutilise information positioned
+in the middle of long contexts, a degradation effect distinct from our
+saturation finding, which concerns the marginal benefit of additional
+\emph{instruction} tokens before any degradation.
+\citet{levy2024same} and \citet{hsieh2024ruler} study how performance varies
+with context length on retrieval and reasoning benchmarks, finding similar
+non-monotone effects at much larger scales.
+
+\paragraph{Prompt sensitivity and robustness.}
+\citet{webson2022prompt} and \citet{mizrahi2024state} show that seemingly
+small prompt changes cause large quality swings.
+Our design controls for this by holding content constant and varying only
+elaboration depth, isolating the token-length signal from phrasing effects.
+
+\paragraph{Scaling laws.}
+Neural scaling laws~\citep{kaplan2020scaling,hoffmann2022chinchilla} describe
+how model quality grows with compute and training data.
+We study an analogous phenomenon at the \emph{prompt level}: how quality
+grows with instruction tokens, and where this growth saturates.
+To our knowledge, no prior work has fitted and statistically tested saturation
+curves at this level of granularity across multiple tasks and models.

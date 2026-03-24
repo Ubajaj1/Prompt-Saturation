@@ -1,0 +1,171 @@
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Additive prompt levels}
+\label{sec:levels}
+
+For each task we define seven prompt templates $T_1 \subset T_2 \subset
+\cdots \subset T_7$, where $\subset$ denotes strict token superset.
+Each level appends one layer of elaboration to all previous content;
+no layer modifies earlier text.
+Table~\ref{tab:levels} shows the layer structure for all six tasks.
+
+\begin{table}[ht]
+\centering
+\caption{Additive prompt layers by task. Each row adds content to all previous rows.}
+\label{tab:levels}
+\small
+\resizebox{\textwidth}{!}{
+\begin{tabular}{cllllllll}
+\toprule
+Lv & Layer added & Classification & Prod.\ Extraction & QA & Math Reasoning & Summarization & Instr.\ Following \\
+\midrule
+1 & Bare input   & Raw text only & Product text & Question only & Problem statement & Article text & Topic prompt \\
+2 & Task label   & ``Classify sentiment'' & List field names & ``Answer the question'' & ``Solve the problem'' & ``Summarize this'' & Task + constraints \\
+3 & Format spec  & ``Pos/Neg/Neu'' & JSON format & ``Answer concisely'' & ``Give a number'' & Length target & Format specification \\
+4 & Definitions  & Label definitions & Field definitions & Domain context & Show-work instr. & Content guidance & Constraint definitions \\
+5 & Persona      & Expert analyst & Expert extractor & Domain expert & Math tutor & Journalist & Writing expert \\
+6 & Guidelines   & Mixed/ironic rules & Edge cases & Uncertainty & Step-by-step rules & Quality rules & Formatting rules \\
+7 & Example      & Worked example & Worked example & Worked example & Worked example & Worked example & Worked example \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+The additive design is critical: because level $k+1$ contains all tokens of
+level $k$ plus exactly one new layer, any quality difference between adjacent
+levels is attributable solely to that layer.
+Importantly, no layer is filler; every added layer is meaningful instruction
+that could plausibly improve performance.
+
+\subsection{Tasks}
+\label{sec:tasks}
+
+We study six tasks spanning a structured-to-open spectrum:
+
+\begin{itemize}
+  \item \textbf{Classification}: sentiment classification (positive / negative / neutral)
+    over 20 product reviews and social media posts.
+    Heuristic evaluator: correct label present in response.
+  \item \textbf{Product extraction}: extract name, price, brand, category from
+    product listings in JSON format.
+    20 examples with varying difficulty (buried prices, implicit brand names).
+    Heuristic: fraction of four fields correctly matched.
+  \item \textbf{Question answering (QA)}: factoid questions across geography,
+    science, and history. 20 examples with ground-truth strings.
+    Heuristic: word-overlap recall (ROUGE-1).
+  \item \textbf{Math reasoning}: 2--3 step arithmetic, rate, and geometry
+    problems. 20 examples (10 easy, 10 medium difficulty).
+    Heuristic: exact numerical match on the last number in the response.
+  \item \textbf{Summarization}: abstractive summarisation of news passages.
+    20 examples with reference summaries.
+    Heuristic: length score + ROUGE-1 recall.
+  \item \textbf{Instruction following}: responses must satisfy explicit
+    structural constraints (bullet points, numbered list, single word).
+    20 examples, each with 1--2 constraints.
+    Heuristic: fraction of constraints satisfied.
+\end{itemize}
+
+Tasks are grouped \textit{post hoc} into \textbf{structured} (classification,
+product extraction) and \textbf{open-ended} (QA, math, summarization,
+instruction following) based on the analysis in Section~\ref{sec:results}.
+
+\subsection{Models}
+\label{sec:models}
+
+We evaluate seven LLMs across four providers, covering a broad capability and
+size range (Table~\ref{tab:models}).
+All models are accessed via production APIs with default temperature settings.
+Each response is capped at 512 output tokens.
+
+\begin{table}[t]
+\centering
+\caption{Models evaluated. Parameter counts are listed where publicly
+  disclosed; ``undiscl.''\ indicates the provider has not released this
+  information.}
+\label{tab:models}
+\small
+\begin{tabular}{lllr}
+\toprule
+Model (alias) & Provider & API & Parameters \\
+\midrule
+llama-3.1-8b-instant    & Meta       & Groq      & 8B        \\
+qwen/qwen3-32b          & Alibaba    & Groq      & 32B       \\
+llama-3.3-70b-versatile & Meta       & Groq      & 70B       \\
+gemini-2.0-flash        & Google     & Gemini    & undiscl.  \\
+moonshotai/kimi-k2      & Moonshot   & Groq      & undiscl.  \\
+gpt-4o-mini             & OpenAI     & OpenAI    & undiscl.  \\
+claude-haiku-4-5        & Anthropic  & Anthropic & undiscl.  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Evaluation}
+\label{sec:eval}
+
+\paragraph{LLM judge.}
+Following \citet{zheng2023judging}, who show that strong LLM judges match
+human preferences at over 80\% agreement, all 5,875 responses are scored by
+\texttt{gpt-4o-mini} on four dimensions (correctness, completeness,
+reasoning, conciseness), each rated 1--5.
+The aggregate quality score is the normalised sum:
+$q = \frac{\sum_i s_i}{20} \in [0, 1]$.
+We provide task-specific rubrics to the judge (e.g., for classification: focus
+on whether the label matches; for product extraction: whether all four fields
+are present and correct).
+
+\paragraph{Heuristic validation.}
+We additionally validate the LLM judge against a task-specific heuristic
+evaluator (described in Section~\ref{sec:tasks}) on the full dataset and find
+Pearson $r = 0.986$, confirming that judge scores are reliable and not a
+source of noise in the results.
+
+\paragraph{Aggregation.}
+For each (model, task, level) triplet, we aggregate quality across all 20
+examples by taking the mean.
+This yields 7 data points per (model, task) curve.
+
+\subsection{Curve fitting}
+\label{sec:fitting}
+
+For each (model, task) pair we fit two functional forms to the 7 level means:
+\begin{equation}
+  q_{\log}(x) = a \log(bx) + c, \qquad
+  q_{\text{sig}}(x) = \frac{L}{1 + e^{-k(x - x_0)}} + c
+  \label{eq:curves}
+\end{equation}
+where $x$ is the mean prompt token count at each level.
+We select the form with lower RMSE.
+The \textbf{saturation point} $T^*$ is defined as the smallest $x$ such that:
+\begin{equation}
+  q(x) \geq 0.95 \times \max_{x} q(x)
+  \label{eq:satpoint}
+\end{equation}
+
+\paragraph{Null model F-test.}
+To test whether a fitted curve is significantly better than a flat line
+($q(x) = \bar{q}$), we compute:
+\begin{equation}
+  F = \frac{(SS_{\text{null}} - SS_{\text{fit}}) / (k - 1)}{SS_{\text{fit}} / (n - k)}
+  \label{eq:ftest}
+\end{equation}
+where $k \in \{3, 4\}$ is the number of curve parameters (log or sigmoid),
+$n = 7$ is the number of level means, and we use $\alpha = 0.05$.
+The null model is a constant $q(x) = \bar{q}$, \ie, prompt length has no
+effect on quality; a significant F-test rejects this in favour of the fitted
+curve.
+
+\paragraph{Bootstrap confidence intervals.}
+We estimate 95\% CIs on $T^*$ via 1,000-iteration bootstrap.
+On each iteration we resample the 20 example indices \emph{with replacement}
+and apply the same resample across all seven levels, preserving the paired
+structure.
+We re-aggregate, re-fit, and re-compute $T^*$ for each bootstrap replicate;
+the 2.5th and 97.5th percentiles of the resulting distribution form the CI.
+
+\subsection{Experimental scale}
+\label{sec:scale}
+
+Total API calls: $7 \times 6 \times 7 \times 20 = 5{,}880$, with 5,875
+successful records (99.9\%).
+All prompts, code, and data are included in the supplementary material.

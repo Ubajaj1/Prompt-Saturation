@@ -1,0 +1,25 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have presented a controlled study of prompt saturation, the point at which
+response quality stops improving as prompt length increases.
+Using a seven-level additive prompt methodology across six tasks and seven LLMs,
+we find a consistent \textbf{structured--open dichotomy}: classification
+saturates at 42--64 tokens, product extraction at 92--536 tokens, while QA and
+math reasoning show no statistically significant saturation at all.
+
+These findings support a nuanced view of prompt engineering: more tokens help
+\emph{up to a task-specific threshold} for tasks requiring schema compliance,
+and \emph{not at all} for tasks bottlenecked by model knowledge or reasoning.
+The practical implication is direct: prompt budgets should be set by task
+type, not by general verbosity heuristics.
+
+\paragraph{Future directions.}
+Extending the study to additional structured tasks (code generation with type
+annotations, data-to-text generation) would test whether the dichotomy
+generalises.
+Mechanistic interpretability analyses of how models process elaboration levels
+could directly test the schema-compliance hypothesis.
+Finally, studying saturation in multi-turn settings, where context accumulates
+across turns, would address the increasingly common deployment pattern of
+long-horizon LLM agents.

@@ -1,0 +1,84 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{Why do structured tasks saturate?}
+We hypothesise that structured-output quality is governed primarily by
+\emph{schema compliance}, the model's ability to produce a response in the
+required format (e.g., a sentiment label or a four-field JSON object).
+Schema compliance is a near-discrete capability: the model either produces
+the correct format or it does not.
+Once prompt elaboration crosses the threshold that activates this capability,
+additional instruction tokens provide no further signal.
+This is consistent with the sigmoid shape of classification and product
+extraction curves: a steep rise as the model ``activates'' the schema,
+followed by a plateau.
+
+\paragraph{Why do open-ended tasks not saturate?}
+Open-ended tasks require the model to retrieve factual knowledge (QA) or
+execute multi-step reasoning (math).
+These capabilities are bounded by what was learned during pre-training, not by
+how clearly the task is described.
+Adding more instruction tokens cannot supply knowledge that was never acquired,
+nor can it increase the model's effective reasoning depth.
+At level 1 (bare input), capable models already provide near-correct answers;
+weaker models fail not because they misunderstood the task, but because they
+lack the requisite knowledge or reasoning.
+In both cases, further elaboration is uninformative.
+
+\paragraph{Practical guidelines.}
+Our saturation points use a 95\%-of-asymptote threshold, making them
+conservative estimates.
+Practitioners can use these as upper bounds for prompt budget allocation:
+
+\begin{itemize}
+  \item \textbf{Sentiment classification}: a concise task description with
+    label definitions ($\approx$50 tokens) is sufficient for most frontier
+    models; adding a worked example ($\approx$300+ tokens) provides no benefit.
+  \item \textbf{Structured extraction}: models vary substantially (92--536
+    tokens). Weaker or smaller models may require more schema detail;
+    stronger models can infer the schema from minimal cues.
+  \item \textbf{QA and math reasoning}: prompt length does not predict
+    quality. Invest instead in retrieval-augmented generation (for QA) or
+    chain-of-thought formatting (for reasoning), which improve quality through
+    mechanisms other than instruction elaboration.
+\end{itemize}
+
+\paragraph{Model capability modulates saturation.}
+Within classification, stronger models (gemini-flash, gpt-4o-mini) saturate
+at lower token counts ($\approx$42--50 tokens) than the 70B Llama model (64
+tokens).
+The 8B Llama model fails to produce a significant curve at all, suggesting it
+may require even more elaboration, or that its classification quality is too
+noisy for a clean saturation signal.
+These gradations suggest that saturation points could serve as a
+\emph{diagnostic} for model instruction-following sensitivity.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+\paragraph{Statistical power.}
+With only $n = 7$ data points per curve, the F-test has limited power.
+Some pairs with genuine saturation may be missed; the low-significance
+borderline cases (classification for llama-3.1-8b at $p = 0.079$;
+product extraction for kimi-k2 at $p = 0.093$) are likely true positives
+that would reach significance with more levels.
+Future work should use finer-grained level spacing (e.g., 15--20 levels).
+
+\paragraph{Single judge model.}
+All quality scores are produced by \texttt{gpt-4o-mini}.
+Although we validate against heuristic metrics ($r = 0.986$), we do not
+validate against human raters.
+Judge bias favouring certain response styles could systematically inflate or
+deflate quality estimates, though the cross-evaluator agreement suggests this
+is minimal.
+
+\paragraph{English only.}
+All prompts and examples are in English.
+Saturation behaviour may differ for low-resource languages where prompt
+elaboration is more necessary to disambiguate tasks.
+
+\paragraph{Level ordering.}
+Our results reflect a specific ordering of elaboration layers (task label
+before format before definitions before persona before example).
+A different ordering might produce different saturation points.
+Studying the effect of layer permutation is left for future work.

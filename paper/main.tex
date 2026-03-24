@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage[submission]{colm2026_conference}
+
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{lineno}
+
+\definecolor{darkblue}{rgb}{0, 0, 0.5}
+\hypersetup{colorlinks=true, citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
+
+% ── Title ────────────────────────────────────────────────────────────────────
+\title{Prompt Saturation: Quality Plateaus at Task-Specific Token Thresholds
+       in Large Language Models}
+
+% Authors hidden for blind submission (colm2026_conference handles this)
+\author{Anonymous}
+
+\begin{document}
+
+\ifcolmsubmission
+\linenumbers
+\fi
+
+\maketitle
+
+\input{sec_abstract}
+\input{sec_intro}
+\input{sec_related}
+\input{sec_method}
+\input{sec_results}
+\input{sec_discussion}
+\input{sec_conclusion}
+
+\section*{Acknowledgments}
+% TODO: add acknowledgments / funding
+
+\section*{Ethics Statement}
+This work involves only publicly available API services.
+No personally identifiable information was collected.
+Benchmark examples are drawn from open datasets.
+
+\section*{Reproducibility Statement}
+All prompts, evaluation code, and data are included in the supplementary material.
+We disclose the use of LLMs in this work:
+(1)~\texttt{gpt-4o-mini} served as the quality judge for all 5,875 responses
+(Section~\ref{sec:eval});
+(2)~an LLM-based coding assistant was used during implementation of the
+benchmark infrastructure and analysis scripts.(3) LLM assistance was used during the paper writing process. 
+No LLM was used to originate research ideas.
+
+\bibliography{references}
+\bibliographystyle{colm2026_conference}
+
+\appendix
+\input{sec_appendix}
+
+\end{document}

@@ -1,0 +1,48 @@
+\section{Introduction}
+\label{sec:intro}
+
+The rapid adoption of large language models (LLMs) in production systems
+has generated a body of prompt engineering heuristics: add role descriptions,
+include worked examples, append step-by-step instructions, and specify output
+formats in detail~\citep{brown2020gpt3,wei2022cot,zhou2022large}.
+These practices implicitly assume a monotone relationship between prompt
+elaboration and response quality.
+But is this assumption empirically justified, and if so, \emph{up to what
+point}?
+
+Token costs are not merely economic.
+Longer prompts consume more inference compute, fill context windows faster,
+and can \emph{degrade} performance when key information is buried in
+irrelevant context~\citep{liu2023lost}.
+The prompt compression
+literature~\citep{jiang2023llmlingua,pan2024llmlingua2} has demonstrated
+that many tokens are expendable without quality loss, but these methods
+operate on already-verbose prompts and assume compression is safe.
+A more fundamental question is: \emph{when does prompt elaboration stop
+helping in the first place?}
+
+We address this through a \textbf{saturation experiment}.
+For each of six tasks we construct seven strictly additive prompt templates:
+each template is a proper superset of the previous, adding exactly one layer
+of elaboration (task label, output format, field definitions, persona, worked
+example, etc.).
+This design holds \emph{what} is communicated constant and varies only
+\emph{how much}.
+We run every (model, task, level, example) combination for seven frontier
+LLMs and fit quality-versus-token curves to measure where quality plateaus.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item A reusable \textbf{additive prompt-level methodology} for measuring
+    quality saturation across tasks and models, with open-source code and data.
+  \item Empirical evidence of a \textbf{structured--open dichotomy}:
+    structured-output tasks (classification, product extraction) show
+    statistically significant saturation; open-ended and reasoning-heavy tasks
+    (QA, math reasoning) do not.
+  \item \textbf{Saturation point estimates with bootstrap confidence intervals}
+    for 7 models $\times$ 6 tasks, providing task-specific token budgets for
+    practitioners.
+  \item A \textbf{mechanistic hypothesis}: structured tasks saturate because
+    schema compliance is a discrete capability: once triggered by sufficient
+    elaboration, additional instruction tokens contribute no further signal.
+\end{enumerate}
