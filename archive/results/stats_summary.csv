@@ -1,0 +1,120 @@
+rq,test,statistic,p_value,effect_size,effect_metric,notes
+RQ1,one-way ANOVA,144.0663,0.0,0.1252,eta_squared,"groups=['zero_shot', 'zero_shot_verbose', 'few_shot', 'cot', 'concise']"
+RQ1,Tukey HSD,2.3039,0.0,,,zero_shot vs zero_shot_verbose
+RQ1,Tukey HSD,3.0734,0.0,,,zero_shot vs few_shot
+RQ1,Tukey HSD,3.3827,0.0,,,zero_shot vs cot
+RQ1,Tukey HSD,-0.2892,0.6129,,,zero_shot vs concise
+RQ1,Tukey HSD,0.7695,0.0015,,,zero_shot_verbose vs few_shot
+RQ1,Tukey HSD,1.0788,0.0,,,zero_shot_verbose vs cot
+RQ1,Tukey HSD,-2.5931,0.0,,,zero_shot_verbose vs concise
+RQ1,Tukey HSD,0.3093,0.5507,,,few_shot vs cot
+RQ1,Tukey HSD,-3.3626,0.0,,,few_shot vs concise
+RQ1,Tukey HSD,-3.6719,0.0,,,cot vs concise
+RQ2,winner,13.0076,,,,"task=qa, strategy=zero_shot, mean_tokens=88.8"
+RQ2,mean_greenpes,13.0076,,,,"task=qa, strategy=zero_shot, mean_tokens=88.8"
+RQ2,mean_greenpes,11.8523,,,,"task=qa, strategy=concise, mean_tokens=73.4"
+RQ2,mean_greenpes,7.5132,,,,"task=qa, strategy=zero_shot_verbose, mean_tokens=131.8"
+RQ2,mean_greenpes,7.1363,,,,"task=qa, strategy=few_shot, mean_tokens=122.0"
+RQ2,mean_greenpes,5.0401,,,,"task=qa, strategy=cot, mean_tokens=173.7"
+RQ2,winner,4.5902,,,,"task=summarization, strategy=concise, mean_tokens=196.1"
+RQ2,mean_greenpes,4.5902,,,,"task=summarization, strategy=concise, mean_tokens=196.1"
+RQ2,mean_greenpes,4.1159,,,,"task=summarization, strategy=zero_shot, mean_tokens=213.6"
+RQ2,mean_greenpes,3.708,,,,"task=summarization, strategy=zero_shot_verbose, mean_tokens=237.0"
+RQ2,mean_greenpes,3.6912,,,,"task=summarization, strategy=cot, mean_tokens=231.8"
+RQ2,mean_greenpes,2.0079,,,,"task=summarization, strategy=few_shot, mean_tokens=450.0"
+RQ2,winner,8.6355,,,,"task=classification, strategy=concise, mean_tokens=97.8"
+RQ2,mean_greenpes,8.6355,,,,"task=classification, strategy=concise, mean_tokens=97.8"
+RQ2,mean_greenpes,8.1712,,,,"task=classification, strategy=zero_shot, mean_tokens=113.5"
+RQ2,mean_greenpes,6.118,,,,"task=classification, strategy=zero_shot_verbose, mean_tokens=147.7"
+RQ2,mean_greenpes,5.2756,,,,"task=classification, strategy=few_shot, mean_tokens=177.4"
+RQ2,mean_greenpes,3.1571,,,,"task=classification, strategy=cot, mean_tokens=241.7"
+RQ2,winner,5.8204,,,,"task=instruction_following, strategy=concise, mean_tokens=98.0"
+RQ2,mean_greenpes,5.8204,,,,"task=instruction_following, strategy=concise, mean_tokens=98.0"
+RQ2,mean_greenpes,4.539,,,,"task=instruction_following, strategy=zero_shot, mean_tokens=149.0"
+RQ2,mean_greenpes,4.406,,,,"task=instruction_following, strategy=cot, mean_tokens=162.7"
+RQ2,mean_greenpes,3.2024,,,,"task=instruction_following, strategy=zero_shot_verbose, mean_tokens=196.3"
+RQ2,mean_greenpes,2.8785,,,,"task=instruction_following, strategy=few_shot, mean_tokens=212.4"
+RQ3,mean_greenpes,4.1104,,2.4202,std,"model=llama-3.1-8b, n=600"
+RQ3,mean_greenpes,8.3578,,6.7696,std,"model=gemini-flash, n=439"
+RQ3,mean_greenpes,5.5938,,3.831,std,"model=qwen3-32b, n=600"
+RQ3,mean_greenpes,4.6423,,2.8355,std,"model=llama-3.3-70b, n=593"
+RQ3,mean_greenpes,6.6908,,4.2001,std,"model=kimi-k2, n=600"
+RQ3,mean_greenpes,6.9399,,5.2726,std,"model=gpt-4o-mini, n=600"
+RQ3,mean_greenpes,4.7088,,2.9159,std,"model=claude-haiku, n=600"
+RQ4,Pearson r,0.2422,0.0,,,"total_tokens vs quality, all records"
+RQ5,two-way ANOVA interaction,1.8935,0.0054,,,quality ~ C(model) + C(strategy) + C(model):C(strategy)
+RQ5,best_strategy,0.9296,,,,"model=claude-haiku, best=cot"
+RQ5,best_strategy,0.9023,,,,"model=gemini-flash, best=cot"
+RQ5,best_strategy,0.9021,,,,"model=gpt-4o-mini, best=cot"
+RQ5,best_strategy,0.9392,,,,"model=kimi-k2, best=cot"
+RQ5,best_strategy,0.8817,,,,"model=llama-3.1-8b, best=few_shot"
+RQ5,best_strategy,0.8862,,,,"model=llama-3.3-70b, best=zero_shot_verbose"
+RQ5,best_strategy,0.9067,,,,"model=qwen3-32b, best=zero_shot"
+RQ6,universality_index,0.0,,,,fraction of model pairs with tau > 0.8 (n_pairs=21)
+RQ6,Kendall tau,0.0,1.0,,,claude-haiku vs gemini-flash
+RQ6,Kendall tau,0.2,0.8167,,,claude-haiku vs gpt-4o-mini
+RQ6,Kendall tau,0.6,0.2333,,,claude-haiku vs kimi-k2
+RQ6,Kendall tau,-0.6,0.2333,,,claude-haiku vs llama-3.1-8b
+RQ6,Kendall tau,-0.2,0.8167,,,claude-haiku vs llama-3.3-70b
+RQ6,Kendall tau,0.4,0.4833,,,claude-haiku vs qwen3-32b
+RQ6,Kendall tau,0.4,0.4833,,,gemini-flash vs gpt-4o-mini
+RQ6,Kendall tau,0.4,0.4833,,,gemini-flash vs kimi-k2
+RQ6,Kendall tau,-0.4,0.4833,,,gemini-flash vs llama-3.1-8b
+RQ6,Kendall tau,-0.4,0.4833,,,gemini-flash vs llama-3.3-70b
+RQ6,Kendall tau,0.2,0.8167,,,gemini-flash vs qwen3-32b
+RQ6,Kendall tau,0.2,0.8167,,,gpt-4o-mini vs kimi-k2
+RQ6,Kendall tau,0.2,0.8167,,,gpt-4o-mini vs llama-3.1-8b
+RQ6,Kendall tau,-0.6,0.2333,,,gpt-4o-mini vs llama-3.3-70b
+RQ6,Kendall tau,-0.4,0.4833,,,gpt-4o-mini vs qwen3-32b
+RQ6,Kendall tau,-0.6,0.2333,,,kimi-k2 vs llama-3.1-8b
+RQ6,Kendall tau,0.2,0.8167,,,kimi-k2 vs llama-3.3-70b
+RQ6,Kendall tau,0.4,0.4833,,,kimi-k2 vs qwen3-32b
+RQ6,Kendall tau,0.2,0.8167,,,llama-3.1-8b vs llama-3.3-70b
+RQ6,Kendall tau,-0.8,0.0833,,,llama-3.1-8b vs qwen3-32b
+RQ6,Kendall tau,0.0,1.0,,,llama-3.3-70b vs qwen3-32b
+RQ7,curve_fit,-621.369,,55.0,saturation_tokens,"model=llama-3.1-8b, task=qa, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-603.561,,144.0,saturation_tokens,"model=llama-3.1-8b, task=summarization, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-548.955,,109.0,saturation_tokens,"model=llama-3.1-8b, task=classification, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-527.642,,180.9,saturation_tokens,"model=llama-3.1-8b, task=instruction_following, best_fit=sigmoid, n=150"
+RQ7,curve_fit,-475.539,,20.0,saturation_tokens,"model=gemini-flash, task=qa, best_fit=logarithmic, n=122"
+RQ7,curve_fit,-601.68,,116.0,saturation_tokens,"model=gemini-flash, task=summarization, best_fit=logarithmic, n=93"
+RQ7,curve_fit,-379.909,,39.0,saturation_tokens,"model=gemini-flash, task=classification, best_fit=logarithmic, n=117"
+RQ7,curve_fit,-357.83,,126.0,saturation_tokens,"model=gemini-flash, task=instruction_following, best_fit=sigmoid, n=107"
+RQ7,curve_fit,-594.605,,32.0,saturation_tokens,"model=qwen3-32b, task=qa, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-970.991,,124.0,saturation_tokens,"model=qwen3-32b, task=summarization, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-541.096,,80.0,saturation_tokens,"model=qwen3-32b, task=classification, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-503.084,,129.7,saturation_tokens,"model=qwen3-32b, task=instruction_following, best_fit=sigmoid, n=150"
+RQ7,curve_fit,-619.621,,54.0,saturation_tokens,"model=llama-3.3-70b, task=qa, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-950.472,,134.0,saturation_tokens,"model=llama-3.3-70b, task=summarization, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-551.883,,90.0,saturation_tokens,"model=llama-3.3-70b, task=classification, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-492.233,,309.8,saturation_tokens,"model=llama-3.3-70b, task=instruction_following, best_fit=logarithmic, n=143"
+RQ7,curve_fit,-574.45,,40.0,saturation_tokens,"model=kimi-k2, task=qa, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-1019.36,,130.0,saturation_tokens,"model=kimi-k2, task=summarization, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-503.036,,64.0,saturation_tokens,"model=kimi-k2, task=classification, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-518.09,,130.7,saturation_tokens,"model=kimi-k2, task=instruction_following, best_fit=sigmoid, n=150"
+RQ7,curve_fit,-566.202,,25.0,saturation_tokens,"model=gpt-4o-mini, task=qa, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-968.766,,119.0,saturation_tokens,"model=gpt-4o-mini, task=summarization, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-504.649,,108.2,saturation_tokens,"model=gpt-4o-mini, task=classification, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-530.617,,138.4,saturation_tokens,"model=gpt-4o-mini, task=instruction_following, best_fit=sigmoid, n=150"
+RQ7,curve_fit,-660.501,,30.0,saturation_tokens,"model=claude-haiku, task=qa, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-1008.729,,126.0,saturation_tokens,"model=claude-haiku, task=summarization, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-581.959,,105.0,saturation_tokens,"model=claude-haiku, task=classification, best_fit=logarithmic, n=150"
+RQ7,curve_fit,-524.409,,135.6,saturation_tokens,"model=claude-haiku, task=instruction_following, best_fit=sigmoid, n=150"
+RQ8,paired_t_test vs remove_filler,1.1854,0.2438,0.0368,mean_quality_retained_diff (llm - baseline),n_pairs=36
+RQ8,paired_t_test vs truncate_examples,3.7603,0.0006,0.2039,mean_quality_retained_diff (llm - baseline),n_pairs=36
+RQ8,paired_t_test vs add_concise_suffix,-0.014,0.9889,-0.0002,mean_quality_retained_diff (llm - baseline),n_pairs=36
+RQ8,mean_compression,1.0029,,0.9794,mean_quality_retained,"method=remove_filler, n=36"
+RQ8,mean_compression,1.7568,,0.8123,mean_quality_retained,"method=truncate_examples, n=36"
+RQ8,mean_compression,1.3046,,1.0164,mean_quality_retained,"method=add_concise_suffix, n=36"
+RQ8,mean_compression,1.4001,,1.0162,mean_quality_retained,"method=llm_optimizer, n=36"
+Metric,quality_signal_correlation,0.9857,0.0,,Pearson_r,heuristic vs LLM judge quality (n=4032)
+Metric,quality_signal_correlation_by_strategy,0.9892,,,Pearson_r,"strategy=concise, n=802"
+Metric,quality_signal_correlation_by_strategy,0.9804,,,Pearson_r,"strategy=cot, n=807"
+Metric,quality_signal_correlation_by_strategy,0.9901,,,Pearson_r,"strategy=few_shot, n=801"
+Metric,quality_signal_correlation_by_strategy,0.9873,,,Pearson_r,"strategy=zero_shot, n=814"
+Metric,quality_signal_correlation_by_strategy,0.9852,,,Pearson_r,"strategy=zero_shot_verbose, n=808"
+Metric,alpha_sensitivity_alpha=1.0,,,,,"strategy rankings: zero_shot→2, zero_shot_verbose→3, few_shot→5, cot→4, concise→1"
+Metric,alpha_sensitivity_alpha=1.5,,,,,"strategy rankings: zero_shot→2, zero_shot_verbose→3, few_shot→4, cot→5, concise→1"
+Metric,alpha_sensitivity_alpha=2.0,,,,,"strategy rankings: zero_shot→2, zero_shot_verbose→3, few_shot→4, cot→5, concise→1"
+Metric,alpha_sensitivity_alpha=3.0,,,,,"strategy rankings: zero_shot→2, zero_shot_verbose→3, few_shot→4, cot→5, concise→1"
+Metric,alpha_sensitivity_alpha=4.0,,,,,"strategy rankings: zero_shot→2, zero_shot_verbose→4, few_shot→3, cot→5, concise→1"
