@@ -126,3 +126,5 @@ greenpes_implementation_plan.md
 
 # Memory files (Claude Code auto-memory, session-specific)
 .claude/projects/
+paper/supplementary/
+acceptance/

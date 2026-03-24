@@ -297,6 +297,7 @@ def plot_forest(summary: pd.DataFrame, out_path: str) -> None:
     """
     Forest plot: one row per (model, task) showing saturation point + 95% CI.
     Only includes pairs where F-test is significant.
+    Grouped by task with visual separators and task group labels.
     """
     sig = summary[summary['ftest_significant'] == True].copy()
     if sig.empty:
@@ -304,39 +305,86 @@ def plot_forest(summary: pd.DataFrame, out_path: str) -> None:
         return
 
     sig = sig.sort_values(['task', 'saturation_tokens'])
-    sig['label'] = sig['model'] + ' — ' + sig['task'].map(TASK_LABELS)
+    sig['label'] = sig['model']
 
-    fig, ax = plt.subplots(figsize=(10, max(4, len(sig) * 0.4)))
+    fig, ax = plt.subplots(figsize=(10, max(4, len(sig) * 0.55 + 1)))
 
-    y_positions = range(len(sig))
-    for i, (_, row) in enumerate(sig.iterrows()):
-        color = TASK_COLORS.get(row['task'], '#333')
+    # Track task groups for separator lines and labels
+    current_task = None
+    task_y_ranges: dict[str, list[int]] = {}
+    y_pos = 0
+
+    for _, row in sig.iterrows():
+        task = row['task']
+        if task != current_task:
+            if current_task is not None:
+                # Add a gap between task groups
+                y_pos += 0.6
+            current_task = task
+            task_y_ranges[task] = []
+
+        task_y_ranges[task].append(y_pos)
+        color = TASK_COLORS.get(task, '#333')
         ci_lo = row.get('sat_ci_lower', np.nan)
         ci_hi = row.get('sat_ci_upper', np.nan)
         sat = row['saturation_tokens']
 
         # Point estimate
-        ax.plot(sat, i, 'o', color=color, markersize=7, zorder=3)
+        ax.plot(sat, y_pos, 'o', color=color, markersize=8, zorder=3)
 
         # CI whiskers
-        if not np.isnan(ci_lo) and not np.isnan(ci_hi):
-            ax.plot([ci_lo, ci_hi], [i, i], '-', color=color,
-                    linewidth=2, alpha=0.6, zorder=2)
+        if not (isinstance(ci_lo, float) and np.isnan(ci_lo)) and \
+           not (isinstance(ci_hi, float) and np.isnan(ci_hi)):
+            ax.plot([ci_lo, ci_hi], [y_pos, y_pos], '-', color=color,
+                    linewidth=2.5, alpha=0.6, zorder=2)
+            # CI endpoints
+            ax.plot([ci_lo, ci_hi], [y_pos, y_pos], '|', color=color,
+                    markersize=6, zorder=2)
 
-    ax.set_yticks(list(y_positions))
-    ax.set_yticklabels(sig['label'].tolist(), fontsize=8)
+        y_pos += 1
+
+    # Collect y-tick positions and labels
+    all_y = []
+    all_labels = []
+    y_pos = 0
+    current_task = None
+    for _, row in sig.iterrows():
+        task = row['task']
+        if task != current_task and current_task is not None:
+            y_pos += 0.6
+        current_task = task
+        all_y.append(y_pos)
+        all_labels.append(row['label'])
+        y_pos += 1
+
+    ax.set_yticks(all_y)
+    ax.set_yticklabels(all_labels, fontsize=9)
+
+    # Add task group labels on the right side
+    for task, positions in task_y_ranges.items():
+        mid_y = np.mean(positions)
+        ax.annotate(TASK_LABELS[task], xy=(1.02, mid_y),
+                    xycoords=('axes fraction', 'data'),
+                    fontsize=9, fontweight='bold', va='center',
+                    color=TASK_COLORS.get(task, '#333'))
+
+    # Add horizontal separators between task groups
+    task_list = list(task_y_ranges.keys())
+    for i in range(len(task_list) - 1):
+        y_a = max(task_y_ranges[task_list[i]])
+        y_b = min(task_y_ranges[task_list[i + 1]])
+        ax.axhline((y_a + y_b) / 2, color='#cccccc', linewidth=0.8,
+                   linestyle='--', zorder=1)
+
     ax.set_xlabel('Saturation Point (tokens)', fontsize=10)
-    ax.set_title('Saturation Points with 95% Bootstrap CI\n(only pairs where curve significantly beats flat line, F-test p<0.05)',
+    ax.set_title('Significant Saturation Points with 95% Bootstrap CI',
                  fontsize=11, fontweight='bold')
     ax.grid(True, axis='x', alpha=0.3)
+    ax.invert_yaxis()
 
-    # Legend for task colors
-    from matplotlib.lines import Line2D
-    legend_handles = [Line2D([0], [0], marker='o', color=c, linestyle='', markersize=7, label=TASK_LABELS[t])
-                      for t, c in TASK_COLORS.items()]
-    ax.legend(handles=legend_handles, loc='lower right', fontsize=8)
-
-    plt.tight_layout()
+    # Add extra right margin for task labels
+    plt.subplots_adjust(right=0.78)
+    plt.tight_layout(rect=(0, 0, 0.80, 1))
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     fig.savefig(out_path, dpi=150, bbox_inches='tight')
     plt.close(fig)
@@ -427,7 +475,10 @@ def plot_scaling_curves(agg: pd.DataFrame, fits: dict, out_path: str) -> None:
         ax.set_title(TASK_LABELS[task], fontsize=11, fontweight='bold')
         ax.set_xlabel('Prompt Tokens', fontsize=9)
         ax.set_ylabel('Mean Quality', fontsize=9)
-        ax.set_ylim(0, 1.05)
+        # Set y-axis floor to slightly below the minimum data point (avoid wasted whitespace)
+        task_min = task_data['mean_quality'].min()
+        y_floor = max(0, round(task_min - 0.1, 1))
+        ax.set_ylim(y_floor, 1.05)
         ax.grid(True, alpha=0.3)
 
     # Legend on last subplot or figure
@@ -481,7 +532,7 @@ def plot_saturation_heatmap(fits: dict, models: list[str], out_path: str) -> Non
                     color=color, fontweight='bold')
 
     ax.set_xticks(range(len(tasks_present)))
-    ax.set_xticklabels(task_labels, fontsize=10)
+    ax.set_xticklabels(task_labels, fontsize=10, rotation=35, ha='right')
     ax.set_yticks(range(len(models)))
     ax.set_yticklabels(models, fontsize=10)
     ax.set_title(f'Saturation Token Count by Model × Task\n'
