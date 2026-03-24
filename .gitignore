@@ -30,6 +30,7 @@ ENV/
 env.bak/
 venv.bak/
 .venv/
+.venv311/
 
 # IDEs
 .vscode/
@@ -59,6 +60,10 @@ results/*.json
 results/*.csv
 results/*.png
 results/*.pdf
+results/replication_analysis/
+results/reproduced_judge/
+results/reproduced_judge_test/
+results/.~lock*
 
 # Data files
 data/*.json
@@ -66,6 +71,7 @@ data/*.csv
 data/*.txt
 data/raw/
 data/processed/
+replication-data/
 
 # Model outputs
 models/

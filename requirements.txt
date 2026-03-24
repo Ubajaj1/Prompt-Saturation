@@ -9,6 +9,7 @@ anthropic>=0.18.0
 together>=1.0.0
 
 # For experiments & analysis
+datasets>=2.0.0
 pandas>=2.0.0
 scipy>=1.10.0
 matplotlib>=3.7.0

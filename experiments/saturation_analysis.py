@@ -715,5 +715,128 @@ def main():
     print("\nDone.")
 
 
+def print_correlation_stats(df: pd.DataFrame) -> None:
+    tasks_in_data = [t for t in TASKS if t in df['task'].unique()]
+    print("\n== Pearson r (prompt_tokens vs quality) by task ==")
+    for task in tasks_in_data:
+        td = df[df['task'] == task]
+        if len(td) < 3:
+            continue
+        r, p = pearsonr(td['prompt_tokens'], td['quality'])
+        print(f"  {task:25s}  r={r:+.3f}  p={p:.4f}")
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Saturation experiment analysis')
+    parser.add_argument('--input', default='results/saturation_results.json')
+    parser.add_argument('--output-dir', default='results/')
+    parser.add_argument('--bootstrap-iterations', type=int, default=1000)
+    args = parser.parse_args()
+
+    fig_dir = os.path.join(args.output_dir, 'figures')
+    os.makedirs(fig_dir, exist_ok=True)
+
+    print(f"\nLoading: {args.input}")
+    df = load_data(args.input)
+    print(f"  {len(df)} valid records | "
+          f"{df['model'].nunique()} models | "
+          f"{df['task'].nunique()} tasks | "
+          f"levels {sorted(df['level'].unique())}")
+
+    models_present = [m for m in MODEL_ORDER if m in df['model'].unique()]
+    tasks_present = [t for t in TASKS if t in df['task'].unique()]
+    print(f"  Models: {models_present}")
+
+    agg = aggregate(df)
+
+    print("\nFitting curves ...")
+    fits: dict = {}
+    for model in models_present:
+        for task in tasks_present:
+            sub = agg[(agg['model'] == model) & (agg['task'] == task)]
+            if len(sub) < 3:
+                fits[(model, task)] = {
+                    'model_type': 'none',
+                    'params': None,
+                    'rmse': np.nan,
+                    'r2': np.nan,
+                    'saturation_tokens': np.nan,
+                    'asymptote': np.nan,
+                }
+                continue
+            tokens = sub['mean_tokens'].values.astype(float)
+            quality = sub['mean_quality'].values.astype(float)
+            fit = fit_best_curve(tokens, quality)
+            fits[(model, task)] = fit
+            print(f"  {model:20s} | {task:22s} | {fit['model_type']:11s} "
+                  f"R2={fit['r2']:.3f}  sat={fit['saturation_tokens']:.0f} tokens")
+
+    print_correlation_stats(df)
+
+    print("\nRunning null model F-tests ...")
+    ftests: dict = {}
+    for model in models_present:
+        for task in tasks_present:
+            key = (model, task)
+            sub = agg[(agg['model'] == model) & (agg['task'] == task)]
+            if len(sub) < 3 or fits[key].get('params') is None:
+                ftests[key] = {'ftest_F': np.nan, 'ftest_p': np.nan, 'ftest_significant': False}
+                continue
+            tokens = sub['mean_tokens'].values.astype(float)
+            quality = sub['mean_quality'].values.astype(float)
+            ft = null_model_ftest(tokens, quality, fits[key])
+            ftests[key] = ft
+            sig_str = "*** SIGNIFICANT" if ft['ftest_significant'] else "    not significant"
+            print(f"  {model:20s} | {task:22s} | F={ft['ftest_F']:7.2f}  p={ft['ftest_p']:.4f}  {sig_str}")
+
+    n_sig = sum(1 for v in ftests.values() if v.get('ftest_significant'))
+    print(f"  {n_sig}/{len(ftests)} pairs have significant curve fit (p<0.05)")
+
+    print(f"\nRunning bootstrap CIs ({args.bootstrap_iterations} iterations per pair) ...")
+    boot_cis: dict = {}
+    for model in models_present:
+        for task in tasks_present:
+            key = (model, task)
+            ci = bootstrap_saturation_ci(df, model, task, n_bootstrap=args.bootstrap_iterations)
+            boot_cis[key] = ci
+            if not np.isnan(ci['sat_median']):
+                print(f"  {model:20s} | {task:22s} | "
+                      f"median={ci['sat_median']:6.1f}  "
+                      f"CI=[{ci['sat_ci_lower']:.1f}, {ci['sat_ci_upper']:.1f}]  "
+                      f"fit_rate={ci['bootstrap_fit_rate']:.1%}")
+            else:
+                print(f"  {model:20s} | {task:22s} | bootstrap failed")
+
+    print("\nGenerating figures ...")
+    plot_scaling_curves(agg, fits, os.path.join(fig_dir, 'fig_sat1_scaling_curves.png'))
+    plot_saturation_heatmap(fits, models_present, os.path.join(fig_dir, 'fig_sat2_saturation_points.png'))
+
+    summary = build_summary(fits, ftests, boot_cis, models_present, tasks_present)
+    csv_path = os.path.join(args.output_dir, 'saturation_summary.csv')
+    summary.to_csv(csv_path, index=False)
+    print(f"  Saved: {csv_path}")
+
+    plot_forest(summary, os.path.join(fig_dir, 'fig_sat3_forest_plot.png'))
+
+    print("\n== Saturation points (tokens) ==")
+    pivot = summary.pivot(index='model', columns='task', values='saturation_tokens')
+    pivot = pivot.reindex(models_present)
+    print(pivot.to_string(float_format='{:.0f}'.format))
+
+    print("\n== F-test results ==")
+    for _, row in summary.iterrows():
+        sig = "YES" if row['ftest_significant'] else "NO"
+        ci_str = ""
+        if not np.isnan(row.get('sat_ci_lower', np.nan)):
+            ci_str = f"  CI=[{row['sat_ci_lower']:.0f}, {row['sat_ci_upper']:.0f}]"
+        print(f"  {sig} {row['model']:20s} | {row['task']:22s} | "
+              f"p={row['ftest_p']:.4f}  sat={row['saturation_tokens']:.0f}{ci_str}")
+
+    r2_mean = summary['r2'].dropna().mean()
+    print(f"\nMean R2 across all fits: {r2_mean:.3f}")
+    print(f"Significant pairs: {n_sig}/{len(ftests)}")
+    print("\nDone.")
+
+
 if __name__ == '__main__':
     main()
