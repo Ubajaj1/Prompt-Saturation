@@ -151,10 +151,24 @@ def run_analysis(df: pd.DataFrame, output_dir: Path, bootstrap_iterations: int) 
                 df, model, task, n_bootstrap=bootstrap_iterations
             )
 
-    print("\nGenerating figures ...")
-    sa.plot_scaling_curves(agg, fits, str(fig_dir / "fig_rep1_scaling_curves.png"))
-    sa.plot_saturation_heatmap(fits, models_present, str(fig_dir / "fig_rep2_saturation_points.png"))
+    significance_map = {
+        key: value.get("ftest_significant", False)
+        for key, value in ftests.items()
+    }
 
+    print("\nGenerating figures ...")
+    sa.plot_scaling_curves(
+        agg,
+        fits,
+        str(fig_dir / "fig_rep1_scaling_curves.png"),
+        significance_map=significance_map,
+    )
+    sa.plot_saturation_heatmap(
+        fits,
+        models_present,
+        str(fig_dir / "fig_rep2_saturation_points.png"),
+        significance_map=significance_map,
+    )
     summary = sa.build_summary(fits, ftests, boot_cis, models_present, tasks_present)
     summary_path = output_dir / "replication_analysis_summary.csv"
     summary.to_csv(summary_path, index=False)

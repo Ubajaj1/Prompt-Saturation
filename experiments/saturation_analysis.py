@@ -377,7 +377,7 @@ def plot_forest(summary: pd.DataFrame, out_path: str) -> None:
                    linestyle='--', zorder=1)
 
     ax.set_xlabel('Saturation Point (tokens)', fontsize=10)
-    ax.set_title('Significant Saturation Points with 95% Bootstrap CI',
+    ax.set_title('Estimated Saturation Point with 95% Bootstrap CI',
                  fontsize=11, fontweight='bold')
     ax.grid(True, axis='x', alpha=0.3)
     ax.invert_yaxis()
@@ -425,7 +425,12 @@ def aggregate(df: pd.DataFrame) -> pd.DataFrame:
 
 # ── Figure 1: Scaling curves ──────────────────────────────────────────────────
 
-def plot_scaling_curves(agg: pd.DataFrame, fits: dict, out_path: str) -> None:
+def plot_scaling_curves(
+    agg: pd.DataFrame,
+    fits: dict,
+    out_path: str,
+    significance_map: dict | None = None,
+) -> None:
     """
     Subplot grid. Each subplot = one task.
     One line per model (aggregated mean across examples); fitted curve overlaid.
@@ -472,7 +477,12 @@ def plot_scaling_curves(agg: pd.DataFrame, fits: dict, out_path: str) -> None:
                 sat_x = fit['saturation_tokens']
                 ax.axvline(sat_x, color=color, linewidth=0.5, linestyle=':', alpha=0.4)
 
-        ax.set_title(TASK_LABELS[task], fontsize=11, fontweight='bold')
+        title = TASK_LABELS[task]
+        if significance_map:
+            task_keys = [key for key in significance_map if key[1] == task]
+            if task_keys and all(not significance_map[key] for key in task_keys):
+                title += " (not significant)"
+        ax.set_title(title, fontsize=11, fontweight='bold')
         ax.set_xlabel('Prompt Tokens', fontsize=9)
         ax.set_ylabel('Mean Quality', fontsize=9)
         # Set y-axis floor to slightly below the minimum data point (avoid wasted whitespace)
@@ -502,7 +512,12 @@ def plot_scaling_curves(agg: pd.DataFrame, fits: dict, out_path: str) -> None:
 
 # ── Figure 2: Saturation points heatmap ──────────────────────────────────────
 
-def plot_saturation_heatmap(fits: dict, models: list[str], out_path: str) -> None:
+def plot_saturation_heatmap(
+    fits: dict,
+    models: list[str],
+    out_path: str,
+    significance_map: dict | None = None,
+) -> None:
     """
     Heatmap: rows = models, columns = tasks, values = saturation token count.
     """
@@ -518,7 +533,10 @@ def plot_saturation_heatmap(fits: dict, models: list[str], out_path: str) -> Non
     fig, ax = plt.subplots(figsize=(9, 5))
     # Mask NaN cells
     masked = np.ma.masked_invalid(sat_matrix)
-    cmap = plt.cm.YlOrRd.copy()
+    cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
+        'light_yelor_rd',
+        plt.cm.YlOrRd(np.linspace(0.18, 0.72, 256))
+    )
     cmap.set_bad('#e0e0e0')
     im = ax.imshow(masked, cmap=cmap, aspect='auto')
 
@@ -527,9 +545,14 @@ def plot_saturation_heatmap(fits: dict, models: list[str], out_path: str) -> Non
         for j in range(len(tasks_present)):
             val = sat_matrix[i, j]
             txt = f'{val:.0f}' if not np.isnan(val) else 'N/A'
-            color = 'white' if (not np.isnan(val) and val > masked.max() * 0.6) else 'black'
+            if (
+                significance_map
+                and not np.isnan(val)
+                and not significance_map.get((models[i], tasks_present[j]), False)
+            ):
+                txt = f'{txt}\nns'
             ax.text(j, i, txt, ha='center', va='center', fontsize=9,
-                    color=color, fontweight='bold')
+                    color='#1f1f1f', fontweight='bold')
 
     ax.set_xticks(range(len(tasks_present)))
     ax.set_xticklabels(task_labels, fontsize=10, rotation=35, ha='right')
