@@ -263,6 +263,40 @@ concise            & 0.987 \\
 \end{tabular}
 \end{table}
 
+\section{Replication experiment figures}
+\label{app:replication}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_replication_curves.png}
+  \caption{Replication experiment using 200 examples.
+    Sentiment classification exhibits a clear saturation pattern, with
+    performance rapidly increasing and then plateauing as prompt tokens
+    increase.
+    In contrast, question answering shows no systematic improvement with
+    longer prompts.}
+  \label{fig:replication-curves}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig_replication_saturation.png}
+  \caption{Estimated saturation token counts for the replication experiment.
+    Classification saturates at approximately 64 tokens, while no statistically
+    significant saturation point is detected for question answering.}
+  \label{fig:replication-saturation}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig_replication_ci.png}
+  \caption{Saturation point estimate for classification with 95\% bootstrap
+    confidence interval.
+    The narrow interval indicates that the saturation estimate is stable
+    across resampled evaluation sets.}
+  \label{fig:replication-ci}
+\end{figure}
+
 \section{Per-model saturation statistics}
 \label{app:stats}
 

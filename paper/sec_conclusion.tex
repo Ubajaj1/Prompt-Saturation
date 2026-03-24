@@ -11,6 +11,9 @@ math reasoning show no statistically significant saturation at all.
 These findings support a nuanced view of prompt engineering: more tokens help
 \emph{up to a task-specific threshold} for tasks requiring schema compliance,
 and \emph{not at all} for tasks bottlenecked by model knowledge or reasoning.
+A larger-scale replication on 200 examples from SST-2 and SQuAD confirms that
+these saturation patterns persist when evaluated on substantially larger
+datasets.
 The practical implication is direct: prompt budgets should be set by task
 type, not by general verbosity heuristics.
 

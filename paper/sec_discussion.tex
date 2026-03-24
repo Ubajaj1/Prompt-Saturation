@@ -2,16 +2,17 @@
 \label{sec:discussion}
 
 \paragraph{Why do structured tasks saturate?}
-We hypothesise that structured-output quality is governed primarily by
-\emph{schema compliance}, the model's ability to produce a response in the
+One possible explanation is that structured-output tasks depend primarily on
+\emph{schema compliance}: the model's ability to produce a response in the
 required format (e.g., a sentiment label or a four-field JSON object).
-Schema compliance is a near-discrete capability: the model either produces
-the correct format or it does not.
-Once prompt elaboration crosses the threshold that activates this capability,
-additional instruction tokens provide no further signal.
-This is consistent with the sigmoid shape of classification and product
-extraction curves: a steep rise as the model ``activates'' the schema,
+Once the prompt provides sufficient cues for the model to infer the output
+schema, additional instruction tokens provide little additional signal.
+This interpretation is consistent with the sigmoid shape of classification and
+product extraction curves: a steep rise as the model ``activates'' the schema,
 followed by a plateau.
+The replication experiment on 200 examples further supports the conclusion that
+prompt saturation is a stable property of structured tasks rather than an
+artifact of the smaller evaluation set used in the main experiment.
 
 \paragraph{Why do open-ended tasks not saturate?}
 Open-ended tasks require the model to retrieve factual knowledge (QA) or

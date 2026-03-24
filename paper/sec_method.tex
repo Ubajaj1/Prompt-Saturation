@@ -70,6 +70,14 @@ Tasks are grouped \textit{post hoc} into \textbf{structured} (classification,
 product extraction) and \textbf{open-ended} (QA, math, summarization,
 instruction following) based on the analysis in Section~\ref{sec:results}.
 
+To assess robustness to dataset size, we additionally run a replication
+experiment on a larger sample of 200 examples for selected tasks
+(Section~\ref{sec:replication}).
+The replication uses examples sampled from publicly available benchmark
+datasets---SST-2~\citep{socher2013recursive} for sentiment classification
+and SQuAD~\citep{rajpurkar2016squad} for question answering---while preserving
+the same prompt templates and evaluation procedure as the main experiment.
+
 \subsection{Models}
 \label{sec:models}
 
@@ -168,4 +176,7 @@ the 2.5th and 97.5th percentiles of the resulting distribution form the CI.
 
 Total API calls: $7 \times 6 \times 7 \times 20 = 5{,}880$, with 5,875
 successful records (99.9\%).
+The replication experiment evaluates an additional 200 examples per task for
+a representative model, resulting in approximately 1,400 additional runs per
+task.
 All prompts, code, and data are included in the supplementary material.

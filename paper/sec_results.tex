@@ -109,6 +109,38 @@ CI: [233, 586]).
 This is consistent with capability differences: a stronger model infers the
 output schema from fewer cues.
 
+\subsection{Replication on larger dataset}
+\label{sec:replication}
+
+To verify that the observed saturation behaviour is not an artifact of the
+smaller evaluation set, we replicate the experiment on a larger sample of 200
+examples from standard benchmark datasets: SST-2~\citep{socher2013recursive}
+for sentiment classification and SQuAD~\citep{rajpurkar2016squad} for question
+answering.
+The replication uses the same additive prompt levels, evaluation procedure,
+and curve-fitting methodology as the main experiment.
+
+Figure~\ref{fig:replication-curves} (Appendix~\ref{app:replication}) shows the
+resulting quality--token curves.
+The classification task again exhibits a clear sigmoid relationship between
+prompt length and quality, with performance increasing rapidly at low token
+counts and plateauing afterward.
+The estimated saturation point occurs at approximately 64 tokens, consistent
+with the range reported in the main experiment.
+
+In contrast, the question answering task shows no statistically significant
+relationship between prompt length and response quality.
+Performance fluctuates across prompt levels without a consistent upward trend,
+reinforcing the finding that open-ended tasks do not exhibit prompt saturation.
+
+Figure~\ref{fig:replication-saturation} reports the estimated saturation token
+counts, and Figure~\ref{fig:replication-ci} shows the bootstrap confidence
+interval for the classification saturation point, confirming that the estimate
+is stable across resampled evaluation sets.
+
+These results confirm that the structured--open task dichotomy observed in the
+main experiment persists when evaluated on a substantially larger dataset.
+
 \subsection{Forest plot of significant saturation points}
 \label{sec:result-forest}
 
