@@ -1,0 +1,46 @@
+{
+  "seed": 42,
+  "num_permutations": 5,
+  "permutations": {
+    "perm_0": [
+      "edge_cases",
+      "format_spec",
+      "definitions",
+      "persona",
+      "task_label",
+      "example"
+    ],
+    "perm_1": [
+      "edge_cases",
+      "task_label",
+      "definitions",
+      "persona",
+      "example",
+      "format_spec"
+    ],
+    "perm_2": [
+      "edge_cases",
+      "format_spec",
+      "definitions",
+      "task_label",
+      "persona",
+      "example"
+    ],
+    "perm_3": [
+      "format_spec",
+      "definitions",
+      "edge_cases",
+      "persona",
+      "example",
+      "task_label"
+    ],
+    "perm_4": [
+      "format_spec",
+      "edge_cases",
+      "definitions",
+      "task_label",
+      "example",
+      "persona"
+    ]
+  }
+}

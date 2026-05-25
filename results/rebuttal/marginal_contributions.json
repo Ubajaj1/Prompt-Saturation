@@ -1,0 +1,434 @@
+{
+  "classification": {
+    "per_model": {
+      "llama-3.1-8b": {
+        "L1->L2_task_label": 0.10999999999999999,
+        "L2->L3_format_spec": 0.040000000000000036,
+        "L3->L4_definitions": 0.06999999999999995,
+        "L4->L5_persona": -0.09000000000000008,
+        "L5->L6_guidelines": 0.06000000000000005,
+        "L6->L7_worked_example": 0.0
+      },
+      "gemini-flash": {
+        "L1->L2_task_label": 0.027499999999999858,
+        "L2->L3_format_spec": 0.032500000000000084,
+        "L3->L4_definitions": 0.050000000000000044,
+        "L4->L5_persona": -0.02000000000000013,
+        "L5->L6_guidelines": -0.010000000000000009,
+        "L6->L7_worked_example": 0.030000000000000138
+      },
+      "qwen3-32b": {
+        "L1->L2_task_label": 0.0625,
+        "L2->L3_format_spec": 0.0,
+        "L3->L4_definitions": 0.029999999999999916,
+        "L4->L5_persona": -0.029999999999999916,
+        "L5->L6_guidelines": 0.05999999999999994,
+        "L6->L7_worked_example": 0.0
+      },
+      "llama-3.3-70b": {
+        "L1->L2_task_label": 0.05500000000000005,
+        "L2->L3_format_spec": -0.009999999999999898,
+        "L3->L4_definitions": 0.0,
+        "L4->L5_persona": 0.0,
+        "L5->L6_guidelines": 0.0,
+        "L6->L7_worked_example": 0.0
+      },
+      "kimi-k2": {
+        "L1->L2_task_label": 0.19750000000000012,
+        "L2->L3_format_spec": -0.030000000000000138,
+        "L3->L4_definitions": 0.0,
+        "L4->L5_persona": 0.0,
+        "L5->L6_guidelines": 0.030000000000000138,
+        "L6->L7_worked_example": 0.0
+      },
+      "gpt-4o-mini": {
+        "L1->L2_task_label": 0.020000000000000018,
+        "L2->L3_format_spec": 0.09749999999999992,
+        "L3->L4_definitions": 0.030000000000000138,
+        "L4->L5_persona": 0.0,
+        "L5->L6_guidelines": 0.0,
+        "L6->L7_worked_example": 0.029999999999999916
+      },
+      "claude-haiku": {
+        "L1->L2_task_label": 0.03499999999999992,
+        "L2->L3_format_spec": -0.009999999999999898,
+        "L3->L4_definitions": 0.029999999999999916,
+        "L4->L5_persona": 0.0,
+        "L5->L6_guidelines": -0.029999999999999916,
+        "L6->L7_worked_example": 0.029999999999999916
+      }
+    },
+    "mean_across_models": {
+      "L1->L2_task_label": 0.0725,
+      "L2->L3_format_spec": 0.017142857142857158,
+      "L3->L4_definitions": 0.029999999999999995,
+      "L4->L5_persona": -0.020000000000000018,
+      "L5->L6_guidelines": 0.015714285714285743,
+      "L6->L7_worked_example": 0.012857142857142853
+    },
+    "biggest_layer": "L1->L2_task_label",
+    "biggest_layer_delta": 0.0725,
+    "total_positive_gain": 0.14821428571428574,
+    "biggest_layer_pct": 0.489156626506024
+  },
+  "product_extraction": {
+    "per_model": {
+      "llama-3.1-8b": {
+        "L1->L2_task_label": 0.030000000000000138,
+        "L2->L3_format_spec": 0.027499999999999858,
+        "L3->L4_definitions": -0.02499999999999991,
+        "L4->L5_persona": -0.010000000000000009,
+        "L5->L6_guidelines": 0.040000000000000036,
+        "L6->L7_worked_example": 0.03499999999999992
+      },
+      "gemini-flash": {
+        "L1->L2_task_label": 0.07000000000000006,
+        "L2->L3_format_spec": 0.01749999999999996,
+        "L3->L4_definitions": -0.017894736842105186,
+        "L4->L5_persona": 0.03421052631578947,
+        "L5->L6_guidelines": 0.023684210526315752,
+        "L6->L7_worked_example": 0.06315789473684219
+      },
+      "qwen3-32b": {
+        "L1->L2_task_label": 0.0675,
+        "L2->L3_format_spec": -0.0025000000000000577,
+        "L3->L4_definitions": 0.06000000000000005,
+        "L4->L5_persona": 0.009999999999999898,
+        "L5->L6_guidelines": 0.015000000000000013,
+        "L6->L7_worked_example": 0.06999999999999995
+      },
+      "llama-3.3-70b": {
+        "L1->L2_task_label": 0.03500000000000003,
+        "L2->L3_format_spec": 0.025000000000000022,
+        "L3->L4_definitions": 0.0025000000000000577,
+        "L4->L5_persona": 0.012499999999999956,
+        "L5->L6_guidelines": 0.010000000000000009,
+        "L6->L7_worked_example": 0.0
+      },
+      "kimi-k2": {
+        "L1->L2_task_label": 0.09750000000000003,
+        "L2->L3_format_spec": -0.05500000000000005,
+        "L3->L4_definitions": 0.06750000000000012,
+        "L4->L5_persona": -0.0050000000000001155,
+        "L5->L6_guidelines": -0.0025000000000000577,
+        "L6->L7_worked_example": 0.08499999999999996
+      },
+      "gpt-4o-mini": {
+        "L1->L2_task_label": 0.05499999999999994,
+        "L2->L3_format_spec": -0.010000000000000009,
+        "L3->L4_definitions": 0.01750000000000007,
+        "L4->L5_persona": 0.03750000000000009,
+        "L5->L6_guidelines": 0.0024999999999998357,
+        "L6->L7_worked_example": 0.06500000000000006
+      },
+      "claude-haiku": {
+        "L1->L2_task_label": 0.020000000000000018,
+        "L2->L3_format_spec": -0.02749999999999997,
+        "L3->L4_definitions": 0.022500000000000075,
+        "L4->L5_persona": 0.00749999999999984,
+        "L5->L6_guidelines": 0.01750000000000007,
+        "L6->L7_worked_example": 0.15000000000000002
+      }
+    },
+    "mean_across_models": {
+      "L1->L2_task_label": 0.0535714285714286,
+      "L2->L3_format_spec": -0.0035714285714286064,
+      "L3->L4_definitions": 0.018157894736842182,
+      "L4->L5_persona": 0.012387218045112733,
+      "L5->L6_guidelines": 0.015169172932330808,
+      "L6->L7_worked_example": 0.0668796992481203
+    },
+    "biggest_layer": "L6->L7_worked_example",
+    "biggest_layer_delta": 0.0668796992481203,
+    "total_positive_gain": 0.16616541353383463,
+    "biggest_layer_pct": 0.40248868778280533
+  },
+  "qa": {
+    "per_model": {
+      "llama-3.1-8b": {
+        "L1->L2_task_label": 0.0024999999999998357,
+        "L2->L3_format_spec": -0.019999999999999907,
+        "L3->L4_definitions": 0.019999999999999907,
+        "L4->L5_persona": -0.007499999999999951,
+        "L5->L6_guidelines": 0.0050000000000001155,
+        "L6->L7_worked_example": -0.050000000000000044
+      },
+      "gemini-flash": {
+        "L1->L2_task_label": -0.01000000000000012,
+        "L2->L3_format_spec": -0.01749999999999996,
+        "L3->L4_definitions": 0.04499999999999993,
+        "L4->L5_persona": 0.015000000000000124,
+        "L5->L6_guidelines": -0.03249999999999997,
+        "L6->L7_worked_example": -0.007500000000000062
+      },
+      "qwen3-32b": {
+        "L1->L2_task_label": 0.0025000000000000577,
+        "L2->L3_format_spec": -0.02750000000000008,
+        "L3->L4_definitions": -0.0025000000000000577,
+        "L4->L5_persona": 0.015000000000000124,
+        "L5->L6_guidelines": -0.020000000000000018,
+        "L6->L7_worked_example": -0.007500000000000062
+      },
+      "llama-3.3-70b": {
+        "L1->L2_task_label": -0.039999999999999925,
+        "L2->L3_format_spec": 0.022499999999999964,
+        "L3->L4_definitions": -0.0024999999999999467,
+        "L4->L5_persona": 0.00749999999999984,
+        "L5->L6_guidelines": 0.0,
+        "L6->L7_worked_example": -0.027499999999999858
+      },
+      "kimi-k2": {
+        "L1->L2_task_label": -0.015000000000000013,
+        "L2->L3_format_spec": 0.0,
+        "L3->L4_definitions": 0.019999999999999907,
+        "L4->L5_persona": -0.012499999999999956,
+        "L5->L6_guidelines": 0.01000000000000012,
+        "L6->L7_worked_example": -0.040000000000000036
+      },
+      "gpt-4o-mini": {
+        "L1->L2_task_label": -0.019999999999999907,
+        "L2->L3_format_spec": 0.0,
+        "L3->L4_definitions": 0.007499999999999951,
+        "L4->L5_persona": -0.010000000000000009,
+        "L5->L6_guidelines": -0.007499999999999951,
+        "L6->L7_worked_example": -0.0024999999999999467
+      },
+      "claude-haiku": {
+        "L1->L2_task_label": 0.025000000000000022,
+        "L2->L3_format_spec": -0.025000000000000022,
+        "L3->L4_definitions": 0.0,
+        "L4->L5_persona": -0.007499999999999951,
+        "L5->L6_guidelines": -0.0025000000000000577,
+        "L6->L7_worked_example": -0.025000000000000022
+      }
+    },
+    "mean_across_models": {
+      "L1->L2_task_label": -0.007857142857142865,
+      "L2->L3_format_spec": -0.009642857142857144,
+      "L3->L4_definitions": 0.012499999999999956,
+      "L4->L5_persona": 3.172065784643304e-17,
+      "L5->L6_guidelines": -0.006785714285714252,
+      "L6->L7_worked_example": -0.02285714285714286
+    },
+    "biggest_layer": "L3->L4_definitions",
+    "biggest_layer_delta": 0.012499999999999956,
+    "total_positive_gain": 0.012499999999999987,
+    "biggest_layer_pct": 0.9999999999999974
+  },
+  "math_reasoning": {
+    "per_model": {
+      "llama-3.1-8b": {
+        "L1->L2_task_label": 0.029999999999999916,
+        "L2->L3_format_spec": -0.26749999999999996,
+        "L3->L4_definitions": 0.24750000000000005,
+        "L4->L5_persona": -0.022499999999999964,
+        "L5->L6_guidelines": 0.004999999999999893,
+        "L6->L7_worked_example": -0.010000000000000009
+      },
+      "gemini-flash": {
+        "L1->L2_task_label": 0.009342105263157818,
+        "L2->L3_format_spec": -0.39249999999999996,
+        "L3->L4_definitions": 0.37,
+        "L4->L5_persona": 0.012500000000000067,
+        "L5->L6_guidelines": -0.007236842105263208,
+        "L6->L7_worked_example": 0.02473684210526328
+      },
+      "qwen3-32b": {
+        "L1->L2_task_label": 0.0025000000000000577,
+        "L2->L3_format_spec": -0.41999999999999993,
+        "L3->L4_definitions": 0.42500000000000004,
+        "L4->L5_persona": 0.0,
+        "L5->L6_guidelines": -0.025000000000000022,
+        "L6->L7_worked_example": 0.02749999999999997
+      },
+      "llama-3.3-70b": {
+        "L1->L2_task_label": 0.020000000000000018,
+        "L2->L3_format_spec": -0.35749999999999993,
+        "L3->L4_definitions": 0.35749999999999993,
+        "L4->L5_persona": 0.020000000000000018,
+        "L5->L6_guidelines": -0.022499999999999964,
+        "L6->L7_worked_example": 0.029999999999999916
+      },
+      "kimi-k2": {
+        "L1->L2_task_label": 0.025000000000000022,
+        "L2->L3_format_spec": -0.3375,
+        "L3->L4_definitions": 0.37249999999999994,
+        "L4->L5_persona": -0.015000000000000013,
+        "L5->L6_guidelines": 0.0025000000000000577,
+        "L6->L7_worked_example": 0.010000000000000009
+      },
+      "gpt-4o-mini": {
+        "L1->L2_task_label": 0.0050000000000000044,
+        "L2->L3_format_spec": -0.405,
+        "L3->L4_definitions": 0.39,
+        "L4->L5_persona": -0.0025000000000000577,
+        "L5->L6_guidelines": -0.015000000000000013,
+        "L6->L7_worked_example": 0.02750000000000008
+      },
+      "claude-haiku": {
+        "L1->L2_task_label": 0.019999999999999907,
+        "L2->L3_format_spec": -0.38,
+        "L3->L4_definitions": 0.37749999999999995,
+        "L4->L5_persona": -0.01749999999999985,
+        "L5->L6_guidelines": 0.019999999999999907,
+        "L6->L7_worked_example": 0.0
+      }
+    },
+    "mean_across_models": {
+      "L1->L2_task_label": 0.015977443609022535,
+      "L2->L3_format_spec": -0.36571428571428566,
+      "L3->L4_definitions": 0.3628571428571429,
+      "L4->L5_persona": -0.0035714285714285427,
+      "L5->L6_guidelines": -0.0060338345864661925,
+      "L6->L7_worked_example": 0.01567669172932332
+    },
+    "biggest_layer": "L3->L4_definitions",
+    "biggest_layer_delta": 0.3628571428571429,
+    "total_positive_gain": 0.39451127819548876,
+    "biggest_layer_pct": 0.9197636744806555
+  },
+  "summarization": {
+    "per_model": {
+      "llama-3.1-8b": {
+        "L1->L2_task_label": -0.01750000000000007,
+        "L2->L3_format_spec": 0.0025000000000000577,
+        "L3->L4_definitions": 0.010000000000000009,
+        "L4->L5_persona": 0.015000000000000013,
+        "L5->L6_guidelines": -0.01750000000000007,
+        "L6->L7_worked_example": -0.004999999999999893
+      },
+      "gemini-flash": {
+        "L1->L2_task_label": -0.004999999999999893,
+        "L2->L3_format_spec": 0.004999999999999893,
+        "L3->L4_definitions": 0.015000000000000013,
+        "L4->L5_persona": -0.0025000000000000577,
+        "L5->L6_guidelines": -0.007499999999999951,
+        "L6->L7_worked_example": 0.0025000000000000577
+      },
+      "qwen3-32b": {
+        "L1->L2_task_label": -0.0025000000000000577,
+        "L2->L3_format_spec": 0.015000000000000013,
+        "L3->L4_definitions": -0.019999999999999907,
+        "L4->L5_persona": 0.009999999999999898,
+        "L5->L6_guidelines": 0.0025000000000000577,
+        "L6->L7_worked_example": 0.0
+      },
+      "llama-3.3-70b": {
+        "L1->L2_task_label": 0.015000000000000013,
+        "L2->L3_format_spec": -0.012499999999999956,
+        "L3->L4_definitions": 0.0050000000000000044,
+        "L4->L5_persona": 0.0,
+        "L5->L6_guidelines": -0.007500000000000062,
+        "L6->L7_worked_example": -0.0024999999999998357
+      },
+      "kimi-k2": {
+        "L1->L2_task_label": -0.0025000000000000577,
+        "L2->L3_format_spec": 0.0025000000000000577,
+        "L3->L4_definitions": -0.01000000000000012,
+        "L4->L5_persona": -0.010000000000000009,
+        "L5->L6_guidelines": 0.0,
+        "L6->L7_worked_example": 0.0025000000000000577
+      },
+      "gpt-4o-mini": {
+        "L1->L2_task_label": -0.007500000000000062,
+        "L2->L3_format_spec": 0.009999999999999898,
+        "L3->L4_definitions": -0.004999999999999893,
+        "L4->L5_persona": -0.007500000000000062,
+        "L5->L6_guidelines": -0.0024999999999998357,
+        "L6->L7_worked_example": 0.004999999999999893
+      },
+      "claude-haiku": {
+        "L1->L2_task_label": -0.012499999999999956,
+        "L2->L3_format_spec": 0.0024999999999999467,
+        "L3->L4_definitions": -0.015000000000000013,
+        "L4->L5_persona": 0.0,
+        "L5->L6_guidelines": -0.015000000000000013,
+        "L6->L7_worked_example": 0.0
+      }
+    },
+    "mean_across_models": {
+      "L1->L2_task_label": -0.004642857142857155,
+      "L2->L3_format_spec": 0.0035714285714285587,
+      "L3->L4_definitions": -0.0028571428571428437,
+      "L4->L5_persona": 0.0007142857142856832,
+      "L5->L6_guidelines": -0.006785714285714268,
+      "L6->L7_worked_example": 0.0003571428571428971
+    },
+    "biggest_layer": "L2->L3_format_spec",
+    "biggest_layer_delta": 0.0035714285714285587,
+    "total_positive_gain": 0.004642857142857139,
+    "biggest_layer_pct": 0.7692307692307672
+  },
+  "instruction_following": {
+    "per_model": {
+      "llama-3.1-8b": {
+        "L1->L2_task_label": 0.0,
+        "L2->L3_format_spec": 0.004999999999999893,
+        "L3->L4_definitions": 0.015000000000000124,
+        "L4->L5_persona": -0.010000000000000009,
+        "L5->L6_guidelines": 0.07250000000000001,
+        "L6->L7_worked_example": -0.020000000000000018
+      },
+      "gemini-flash": {
+        "L1->L2_task_label": 0.0025000000000000577,
+        "L2->L3_format_spec": -0.0050000000000000044,
+        "L3->L4_definitions": 0.010000000000000009,
+        "L4->L5_persona": -0.030000000000000027,
+        "L5->L6_guidelines": 0.02750000000000008,
+        "L6->L7_worked_example": -0.010000000000000009
+      },
+      "qwen3-32b": {
+        "L1->L2_task_label": 0.0,
+        "L2->L3_format_spec": -0.022499999999999964,
+        "L3->L4_definitions": 0.01749999999999996,
+        "L4->L5_persona": 0.012500000000000067,
+        "L5->L6_guidelines": 0.0024999999999999467,
+        "L6->L7_worked_example": -0.007499999999999951
+      },
+      "llama-3.3-70b": {
+        "L1->L2_task_label": -0.012500000000000067,
+        "L2->L3_format_spec": 0.0050000000000000044,
+        "L3->L4_definitions": -0.007499999999999951,
+        "L4->L5_persona": 0.009999999999999898,
+        "L5->L6_guidelines": -0.009999999999999898,
+        "L6->L7_worked_example": -0.0025000000000000577
+      },
+      "kimi-k2": {
+        "L1->L2_task_label": 0.007500000000000062,
+        "L2->L3_format_spec": -0.0025000000000000577,
+        "L3->L4_definitions": -0.010000000000000009,
+        "L4->L5_persona": 0.007500000000000062,
+        "L5->L6_guidelines": -0.010000000000000009,
+        "L6->L7_worked_example": 0.015000000000000013
+      },
+      "gpt-4o-mini": {
+        "L1->L2_task_label": -0.012500000000000067,
+        "L2->L3_format_spec": 0.0,
+        "L3->L4_definitions": -0.02499999999999991,
+        "L4->L5_persona": 0.03500000000000003,
+        "L5->L6_guidelines": -0.020000000000000018,
+        "L6->L7_worked_example": -0.025000000000000022
+      },
+      "claude-haiku": {
+        "L1->L2_task_label": -0.01750000000000007,
+        "L2->L3_format_spec": 0.0024999999999999467,
+        "L3->L4_definitions": -0.012499999999999956,
+        "L4->L5_persona": 0.007499999999999951,
+        "L5->L6_guidelines": 0.007500000000000062,
+        "L6->L7_worked_example": 0.0
+      }
+    },
+    "mean_across_models": {
+      "L1->L2_task_label": -0.004642857142857155,
+      "L2->L3_format_spec": -0.002500000000000026,
+      "L3->L4_definitions": -0.0017857142857142477,
+      "L4->L5_persona": 0.004642857142857139,
+      "L5->L6_guidelines": 0.010000000000000024,
+      "L6->L7_worked_example": -0.00714285714285715
+    },
+    "biggest_layer": "L5->L6_guidelines",
+    "biggest_layer_delta": 0.010000000000000024,
+    "total_positive_gain": 0.014642857142857162,
+    "biggest_layer_pct": 0.6829268292682934
+  }
+}

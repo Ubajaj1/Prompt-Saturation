@@ -1,0 +1,110 @@
+[
+  {
+    "task": "classification",
+    "model": "gpt-4o-mini",
+    "example_id": 0,
+    "responses": {
+      "L1": {
+        "response_text": "This review can be classified as **Positive**.",
+        "quality": 0.9,
+        "prompt_tokens": 30
+      },
+      "L3": {
+        "response_text": "Positive",
+        "quality": 1.0,
+        "prompt_tokens": 44
+      },
+      "L5": {
+        "response_text": "positive",
+        "quality": 1.0,
+        "prompt_tokens": 105
+      },
+      "L7": {
+        "response_text": "positive",
+        "quality": 1.0,
+        "prompt_tokens": 182
+      }
+    }
+  },
+  {
+    "task": "classification",
+    "model": "gpt-4o-mini",
+    "example_id": 5,
+    "responses": {
+      "L1": {
+        "response_text": "This review can be classified as **Positive Feedback**. It highlights timely delivery, excellent packaging, accurate product description, and customer satisfaction, indicating a favorable experience with the seller.",
+        "quality": 1.0,
+        "prompt_tokens": 34
+      },
+      "L3": {
+        "response_text": "Positive",
+        "quality": 1.0,
+        "prompt_tokens": 48
+      },
+      "L5": {
+        "response_text": "positive",
+        "quality": 1.0,
+        "prompt_tokens": 109
+      },
+      "L7": {
+        "response_text": "positive",
+        "quality": 1.0,
+        "prompt_tokens": 186
+      }
+    }
+  },
+  {
+    "task": "qa",
+    "model": "gpt-4o-mini",
+    "example_id": 0,
+    "responses": {
+      "L1": {
+        "response_text": "The capital of France is Paris.",
+        "quality": 0.9,
+        "prompt_tokens": 14
+      },
+      "L3": {
+        "response_text": "The capital of France is Paris.",
+        "quality": 0.8,
+        "prompt_tokens": 25
+      },
+      "L5": {
+        "response_text": "The capital of France is Paris.",
+        "quality": 0.8,
+        "prompt_tokens": 60
+      },
+      "L7": {
+        "response_text": "Paris is the capital of France.",
+        "quality": 0.9,
+        "prompt_tokens": 127
+      }
+    }
+  },
+  {
+    "task": "qa",
+    "model": "gpt-4o-mini",
+    "example_id": 5,
+    "responses": {
+      "L1": {
+        "response_text": "HTTP stands for Hypertext Transfer Protocol. It is the protocol used for transmitting hypertext via the internet, allowing web browsers and servers to communicate and exchange information.",
+        "quality": 0.95,
+        "prompt_tokens": 13
+      },
+      "L3": {
+        "response_text": "HTTP stands for Hypertext Transfer Protocol.",
+        "quality": 0.95,
+        "prompt_tokens": 24
+      },
+      "L5": {
+        "response_text": "HTTP stands for Hypertext Transfer Protocol.",
+        "quality": 1.0,
+        "prompt_tokens": 59
+      },
+      "L7": {
+        "response_text": "HTTP stands for Hypertext Transfer Protocol.",
+        "quality": 1.0,
+        "prompt_tokens": 126
+      }
+    }
+  }
+]

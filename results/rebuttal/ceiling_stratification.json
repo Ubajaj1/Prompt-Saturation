@@ -1,0 +1,450 @@
+{
+  "qa": {
+    "llama-3.1-8b": {
+      "below_ceiling": {
+        "n_examples": 2,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 18,
+        "l1_mean_quality": 0.9305555555555556,
+        "l7_mean_quality": 0.8749999999999999,
+        "quality_delta": -0.05555555555555569,
+        "fit_type": "logarithmic",
+        "r2": 0.4101846217537706,
+        "saturation_tokens": 42.72222222222222,
+        "ftest_F": 1.390891580254903,
+        "ftest_p": 0.34788218041574265,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9174999999999999,
+        "l7_mean_quality": 0.8675,
+        "quality_delta": -0.04999999999999982,
+        "fit_type": "logarithmic",
+        "r2": 0.2907105845270427,
+        "saturation_tokens": 42.8,
+        "ftest_F": 0.8197234533189688,
+        "ftest_p": 0.5030914749019695,
+        "ftest_significant": false
+      }
+    },
+    "gemini-flash": {
+      "below_ceiling": {
+        "n_examples": 4,
+        "l1_mean_quality": 0.7000000000000001,
+        "l7_mean_quality": 0.8,
+        "quality_delta": 0.09999999999999998,
+        "fit_type": "sigmoid",
+        "r2": 0.8020104655210474,
+        "saturation_tokens": 32.9944944944945,
+        "ftest_F": 4.050772014953676,
+        "ftest_p": 0.14033451987793127,
+        "ftest_significant": false
+      },
+      "above_ceiling": {
+        "n_examples": 16,
+        "l1_mean_quality": 0.940625,
+        "l7_mean_quality": 0.90625,
+        "quality_delta": -0.034375000000000044,
+        "fit_type": "logarithmic",
+        "r2": 0.2540482173628109,
+        "saturation_tokens": 7.5,
+        "ftest_F": 0.6811384415884507,
+        "ftest_p": 0.5564440620196003,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.8925000000000001,
+        "l7_mean_quality": 0.8850000000000001,
+        "quality_delta": -0.007499999999999951,
+        "fit_type": "sigmoid",
+        "r2": 0.4035950262036312,
+        "saturation_tokens": 7.9,
+        "ftest_F": 0.6767130455579183,
+        "ftest_p": 0.6219817951509281,
+        "ftest_significant": false
+      }
+    },
+    "qwen3-32b": {
+      "below_ceiling": {
+        "n_examples": 2,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 18,
+        "l1_mean_quality": 0.9527777777777777,
+        "l7_mean_quality": 0.8916666666666665,
+        "quality_delta": -0.06111111111111123,
+        "fit_type": "logarithmic",
+        "r2": 0.9064780483405108,
+        "saturation_tokens": 19.77777777777778,
+        "ftest_F": 19.385353540117993,
+        "ftest_p": 0.008746355442199826,
+        "ftest_significant": true
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9374999999999998,
+        "l7_mean_quality": 0.8975,
+        "quality_delta": -0.039999999999999813,
+        "fit_type": "logarithmic",
+        "r2": 0.6903036043003423,
+        "saturation_tokens": 19.85,
+        "ftest_F": 4.45793760525257,
+        "ftest_p": 0.09591185750935897,
+        "ftest_significant": false
+      }
+    },
+    "llama-3.3-70b": {
+      "below_ceiling": {
+        "n_examples": 1,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 19,
+        "l1_mean_quality": 0.9526315789473683,
+        "l7_mean_quality": 0.9052631578947368,
+        "quality_delta": -0.047368421052631504,
+        "fit_type": "logarithmic",
+        "r2": 0.09869033997612975,
+        "saturation_tokens": 42.8421052631579,
+        "ftest_F": 0.2189931925804858,
+        "ftest_p": 0.8123591032523445,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.945,
+        "l7_mean_quality": 0.905,
+        "quality_delta": -0.039999999999999925,
+        "fit_type": "logarithmic",
+        "r2": 0.06471034656504604,
+        "saturation_tokens": 42.8,
+        "ftest_F": 0.13837498645984195,
+        "ftest_p": 0.8747667358224763,
+        "ftest_significant": false
+      }
+    },
+    "kimi-k2": {
+      "below_ceiling": {
+        "n_examples": 4,
+        "l1_mean_quality": 0.7875000000000001,
+        "l7_mean_quality": 0.7750000000000001,
+        "quality_delta": -0.012499999999999956,
+        "fit_type": "logarithmic",
+        "r2": 0.2120343161141539,
+        "saturation_tokens": 34.25,
+        "ftest_F": 0.5381815996567477,
+        "ftest_p": 0.6208899189816891,
+        "ftest_significant": false
+      },
+      "above_ceiling": {
+        "n_examples": 16,
+        "l1_mean_quality": 0.9468749999999999,
+        "l7_mean_quality": 0.903125,
+        "quality_delta": -0.043749999999999956,
+        "fit_type": "logarithmic",
+        "r2": 0.016074080640731347,
+        "saturation_tokens": 33.75,
+        "ftest_F": 0.03267335543147142,
+        "ftest_p": 0.9681102147869821,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9150000000000003,
+        "l7_mean_quality": 0.8775000000000001,
+        "quality_delta": -0.0375000000000002,
+        "fit_type": "logarithmic",
+        "r2": 0.0967323092235669,
+        "saturation_tokens": 33.85,
+        "ftest_F": 0.21418303834252614,
+        "ftest_p": 0.81589252120059,
+        "ftest_significant": false
+      }
+    },
+    "gpt-4o-mini": {
+      "below_ceiling": {
+        "n_examples": 1,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 19,
+        "l1_mean_quality": 0.9421052631578947,
+        "l7_mean_quality": 0.9026315789473683,
+        "quality_delta": -0.03947368421052633,
+        "fit_type": "logarithmic",
+        "r2": 0.6232662560791021,
+        "saturation_tokens": 14.68421052631579,
+        "ftest_F": 3.308789117706261,
+        "ftest_p": 0.14192831380865664,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9349999999999998,
+        "l7_mean_quality": 0.9025000000000001,
+        "quality_delta": -0.03249999999999975,
+        "fit_type": "logarithmic",
+        "r2": 0.6462164228778855,
+        "saturation_tokens": 14.8,
+        "ftest_F": 3.6531736613360803,
+        "ftest_p": 0.1251628194413192,
+        "ftest_significant": false
+      }
+    },
+    "claude-haiku": {
+      "below_ceiling": {
+        "n_examples": 0,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9224999999999998,
+        "l7_mean_quality": 0.8874999999999998,
+        "quality_delta": -0.03499999999999992,
+        "fit_type": "logarithmic",
+        "r2": 0.6175767210710347,
+        "saturation_tokens": 15.35,
+        "ftest_F": 3.2298071540030326,
+        "ftest_p": 0.1462475642667812,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9224999999999998,
+        "l7_mean_quality": 0.8874999999999998,
+        "quality_delta": -0.03499999999999992,
+        "fit_type": "logarithmic",
+        "r2": 0.6175767210710347,
+        "saturation_tokens": 15.35,
+        "ftest_F": 3.2298071540030326,
+        "ftest_p": 0.1462475642667812,
+        "ftest_significant": false
+      }
+    }
+  },
+  "math_reasoning": {
+    "llama-3.1-8b": {
+      "below_ceiling": {
+        "n_examples": 2,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 18,
+        "l1_mean_quality": 0.9888888888888889,
+        "l7_mean_quality": 0.9694444444444444,
+        "quality_delta": -0.019444444444444486,
+        "fit_type": "sigmoid",
+        "r2": 0.10544302744217404,
+        "saturation_tokens": 79.62985207429652,
+        "ftest_F": 0.11787178533825353,
+        "ftest_p": 0.9437481409168645,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9299999999999999,
+        "l7_mean_quality": 0.9125,
+        "quality_delta": -0.01749999999999996,
+        "fit_type": "sigmoid",
+        "r2": 0.12487051562828755,
+        "saturation_tokens": 81.2934934934935,
+        "ftest_F": 0.14268804543585528,
+        "ftest_p": 0.9279622170785439,
+        "ftest_significant": false
+      }
+    },
+    "gemini-flash": {
+      "below_ceiling": {
+        "n_examples": 1,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 18,
+        "l1_mean_quality": 0.9805555555555555,
+        "l7_mean_quality": 1.0,
+        "quality_delta": 0.019444444444444486,
+        "fit_type": "sigmoid",
+        "r2": 0.19423193003560102,
+        "saturation_tokens": 49.6991991991992,
+        "ftest_F": 0.24105190721218675,
+        "ftest_p": 0.8634647259999297,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 19,
+        "l1_mean_quality": 0.963157894736842,
+        "l7_mean_quality": 0.9789473684210527,
+        "quality_delta": 0.015789473684210686,
+        "fit_type": "sigmoid",
+        "r2": 0.20142963661382596,
+        "saturation_tokens": 51.28328328328328,
+        "ftest_F": 0.25223780627132825,
+        "ftest_p": 0.8561633472614909,
+        "ftest_significant": false
+      }
+    },
+    "qwen3-32b": {
+      "below_ceiling": {
+        "n_examples": 2,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 18,
+        "l1_mean_quality": 0.9972222222222222,
+        "l7_mean_quality": 0.9972222222222222,
+        "quality_delta": 0.0,
+        "fit_type": "sigmoid",
+        "r2": 0.2030923540963674,
+        "saturation_tokens": 61.41497052608163,
+        "ftest_F": 0.25485055280913527,
+        "ftest_p": 0.8544625812014672,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9574999999999999,
+        "l7_mean_quality": 0.9675,
+        "quality_delta": 0.01000000000000012,
+        "fit_type": "sigmoid",
+        "r2": 0.21670761244479764,
+        "saturation_tokens": 62.56966966966967,
+        "ftest_F": 0.27666247736835714,
+        "ftest_p": 0.8403442702995246,
+        "ftest_significant": false
+      }
+    },
+    "llama-3.3-70b": {
+      "below_ceiling": {
+        "n_examples": 2,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 18,
+        "l1_mean_quality": 0.9916666666666667,
+        "l7_mean_quality": 0.9972222222222222,
+        "quality_delta": 0.005555555555555536,
+        "fit_type": "sigmoid",
+        "r2": 0.21925169517600773,
+        "saturation_tokens": 83.9069069069069,
+        "ftest_F": 0.2808225055646258,
+        "ftest_p": 0.8376694947648776,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.95,
+        "l7_mean_quality": 0.9974999999999999,
+        "quality_delta": 0.04749999999999999,
+        "fit_type": "sigmoid",
+        "r2": 0.2818839459647944,
+        "saturation_tokens": 83.76486486486488,
+        "ftest_F": 0.3925325779598502,
+        "ftest_p": 0.7686356054794683,
+        "ftest_significant": false
+      }
+    },
+    "kimi-k2": {
+      "below_ceiling": {
+        "n_examples": 3,
+        "l1_mean_quality": 0.5,
+        "l7_mean_quality": 0.7999999999999999,
+        "quality_delta": 0.29999999999999993,
+        "fit_type": "sigmoid",
+        "r2": 0.8215178416587011,
+        "saturation_tokens": 77.75241908575242,
+        "ftest_F": 4.6028009146313105,
+        "ftest_p": 0.12091979202145302,
+        "ftest_significant": false
+      },
+      "above_ceiling": {
+        "n_examples": 17,
+        "l1_mean_quality": 0.9852941176470589,
+        "l7_mean_quality": 1.0,
+        "quality_delta": 0.014705882352941124,
+        "fit_type": "sigmoid",
+        "r2": 0.24614306668995922,
+        "saturation_tokens": 72.17311429076135,
+        "ftest_F": 0.32651164407176364,
+        "ftest_p": 0.8087407574354722,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9125,
+        "l7_mean_quality": 0.97,
+        "quality_delta": 0.057499999999999996,
+        "fit_type": "sigmoid",
+        "r2": 0.33874411323483244,
+        "saturation_tokens": 73.5902902902903,
+        "ftest_F": 0.5122738716050644,
+        "ftest_p": 0.7017003571937068,
+        "ftest_significant": false
+      }
+    },
+    "gpt-4o-mini": {
+      "below_ceiling": {
+        "n_examples": 2,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 18,
+        "l1_mean_quality": 0.9972222222222222,
+        "l7_mean_quality": 0.9777777777777779,
+        "quality_delta": -0.019444444444444375,
+        "fit_type": "sigmoid",
+        "r2": 0.1674114621105306,
+        "saturation_tokens": 53.27927927927928,
+        "ftest_F": 0.20107346485324232,
+        "ftest_p": 0.8897415270780983,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9625,
+        "l7_mean_quality": 0.9625,
+        "quality_delta": 0.0,
+        "fit_type": "sigmoid",
+        "r2": 0.17837188448183983,
+        "saturation_tokens": 54.19864864864865,
+        "ftest_F": 0.21709564353131888,
+        "ftest_p": 0.879187722239182,
+        "ftest_significant": false
+      }
+    },
+    "claude-haiku": {
+      "below_ceiling": {
+        "n_examples": 1,
+        "note": "too few examples"
+      },
+      "above_ceiling": {
+        "n_examples": 19,
+        "l1_mean_quality": 1.0,
+        "l7_mean_quality": 1.0,
+        "quality_delta": 0.0,
+        "fit_type": "sigmoid",
+        "r2": 0.21599953507249625,
+        "saturation_tokens": 58.95980190717033,
+        "ftest_F": 0.2755094476793068,
+        "ftest_p": 0.8410867128719225,
+        "ftest_significant": false
+      },
+      "all": {
+        "n_examples": 20,
+        "l1_mean_quality": 0.9800000000000001,
+        "l7_mean_quality": 1.0,
+        "quality_delta": 0.019999999999999907,
+        "fit_type": "sigmoid",
+        "r2": 0.22764696824602737,
+        "saturation_tokens": 60.36756756756756,
+        "ftest_F": 0.29474470726042634,
+        "ftest_p": 0.8287643951961247,
+        "ftest_significant": false
+      }
+    }
+  }
+}

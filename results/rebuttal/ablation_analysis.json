@@ -1,0 +1,142 @@
+{
+  "classification": {
+    "gemini-flash": {
+      "order_A_example_early": {
+        "saturation_tokens": 29.0,
+        "r2": 0.927,
+        "ftest_F": 12.78,
+        "ftest_p": 0.0325,
+        "ftest_significant": true,
+        "quality_by_level": {
+          "1": 0.938,
+          "2": 0.94,
+          "3": 0.94,
+          "4": 0.97,
+          "5": 0.99,
+          "6": 0.98,
+          "7": 0.97
+        }
+      },
+      "order_B_definitions_early": {
+        "saturation_tokens": 29.6,
+        "r2": 0.633,
+        "ftest_F": 1.73,
+        "ftest_p": 0.3325,
+        "ftest_significant": false,
+        "quality_by_level": {
+          "1": 0.918,
+          "2": 0.98,
+          "3": 0.98,
+          "4": 0.96,
+          "5": 0.94,
+          "6": 0.97,
+          "7": 0.98
+        }
+      }
+    },
+    "llama-3.3-70b": {
+      "order_A_example_early": {
+        "saturation_tokens": 64.1,
+        "r2": 0.583,
+        "ftest_F": 1.4,
+        "ftest_p": 0.3944,
+        "ftest_significant": false,
+        "quality_by_level": {
+          "1": 0.94,
+          "2": 1.0,
+          "3": 1.0,
+          "4": 0.98,
+          "5": 1.0,
+          "6": 0.98,
+          "7": 0.96
+        }
+      },
+      "order_B_definitions_early": {
+        "saturation_tokens": 64.1,
+        "r2": 0.568,
+        "ftest_F": 1.31,
+        "ftest_p": 0.4141,
+        "ftest_significant": false,
+        "quality_by_level": {
+          "1": 0.935,
+          "2": 0.98,
+          "3": 0.98,
+          "4": 0.98,
+          "5": 0.96,
+          "6": 0.96,
+          "7": 1.0
+        }
+      }
+    }
+  },
+  "product_extraction": {
+    "gemini-flash": {
+      "order_A_example_early": {
+        "saturation_tokens": 48.8,
+        "r2": 0.948,
+        "ftest_F": 18.34,
+        "ftest_p": 0.0196,
+        "ftest_significant": true,
+        "quality_by_level": {
+          "1": 0.96,
+          "2": 0.988,
+          "3": 0.985,
+          "4": 0.99,
+          "5": 0.99,
+          "6": 0.985,
+          "7": 0.992
+        }
+      },
+      "order_B_definitions_early": {
+        "saturation_tokens": 84.5,
+        "r2": 0.982,
+        "ftest_F": 53.44,
+        "ftest_p": 0.0042,
+        "ftest_significant": true,
+        "quality_by_level": {
+          "1": 0.94,
+          "2": 0.98,
+          "3": 0.99,
+          "4": 0.997,
+          "5": 0.995,
+          "6": 0.99,
+          "7": 0.995
+        }
+      }
+    },
+    "llama-3.3-70b": {
+      "order_A_example_early": {
+        "saturation_tokens": 99.8,
+        "r2": 0.945,
+        "ftest_F": 17.14,
+        "ftest_p": 0.0216,
+        "ftest_significant": true,
+        "quality_by_level": {
+          "1": 0.92,
+          "2": 0.985,
+          "3": 0.985,
+          "4": 0.982,
+          "5": 0.988,
+          "6": 0.982,
+          "7": 0.97
+        }
+      },
+      "order_B_definitions_early": {
+        "saturation_tokens": 126.6,
+        "r2": 0.962,
+        "ftest_F": 25.65,
+        "ftest_p": 0.0122,
+        "ftest_significant": true,
+        "quality_by_level": {
+          "1": 0.912,
+          "2": 0.968,
+          "3": 0.997,
+          "4": 0.997,
+          "5": 0.995,
+          "6": 0.992,
+          "7": 0.98
+        }
+      }
+    }
+  }
+}

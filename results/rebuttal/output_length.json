@@ -1,0 +1,86 @@
+{
+  "classification": {
+    "output_tokens_by_level": {
+      "1": 85.1,
+      "2": 42.3,
+      "3": 2.2,
+      "4": 2.2,
+      "5": 2.1,
+      "6": 2.1,
+      "7": 2.1
+    },
+    "r_output_vs_quality": -0.186,
+    "p_output_vs_quality": 0.0,
+    "partial_r_prompt_quality_controlling_output": 0.106
+  },
+  "product_extraction": {
+    "output_tokens_by_level": {
+      "1": 66.8,
+      "2": 46.2,
+      "3": 50.5,
+      "4": 54.3,
+      "5": 58.6,
+      "6": 47.4,
+      "7": 44.3
+    },
+    "r_output_vs_quality": -0.313,
+    "p_output_vs_quality": 0.0,
+    "partial_r_prompt_quality_controlling_output": 0.447
+  },
+  "qa": {
+    "output_tokens_by_level": {
+      "1": 51.4,
+      "2": 36.8,
+      "3": 14.4,
+      "4": 20.9,
+      "5": 22.5,
+      "6": 16.4,
+      "7": 12.8
+    },
+    "r_output_vs_quality": 0.094,
+    "p_output_vs_quality": 0.0031,
+    "partial_r_prompt_quality_controlling_output": -0.056
+  },
+  "math_reasoning": {
+    "output_tokens_by_level": {
+      "1": 162.7,
+      "2": 142.5,
+      "3": 13.7,
+      "4": 202.9,
+      "5": 201.4,
+      "6": 213.7,
+      "7": 164.1
+    },
+    "r_output_vs_quality": 0.277,
+    "p_output_vs_quality": 0.0,
+    "partial_r_prompt_quality_controlling_output": 0.095
+  },
+  "summarization": {
+    "output_tokens_by_level": {
+      "1": 70.6,
+      "2": 66.3,
+      "3": 63.2,
+      "4": 65.5,
+      "5": 67.0,
+      "6": 67.9,
+      "7": 62.6
+    },
+    "r_output_vs_quality": -0.114,
+    "p_output_vs_quality": 0.0003,
+    "partial_r_prompt_quality_controlling_output": -0.101
+  },
+  "instruction_following": {
+    "output_tokens_by_level": {
+      "1": 199.6,
+      "2": 182.7,
+      "3": 199.8,
+      "4": 107.0,
+      "5": 90.0,
+      "6": 113.3,
+      "7": 81.3
+    },
+    "r_output_vs_quality": 0.616,
+    "p_output_vs_quality": 0.0,
+    "partial_r_prompt_quality_controlling_output": 0.209
+  }
+}

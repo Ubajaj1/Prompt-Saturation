@@ -1,0 +1,32 @@
+{
+  "overall": {
+    "n": 3915,
+    "pearson_r": 0.681,
+    "pearson_p": 0.0,
+    "spearman_r": 0.53,
+    "mae": 0.078,
+    "mean_diff_gemini_minus_orig": 0.07
+  },
+  "per_task": {
+    "classification": {
+      "n": 980,
+      "pearson_r": 0.835,
+      "mae": 0.044
+    },
+    "math_reasoning": {
+      "n": 978,
+      "pearson_r": 0.859,
+      "mae": 0.033
+    },
+    "product_extraction": {
+      "n": 977,
+      "pearson_r": 0.247,
+      "mae": 0.15
+    },
+    "qa": {
+      "n": 980,
+      "pearson_r": 0.287,
+      "mae": 0.086
+    }
+  }
+}
