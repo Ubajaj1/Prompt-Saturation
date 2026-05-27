@@ -1,0 +1,350 @@
+{
+  "classification": {
+    "gemini-flash": {
+      "num_permutations": 5,
+      "num_significant": 1,
+      "saturation_mean": 41.1,
+      "saturation_std": 16.1,
+      "saturation_min": 29.0,
+      "saturation_max": 69.3,
+      "original_saturation": 41.6,
+      "per_permutation": [
+        {
+          "perm_id": "perm_0",
+          "perm_order": [
+            "edge_cases",
+            "format_spec",
+            "definitions",
+            "persona",
+            "task_label",
+            "example"
+          ],
+          "saturation_tokens": 69.26126126126127,
+          "r2": 0.8136986263317106,
+          "ftest_p": 0.12860872527834813,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_1",
+          "perm_order": [
+            "edge_cases",
+            "task_label",
+            "definitions",
+            "persona",
+            "example",
+            "format_spec"
+          ],
+          "saturation_tokens": 29.0,
+          "r2": 0.7245045818485633,
+          "ftest_p": 0.2240705273115063,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_2",
+          "perm_order": [
+            "edge_cases",
+            "format_spec",
+            "definitions",
+            "task_label",
+            "persona",
+            "example"
+          ],
+          "saturation_tokens": 29.0,
+          "r2": 0.22533332920832394,
+          "ftest_p": 0.831230392013888,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_3",
+          "perm_order": [
+            "format_spec",
+            "definitions",
+            "edge_cases",
+            "persona",
+            "example",
+            "task_label"
+          ],
+          "saturation_tokens": 49.31531531531532,
+          "r2": 0.9296703294901888,
+          "ftest_p": 0.030986650491156707,
+          "ftest_significant": true
+        },
+        {
+          "perm_id": "perm_4",
+          "perm_order": [
+            "format_spec",
+            "edge_cases",
+            "definitions",
+            "task_label",
+            "example",
+            "persona"
+          ],
+          "saturation_tokens": 29.0,
+          "r2": 0.6715489164728021,
+          "ftest_p": 0.28594149524223417,
+          "ftest_significant": false
+        }
+      ]
+    },
+    "llama-3.3-70b": {
+      "num_permutations": 5,
+      "num_significant": 0,
+      "saturation_mean": 109.1,
+      "saturation_std": 58.5,
+      "saturation_min": 60.5,
+      "saturation_max": 200.0,
+      "original_saturation": 64.1,
+      "per_permutation": [
+        {
+          "perm_id": "perm_0",
+          "perm_order": [
+            "edge_cases",
+            "format_spec",
+            "definitions",
+            "persona",
+            "task_label",
+            "example"
+          ],
+          "saturation_tokens": 199.97917917917917,
+          "r2": 0.37969619698077406,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_1",
+          "perm_order": [
+            "edge_cases",
+            "task_label",
+            "definitions",
+            "persona",
+            "example",
+            "format_spec"
+          ],
+          "saturation_tokens": 64.0,
+          "r2": 0.0,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_2",
+          "perm_order": [
+            "edge_cases",
+            "format_spec",
+            "definitions",
+            "task_label",
+            "persona",
+            "example"
+          ],
+          "saturation_tokens": 157.67567567567568,
+          "r2": 0.24999999940899975,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_3",
+          "perm_order": [
+            "format_spec",
+            "definitions",
+            "edge_cases",
+            "persona",
+            "example",
+            "task_label"
+          ],
+          "saturation_tokens": 60.5,
+          "r2": 0.0,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_4",
+          "perm_order": [
+            "format_spec",
+            "edge_cases",
+            "definitions",
+            "task_label",
+            "example",
+            "persona"
+          ],
+          "saturation_tokens": 63.333333333333336,
+          "r2": 0.0,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        }
+      ]
+    }
+  },
+  "product_extraction": {
+    "gemini-flash": {
+      "num_permutations": 5,
+      "num_significant": 5,
+      "saturation_mean": 65.7,
+      "saturation_std": 17.2,
+      "saturation_min": 48.8,
+      "saturation_max": 91.1,
+      "original_saturation": null,
+      "per_permutation": [
+        {
+          "perm_id": "perm_0",
+          "perm_order": [
+            "edge_cases",
+            "format_spec",
+            "definitions",
+            "persona",
+            "task_label",
+            "example"
+          ],
+          "saturation_tokens": 91.10835835835836,
+          "r2": 0.9895927581039609,
+          "ftest_p": 0.00179676685337547,
+          "ftest_significant": true
+        },
+        {
+          "perm_id": "perm_1",
+          "perm_order": [
+            "edge_cases",
+            "task_label",
+            "definitions",
+            "persona",
+            "example",
+            "format_spec"
+          ],
+          "saturation_tokens": 81.04824824824826,
+          "r2": 0.9867483722707537,
+          "ftest_p": 0.002579399425891922,
+          "ftest_significant": true
+        },
+        {
+          "perm_id": "perm_2",
+          "perm_order": [
+            "edge_cases",
+            "format_spec",
+            "definitions",
+            "task_label",
+            "persona",
+            "example"
+          ],
+          "saturation_tokens": 48.75,
+          "r2": 0.9333332181300825,
+          "ftest_p": 0.028630622614319142,
+          "ftest_significant": true
+        },
+        {
+          "perm_id": "perm_3",
+          "perm_order": [
+            "format_spec",
+            "definitions",
+            "edge_cases",
+            "persona",
+            "example",
+            "task_label"
+          ],
+          "saturation_tokens": 50.33843843843844,
+          "r2": 0.9850510658536848,
+          "ftest_p": 0.00308892165070777,
+          "ftest_significant": true
+        },
+        {
+          "perm_id": "perm_4",
+          "perm_order": [
+            "format_spec",
+            "edge_cases",
+            "definitions",
+            "task_label",
+            "example",
+            "persona"
+          ],
+          "saturation_tokens": 57.22167167167167,
+          "r2": 0.9898951784341926,
+          "ftest_p": 0.0017191782040307552,
+          "ftest_significant": true
+        }
+      ]
+    },
+    "llama-3.3-70b": {
+      "num_permutations": 5,
+      "num_significant": 0,
+      "saturation_mean": 176.7,
+      "saturation_std": 131.2,
+      "saturation_min": 68.0,
+      "saturation_max": 420.9,
+      "original_saturation": 92.0,
+      "per_permutation": [
+        {
+          "perm_id": "perm_0",
+          "perm_order": [
+            "edge_cases",
+            "format_spec",
+            "definitions",
+            "persona",
+            "task_label",
+            "example"
+          ],
+          "saturation_tokens": 94.37237237237237,
+          "r2": 0.9999999999997391,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_1",
+          "perm_order": [
+            "edge_cases",
+            "task_label",
+            "definitions",
+            "persona",
+            "example",
+            "format_spec"
+          ],
+          "saturation_tokens": 68.0,
+          "r2": 0.9999999999999942,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_2",
+          "perm_order": [
+            "edge_cases",
+            "format_spec",
+            "definitions",
+            "task_label",
+            "persona",
+            "example"
+          ],
+          "saturation_tokens": 207.03603603603602,
+          "r2": 0.9999999999996043,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_3",
+          "perm_order": [
+            "format_spec",
+            "definitions",
+            "edge_cases",
+            "persona",
+            "example",
+            "task_label"
+          ],
+          "saturation_tokens": 93.26926926926927,
+          "r2": 0.9999999999983102,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        },
+        {
+          "perm_id": "perm_4",
+          "perm_order": [
+            "format_spec",
+            "edge_cases",
+            "definitions",
+            "task_label",
+            "example",
+            "persona"
+          ],
+          "saturation_tokens": 420.9099099099099,
+          "r2": 0.9999999999999991,
+          "ftest_p": NaN,
+          "ftest_significant": false
+        }
+      ]
+    }
+  }
+}
