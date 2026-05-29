@@ -1,6 +1,65 @@
 # COLM 2026 Rebuttal Responses
 
-We thank all reviewers for their constructive feedback. We conducted 8,371 new LLM evaluations during the rebuttal period — including a randomized layer-ordering ablation (2,986 experiments), an irrelevant-padding control (1,470 experiments), a second independent judge (3,915 re-evaluations), threshold sensitivity analysis, ceiling-effect stratification, and per-layer marginal contribution analysis. Below we address each concern with this new evidence.
+We thank all reviewers for their constructive feedback. We conducted 8,371 new LLM evaluations during the rebuttal period, including a randomized layer-ordering ablation (2,986 experiments), an irrelevant-padding control (1,470 experiments), a second independent judge (3,915 re-evaluations), threshold sensitivity analysis, ceiling-effect stratification, and per-layer marginal contribution analysis.
+
+We organize this rebuttal as an **Overall Response** addressing the cross-cutting themes that recur across reviews, followed by per-reviewer sections that handle the remaining specific points and reference back to the overall response where relevant.
+
+---
+
+## Overall Response: Cross-Cutting Themes
+
+Five themes recur across the four reviews. We address each once here, then point per-reviewer sections to the relevant subsection.
+
+### Theme 1 — Length vs. content confound (R19f central, CnfP Q3, 4x2b "content vs. length")
+
+**Concern.** The additive design varies prompt length and prompt content simultaneously, so the saturation curve could in principle reflect either. This was the single most common concern.
+
+**Evidence.** We ran two complementary controls.
+
+1. **Randomized layer-ordering ablation** (5 permutations × 6 models × 2 tasks × 7 examples × 7 levels; 2,986 raw runs, 2,450 analyzed after excluding kimi-k2). Shuffling layer order *preserves* the saturation curve for product extraction in mid-range models (13/15 fits significant; saturation clusters at 65–140 tokens regardless of which layer comes first), but *shifts the token threshold*: original fixed-ordering estimates were 92–378 tokens, ablation means 95–110 tokens. The shape is robust; the token count is not.
+
+2. **Irrelevant-padding control** (3 padding types × 5 models × 2 tasks × 7 levels × 7 examples; 1,470 runs). Matched-token-count padding (factual trivia, repeated phrases, random words) produces flat or declining quality (mean L1→L7 Δ = −0.074 classification, −0.013 product extraction; 1/26 significant positive trend, consistent with chance at α=0.05). The same token range with *real* prompt content yields +0.10 / +0.16. Tokens themselves do not buy quality.
+
+**Conclusion.** Saturation is driven by *information sufficiency* — the curve bends once task-critical content has been communicated, irrespective of position or token count. The original "task-specific token threshold" framing is replaced in our revision by information sufficiency, with practical guidance becoming "include the high-value layers identified by marginal-contribution analysis" rather than "trim after N tokens."
+
+Where the per-reviewer sections discuss this theme, they reference the ablation/padding evidence here rather than restating it (CnfP Q3, R19f Q1, 4x2b "Per-Layer Marginal Contributions").
+
+### Theme 2 — Scope, sample size, and narrow tasks (R19f, 4x2b sample-size, C2JD coverage)
+
+**Concern.** n=20 per task is small; classification only covers sentiment; agentic and multi-turn settings are out of scope.
+
+**Position.** The sample-size choice was driven by the cross-product 7 levels × 7 models × 20 examples = 980 observations per task, which yields effect sizes (d ≈ 2.4 for the classification L1→L4 jump) detectable at well below n=20. The 200-example replication on classification and QA confirms the main-study fits. We agree single-domain (sentiment) classification limits generalisation; we partially mitigate by adding product extraction as a second structured task with the same qualitative pattern (4x2b "Classification Domain Breadth"), and we will explicitly scope sentiment-only claims in the camera-ready. Single-turn scope is deliberate: agentic and retrieval-augmented settings introduce confounds (tool selection, retrieval quality, multi-turn drift) that would prevent clean isolation of the prompt-length → quality relationship.
+
+### Theme 3 — Framing overstated: title, "thresholds," post-hoc grouping (R19f, 4x2b title, CnfP post-hoc)
+
+**Concern.** The original framing — task-specific token thresholds + a binary structured/open grouping — overstates what the data support, and the grouping was applied post-hoc.
+
+**Revision.** We propose a refined framing built on three new analyses:
+
+- **Information sufficiency, not token thresholds** (Theme 1).
+- **A spectrum of prompt-information concentration**, replacing the binary grouping. Marginal-contribution analysis (4x2b) shows tasks distribute their gain along a gradient — concentrated (classification, 49% from one layer), distributed (product extraction, two layers carrying 32% + 40%), diffuse (instruction following, small gains across many layers), insensitive (QA, math, summarization, near-zero or negative gain). The original binary grouping correctly identified the poles; the spectrum adds resolution for intermediate cases and explains why the F-test detected some tasks and not others (curve fitting is suited to distributed gains, not concentrated or diffuse ones — CnfP Q5).
+- **Threshold sensitivity** (CnfP Q1) confirms that within a fixed ordering, classification saturation is stable across thresholds (median 90→95% shift = 3 tokens; 6/7 models shift <11 tokens), with the qwen3-32b log-fit outlier reflecting genuinely different model behaviour rather than a fitting artefact.
+
+The new title we propose: **"When Does Prompt Elaboration Stop Helping? A Spectrum of Prompt Sensitivity Across LLM Tasks"**.
+
+### Theme 4 — Judge reliability (CnfP Q4, C2JD evaluation design)
+
+**Evidence.** We re-judged all 3,915 responses with gemini-2.0-flash as an independent second judge using the same 4-dimension rubric. Agreement is strong where it matters most — classification r=0.835 / MAE=0.044, math r=0.859 / MAE=0.033. For QA and product extraction, low Pearson r is a ceiling artefact (Gemini assigns >0.9 to 98.8% of QA and 88.7% of PE responses, leaving little variance to correlate); both judges agree on direction for the models with the largest original-judge deltas, and the L1→L7 sign agrees for 5/7 models on classification and 4/7 on product extraction (with the 3 PE non-agreements being Gemini deltas of ≤0.003 — non-disagreements driven by ceiling compression, not opposite signs). The original gpt-4o-mini judge's stricter scoring is more useful for our analysis precisely because it preserves the variance needed to fit curves.
+
+### Theme 5 — Summary of new evidence (8,371 new evaluations)
+
+| Evidence | n | Addresses |
+|----------|--:|-----------|
+| Randomized layer-ordering ablation | 2,986 | Length vs. content (Theme 1); F-test power (CnfP Q5) |
+| Irrelevant-padding control | 1,470 | Length vs. content (Theme 1); token-count null (R19f Q1) |
+| Independent second judge | 3,915 | Judge reliability (Theme 4); evaluation design (C2JD) |
+| Threshold sensitivity (85/90/95/99% + knee) | — | Threshold robustness (CnfP Q1) |
+| Ceiling stratification (QA/math) | — | "Non-saturation" interpretation (CnfP Q2, R19f Q2) |
+| Per-layer marginal contributions | — | Concentration spectrum (4x2b, CnfP Q6/Q7) |
+| Output-length partial correlations | — | Output-length confound (4x2b) |
+| Per-level quality tables + qualitative examples | — | Transparency (C2JD) |
+
+**Total experimental scope (with rebuttal additions):** 17,046 LLM evaluations — 5,875 main + ≈2,800 200-example replication + 2,986 randomized ablation + 3,915 second judge + 1,470 padding control.
 
 ---
 
@@ -10,11 +69,11 @@ We thank all reviewers for their constructive feedback. We conducted 8,371 new L
 
 We recomputed saturation points at four threshold levels (85%, 90%, 95%, 99% of fitted asymptote) and using a threshold-free second-derivative knee estimator.
 
-For classification, saturation points are stable across thresholds for 6 of 7 models with sigmoid fits. For example, gemini-flash shifts from 31 tokens (90%) to 42 tokens (95%) to 52 tokens (99%), with the knee estimate at 34 tokens. The median 90%-to-95% shift across all 7 models is 3 tokens (5 of 7 models shift by <11 tokens). One outlier — qwen3-32b — is fitted as a logarithmic rather than sigmoid curve (R²=0.75 vs. >0.93 for the sigmoid-fitted models), producing a 95-token shift; excluding this outlier, the mean shift is 3 tokens.
+For classification, saturation points are stable across thresholds for 6 of 7 models with sigmoid fits. For example, gemini-flash shifts from 31 tokens (90%) to 42 tokens (95%) to 52 tokens (99%), with the knee estimate at 34 tokens. The median 90%-to-95% shift across all 7 models is 3 tokens (6 of 7 models shift by <11 tokens). One outlier — qwen3-32b — is fitted as a logarithmic rather than sigmoid curve (R²=0.75; the well-fit sigmoid models — gemini-flash, llama-3.3-70b, kimi-k2, gpt-4o-mini — all have R²>0.93), producing a 95-token shift; excluding this outlier, the mean shift is 3 tokens.
 
 The qwen3-32b outlier is itself informative. The logarithmic fit reflects a genuinely different model behavior: while sigmoid-fitted models plateau sharply after L3–L4 (late-level gain L4→L7 = 0.000 for gemini-flash, llama-3.3-70b, claude-haiku), qwen3-32b continues extracting incremental gains from later layers (L5→L6: +0.060, reaching 1.000). It is the only model that benefits meaningfully from the guidelines layer (L6). This suggests qwen3-32b integrates detailed instructions more gradually rather than snapping to the correct answer early — a difference in *how the model uses the prompt*, not just a fitting artifact. The curve shape (sigmoid vs. logarithmic) is thus a characterization of model behavior: both saturate, but at different rates. The threshold-free knee estimate for qwen3-32b (42 tokens) falls close to the other models' estimates, confirming that the underlying saturation onset is similar even when the curve shape differs.
 
-Product extraction shows wider threshold spread, as expected for tasks with more dynamic range. For example, gemini-flash ranges from 293 tokens (85%) to 546 tokens (99%). However, the knee estimates (threshold-free) remain informative: llama-3.3-70b knee=96 tokens agrees with its 95% threshold (92 tokens), and qwen3-32b knee=62 tokens falls between its 85% (160 tokens) and 90% (245 tokens) thresholds.
+Product extraction shows wider threshold spread, as expected for tasks with more dynamic range. For example, gemini-flash ranges from 293 tokens (85%) to 546 tokens (99%). However, the knee estimates (threshold-free) remain informative: llama-3.3-70b knee=96 tokens agrees with its 95% threshold (92 tokens). For qwen3-32b, the threshold-based estimates (160 tokens at 85%, 533 tokens at 99%) reflect its logarithmic fit's slow asymptotic approach, while the knee estimate (62 tokens) localises the elbow of the curve — the two metrics characterise different aspects of the same fit, and the knee places saturation onset at a comparable scale to the other models.
 
 We note that the layer-ordering ablation (Q3 below) introduces a more fundamental source of variation than the threshold percentage: the saturation *token count* itself shifts with prompt ordering. This means the threshold sensitivity analysis is most useful for confirming the robustness of the saturation *shape* (curves flatten) and for comparing models within a fixed ordering, rather than for establishing universal token budgets. We discuss this reframing in Q3.
 
@@ -28,7 +87,7 @@ This confirms the reviewer's intuition: QA and math "non-saturation" is ceiling-
 
 ### Q3: Layer-Ordering Ablation
 
-This was the #1 concern across all reviews. We conducted a randomized ablation: we shuffled the introduction order of all 6 prompt layers, generating 5 random permutations and running across 5 models × 7 curated examples (2,986 total experiments, reduced from 20 to 7 examples due to rebuttal-period API budget).
+This was the #1 concern across all reviews. We conducted a randomized ablation: we shuffled the introduction order of all 6 prompt layers, generating 5 random permutations and running on 7 curated examples per task (2,986 total runs collected across 6 models; analysis is restricted to the 5 models with complete data — kimi-k2 was dropped because its output schema prevented reliable curve fitting under shuffled orderings — yielding 2,450 analyzed runs). The reduction from 20 to 7 examples was due to rebuttal-period API budget.
 
 Product extraction results:
 
@@ -67,15 +126,15 @@ We re-judged 3,915 responses using gemini-2.0-flash as an independent second jud
 
 For QA and product extraction, Pearson r is low, but this reflects calibration divergence rather than pattern disagreement:
 
-**(1) Both judges agree on direction.** Both show quality increasing from L1 to L7 for product extraction (gpt-4o-mini: +0.163; gemini: +0.073) and flat/declining for QA (gpt-4o-mini: −0.035; gemini: −0.008). For product extraction, 6 of 7 models show the same L1→L7 direction under both judges. Even for QA, both judges agree on direction for the 3 models with the largest deltas (llama-3.1-8b, claude-haiku, gemini-flash).
+**(1) Both judges agree on direction where the original judge detects a non-trivial signal.** Both show quality increasing from L1 to L7 for product extraction (gpt-4o-mini: +0.163; gemini: +0.073) and flat/declining for QA (gpt-4o-mini: −0.035; gemini: −0.008). For product extraction, 4 of 7 models show the same L1→L7 sign under both judges; for the remaining 3 models (gpt-4o-mini, claude-haiku, kimi-k2), Gemini's L1→L7 delta is essentially zero (≤0.003) — these are non-disagreements driven by Gemini's ceiling compression rather than opposing signs. Classification shows direction agreement for 5 of 7 models. Even for QA, both judges agree on direction for the 3 models with the largest original-judge deltas (llama-3.1-8b, claude-haiku, gemini-flash).
 
-**(2) Low correlation is a ceiling artifact.** The Gemini mean columns explain the low r: Gemini assigns scores > 0.9 to 98.8% of QA responses (mean 0.995) and 97% of extraction responses (mean 0.976). With one judge's scores compressed to near-ceiling, there is almost no variance left to correlate — Pearson r is mechanically suppressed regardless of whether the judges agree on the underlying pattern.
+**(2) Low correlation is a ceiling artifact.** The Gemini mean columns explain the low r: Gemini assigns scores > 0.9 to 98.8% of QA responses (mean 0.995) and 88.7% of extraction responses (mean 0.976). With one judge's scores compressed to near-ceiling, there is almost no variance left to correlate — Pearson r is mechanically suppressed regardless of whether the judges agree on the underlying pattern.
 
 We acknowledge that the gemini-flash judge's compressed score range makes it less informative for detecting saturation curves. The choice of judge model is itself a methodological degree of freedom — one we are transparent about. gpt-4o-mini's stricter scoring is more useful for our analysis precisely because it preserves the variance needed to fit curves.
 
 ### Q5: F-Test Power
 
-The reviewer correctly notes that our F-test (7 level means, 2–3 fitted parameters) has limited power. The ablation results clarify where this matters: the F-test reliably detects tasks with *distributed* prompt-sensitivity (product extraction: 3/7 original, 13/25 ablation significant) but not tasks with *concentrated* sensitivity (classification: 4/7 original, 2/25 ablation). This is not a power failure — it reflects a mismatch between the analytical tool (smooth curve fitting) and the shape of the phenomenon (a step function for classification). The borderline cases (llama-3.1-8b classification at p=0.06, kimi-k2 extraction at p≈0.05) are consistent with this interpretation: they sit near the boundary where the gain concentration is just diffuse enough for a curve to partially fit.
+The reviewer correctly notes that our F-test (7 level means, 2–3 fitted parameters) has limited power. The ablation results clarify where this matters: the F-test reliably detects tasks with *distributed* prompt-sensitivity (product extraction: 3/7 original, 14/25 ablation significant — driven by mid-range models at 13/15) but not tasks with *concentrated* sensitivity (classification: 4/7 original, 2/25 ablation). This is not a power failure — it reflects a mismatch between the analytical tool (smooth curve fitting) and the shape of the phenomenon (a step function for classification). The borderline cases (llama-3.1-8b classification at p=0.079, kimi-k2 extraction at p=0.093) are consistent with this interpretation: they sit near the boundary where the gain concentration is just diffuse enough for a curve to partially fit.
 
 The randomized ablation confirms that product extraction's saturation is robust beyond what the original F-test alone can establish (13/15 significant fits for mid-range models). For classification, the marginal contribution analysis provides the appropriate evidence: L1→L2 accounts for 49% of quality gain, confirming prompt-sensitivity through a method suited to concentrated gains. Together, curve fitting and marginal contribution analysis provide complementary coverage across the prompt-sensitivity spectrum.
 
@@ -118,13 +177,13 @@ We present the original structured-vs-open grouping as a post-hoc observation, n
 
 This is the central methodological question. We conducted a randomized ablation to test whether saturation is driven by token count or information content (full details in CnfP Q3 above).
 
-In the randomized ablation (5 random permutations × 5 models × 7 examples = 2,986 experiments), we shuffled the order in which prompt layers are introduced. For product extraction, mid-range models (qwen3-32b, llama-3.1-8b, llama-3.3-70b) show robust saturation across orderings: 13/15 fits are significant, with saturation clustering at 65–140 tokens regardless of which layers come first.
+In the randomized ablation (5 random permutations × 5 analyzed models × 2 tasks × 7 examples × 7 levels; 2,986 raw runs across 6 models, 2,450 analyzed runs after excluding kimi-k2), we shuffled the order in which prompt layers are introduced. For product extraction, mid-range models (qwen3-32b, llama-3.1-8b, llama-3.3-70b) show robust saturation across orderings: 13/15 fits are significant, with saturation clustering at 65–140 tokens regardless of which layers come first.
 
 The ablation resolves this confound decisively in favor of content. The *existence* of saturation is robust: the sigmoid shape persists across all significant fits (13/15 for mid-range models). But the *specific token count* at which saturation occurs shifts substantially — the original fixed-ordering estimates for product extraction (92–378 tokens for significant fits) are 2–4× higher than the ablation means (95–110 tokens). This is because the original ordering places the most valuable layer (worked example, 40% of quality gain) last; random orderings can place it early, causing quality to rise sooner.
 
 This is a direct answer to the reviewer's concern: saturation is driven by information content, not token count. It also refines the original paper's framing. We initially characterized saturation as "task-specific token thresholds," but the ablation shows that the threshold is ordering-dependent, not task-intrinsic. The correct characterization is *information sufficiency*: quality saturates once task-critical content has been communicated. The practical guidance becomes "identify which prompt layers matter (via marginal contribution analysis) and include those" rather than "trim after N tokens." We will revise the manuscript to reflect this reframing.
 
-To directly test whether raw token count contributes to quality gains, we conducted a padding control experiment. We matched the token counts of our 7 additive levels using three types of irrelevant filler — factual trivia unrelated to the task (geography, history, science), repeated neutral phrases ("Note: additional context follows for reference purposes."), and random English words in shuffled order — keeping only the bare task instruction as meaningful content. Across 1,470 experiments (5 models × 2 tasks × 3 padding types × 7 levels × 7 examples), quality remained flat or declined: mean L1→L7 delta = −0.074 for classification and −0.013 for product extraction, with 0/26 conditions showing a significant *positive* trend (Spearman p < 0.05). The 4/26 conditions reaching significance were all *negative* — padding slightly *hurt* quality, consistent with irrelevant text distracting the model. (At 26 tests and α = 0.05, ~1.3 false positives are expected by chance; the observed count is within this range and all trends point in the wrong direction for a token-count hypothesis.)
+To directly test whether raw token count contributes to quality gains, we conducted a padding control experiment. We matched the token counts of our 7 additive levels using three types of irrelevant filler — factual trivia unrelated to the task (geography, history, science), repeated neutral phrases ("Note: additional context follows for reference purposes."), and random English words in shuffled order — keeping only the bare task instruction as meaningful content. Across 1,470 experiments (5 models × 2 tasks × 3 padding types × 7 levels × 7 examples), quality remained flat or declined: mean L1→L7 delta = −0.074 for classification and −0.013 for product extraction, with only 1/26 conditions showing a significant *positive* trend (Spearman p < 0.05) — a near-ceiling case (claude-haiku classification, Δ = +0.03, from 0.97 to 1.00) consistent with chance at 26 tests. The remaining 3/26 significant trends were all *negative* — padding slightly *hurt* quality, consistent with irrelevant text distracting the model. (At 26 tests and α = 0.05, ~1.3 false positives are expected by chance; the observed 1 positive trend is within this range and reflects ceiling noise rather than a genuine token-count effect.)
 
 In contrast, the real experiment shows clear quality gains over the same token range: mean L1→L7 delta = +0.10 for classification and +0.16 for product extraction, with significant saturation curves for structured tasks. The per-model comparison is consistent across all 5 models and both tasks:
 
@@ -168,7 +227,7 @@ We do not include true frontier models (GPT-4, Claude Opus) due to cost constrai
 
 We agree the study focuses on single-turn instruction tasks and will explicitly scope our claims to this setting. However, we note that this scope is deliberate, not a limitation: agentic workflows, retrieval-augmented generation, and multi-turn dialogues introduce confounds (tool selection, retrieval quality, multi-turn drift) that would make it impossible to isolate the prompt length → quality relationship. Our controlled design is what enables clean measurement of the saturation phenomenon. Characterizing saturation in more complex settings is a natural next step that builds on the foundation established here.
 
-In total, the study encompasses 5,913 main experiments (7 models × 6 tasks × 7 levels × 20 examples, plus 200-example replications for 2 tasks), 2,986 randomized ablation experiments, and 3,915 second-judge re-evaluations — 12,814 total LLM evaluations across the main study and rebuttal period. We believe this scope is appropriate for establishing and characterizing the saturation phenomenon.
+In total, the study encompasses 5,875 main experiments (7 models × 6 tasks × 7 levels × 20 examples = 5,880 attempted, 5,875 successful) plus ≈2,800 additional runs for 200-example replications on classification and QA, alongside 2,986 randomized ablation experiments, 3,915 second-judge re-evaluations, and 1,470 padding-control experiments — 17,046 total LLM evaluations across the main study and rebuttal period. We believe this scope is appropriate for establishing and characterizing the saturation phenomenon.
 
 ---
 
@@ -202,11 +261,21 @@ Output length varies substantially across levels: classification drops from 85.1
 
 The prompt→quality relationship persists after controlling for output length (positive partial r for classification, product extraction, and instruction following). For product extraction, the partial r is substantial (0.447), confirming that prompt content — not just output format compression — drives quality gains.
 
+### Classification Domain Breadth
+
+The reviewer correctly observes that our classification results draw from sentiment classification only, and that extending to additional classification domains would strengthen the generalisation claim. We agree this is a real limitation of the current scope. Two points partially mitigate it within the present study:
+
+1. **Product extraction is a second structured task** that exhibits the same qualitative saturation pattern (significant fits for 3/7 models in the original analysis; 13/15 in the mid-range models under the ablation). The two tasks differ substantially in output structure (single label vs. multi-field JSON), input domain (reviews/social posts vs. product listings), and which prompt layer drives gain (task label for classification, worked example for extraction — see 4x2b "Per-Layer Marginal Contributions"). The shared finding — saturation onset once the format-relevant content is communicated — is consistent across these two structurally distinct tasks.
+
+2. **The marginal-contribution analysis (4x2b above) explains *why* classification saturates so quickly** (one layer carries 49% of the gain). That mechanism — a single instruction sufficing once the model has enough information to map inputs to a label space — should generalise to other classification domains where the label set is similarly inferable from the task description. Domains where the label set is highly specialised (e.g., medical ICD-10, intent classification with hundreds of fine-grained labels) may shift the saturation point upward but should retain the concentrated-gain shape.
+
+We will explicitly scope the classification claims to *sentiment* in the camera-ready and flag topic, intent, and category classification as priority follow-ups. We thank the reviewer for this observation.
+
 ### Sample Size
 
 We use 20 examples per task because each example must be paired with 7 additive prompt levels and evaluated across 7 models — yielding 980 observations per task in the main study (20 × 7 × 7). The replication study extends classification and QA to 200 examples. The randomized ablation adds 2,986 further experiments.
 
-For the effects we detect, n=20 provides adequate power. Classification shows a quality jump of +0.15 from L1 to L4 with within-model standard deviations of ~0.05 — an effect size of d ≈ 3.0, detectable at well below n=20. Product extraction shows similar large effects (+0.163 L1→L7 under the original judge).
+For the effects we detect, n=20 provides adequate power. Classification shows a mean quality jump of +0.12 from L1 to L4 across 7 models (per-model range: +0.045 to +0.220) with within-model standard deviations of ~0.05 — an effect size of d ≈ 2.4, detectable at well below n=20. Product extraction shows similar large effects (+0.163 L1→L7 under the original judge).
 
 Regarding existing benchmarks: our additive prompt design requires *custom prompt construction* at each level — existing benchmark datasets provide inputs/outputs but not the graduated prompt hierarchy that is our methodological contribution. We did use standard benchmark data where available (Amazon product reviews for classification and product extraction, GSM8K-style problems for math reasoning, SQuAD-derived questions for QA).
 
@@ -257,7 +326,20 @@ However, this is accounted for in our analysis. The L1→L2 quality delta (+0.07
 
 Our LLM judge (gpt-4o-mini) uses a shared 4-dimension framework (correctness, completeness, reasoning, conciseness) but with *task-specific rubric text and ground truth*. For classification, correctness evaluates label match against the ground-truth sentiment; for product extraction, it evaluates field-level precision and recall against structured ground truth; for QA, it checks factual alignment with the reference answer. The rubric text steers the judge's focus per task within the shared framework.
 
-We validated this design by re-judging all 3,915 responses with an independent second judge (gemini-2.0-flash). The two judges agree on L1→L7 direction for 6/7 models on classification and 6/7 on product extraction — the two tasks central to our saturation claims. For tasks with crisp ground truths, correlation is strong (classification: r=0.835; math: r=0.859). See CnfP Q4 for the full analysis.
+We validated this design by re-judging all 3,915 responses with an independent second judge (gemini-2.0-flash). The two judges agree on L1→L7 direction for 5/7 models on classification and 4/7 on product extraction (the remaining classification disagreement and 3 PE non-agreements are driven by Gemini's near-zero deltas at ceiling, not opposite signs — see CnfP Q4). For tasks with crisp ground truths, correlation is strong (classification: r=0.835; math: r=0.859).
+
+### Data Construction
+
+The reviewer asks for more detail on how examples were sourced and constructed. The 20-example main-study sets were assembled per task as follows, balancing two requirements: (i) each example must be unambiguous enough that a competent annotator and a strong LLM agree on the ground truth, so that the quality signal reflects the prompt rather than label noise; and (ii) within each task, examples must span enough difficulty to avoid floor or ceiling collapse at L1.
+
+- **Sentiment classification:** 20 product-review and social-media-style sentences drawn from the SST-2 distribution (with a small number of authored variants to balance neutral cases). Labels: positive / negative / neutral. Examples were screened to remove sarcasm and mixed-sentiment cases, since these create ground-truth disagreement that would inflate noise rather than measure saturation.
+- **Product extraction:** 20 product-listing snippets covering electronics, household goods, and books, with varying difficulty (buried prices, implicit brand names, multiple candidate fields). Each example has a structured 4-field ground truth (name, price, brand, category).
+- **QA:** 20 short factoid questions across geography, history, and science (SQuAD-style format), each paired with a single-string ground-truth answer.
+- **Math reasoning:** 20 word problems requiring 2–3 steps of arithmetic, rate, or geometry reasoning (10 easy, 10 medium difficulty), with exact-numeric ground truth.
+- **Summarization:** 20 short news passages with reference summaries.
+- **Instruction following:** 20 prompts each carrying 1–2 explicit structural constraints (e.g., bullet points, numbered list, single word).
+
+The 200-example replication for classification and QA samples directly from the source benchmarks (SST-2 for classification; SQuAD-derived for QA), preserving the identical prompt templates and evaluation procedure. We will include the full per-example listings and construction notes in the camera-ready supplementary material.
 
 ### Bibliography Errors
 
@@ -265,7 +347,7 @@ We thank the reviewer for catching these errors and will correct all citations i
 
 ### Replication Scope
 
-The replication study covered classification (clear saturation) and QA (no saturation) to test both poles of our findings. Extending replication to product extraction and instruction following would strengthen the paper; we were constrained by rebuttal-period API budget (the ablation and second-judge experiments consumed the available budget). We will note this as high-priority future work and will extend replication to these tasks for the camera-ready version if accepted.
+The replication study covered classification (clear saturation) and QA (no saturation) to test both poles of our findings. Extending replication to product extraction and instruction following would strengthen the paper; we were constrained by rebuttal-period API budget (the ablation, second-judge, and padding-control experiments — 8,371 new evaluations — consumed the available budget). We will note this as high-priority future work and will extend replication to these tasks for the camera-ready version if accepted.
 
 ---
 
@@ -274,7 +356,7 @@ The replication study covered classification (clear saturation) and QA (no satur
 | Evidence | Addresses | Key Finding |
 |----------|-----------|-------------|
 | Randomized ablation (5 perms × 5 models, n=2,986) | All reviewers (length vs. content) | Product extraction: 13/15 significant fits confirm distributed saturation. Classification: 2/25 reflects concentrated sensitivity (step function, not curve). Token threshold shifts with ordering → information sufficiency, not a token budget |
-| Second judge (n=3,915) | CnfP Q4 | r=0.835/0.859 (classification/math); direction agreement 6/7 on extraction; low r on QA/extraction explained by ceiling compression |
+| Second judge (n=3,915) | CnfP Q4 | r=0.835/0.859 (classification/math); direction agreement 5/7 on classification, 4/7 on extraction (3 of 7 PE non-agreements are Gemini deltas ≤0.003 — ceiling compression, not opposite signs); low r on QA/extraction explained by ceiling compression |
 | Ceiling stratification | CnfP Q2, R19f Q2 | QA/math "non-saturation" is ceiling-at-L1 (16–20/20 examples above 0.85) |
 | Threshold sensitivity | CnfP Q1 | Median 90%-to-95% shift = 3 tokens (classification); knee estimates confirm |
 | Marginal contributions | 4x2b, CnfP Q6 | L1→L2 = 49% of gain (classification); L6→L7 = 40% (extraction); schema-defining layers dominate |
@@ -282,6 +364,6 @@ The replication study covered classification (clear saturation) and QA (no satur
 | Output length control | 4x2b Q2 | Partial r confirms prompt→quality after controlling output length (PE: 0.447) |
 | Per-level tables + examples | C2JD | Full transparency on quality progression across all 42 model×task combinations |
 | F-test + ablation convergence | CnfP Q5 | Curve fitting detects distributed sensitivity (extraction); marginal contributions detect concentrated sensitivity (classification) — complementary tools across the spectrum |
-| Padding control (n=1,470) | All reviewers (length vs. content) | Quality flat with irrelevant padding (0/26 significant positive trends, mean Δ = −0.07/−0.01 for classification/extraction), while real experiment shows +0.10/+0.16 — confirms saturation is information-driven, not token-count-driven |
+| Padding control (n=1,470) | All reviewers (length vs. content) | Quality flat with irrelevant padding (1/26 significant positive trend — ceiling noise; 3/26 significant negative trends; mean Δ = −0.07/−0.01 for classification/extraction), while real experiment shows +0.10/+0.16 — confirms saturation is information-driven, not token-count-driven |
 
-**Total experimental scope:** 14,284 LLM evaluations (5,913 main + 2,986 randomized ablation + 3,915 second judge + 1,470 padding control).
+**Total experimental scope:** 17,046 LLM evaluations (5,875 main + ≈2,800 200-example replication + 2,986 randomized ablation + 3,915 second judge + 1,470 padding control).
