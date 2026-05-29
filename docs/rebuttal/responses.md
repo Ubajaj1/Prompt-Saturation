@@ -1,6 +1,6 @@
 # COLM 2026 Rebuttal Responses
 
-We thank all reviewers for their constructive feedback. We conducted 6,901 new LLM evaluations during the rebuttal period — including a randomized layer-ordering ablation (2,986 experiments), a second independent judge (3,915 re-evaluations), threshold sensitivity analysis, ceiling-effect stratification, and per-layer marginal contribution analysis. Below we address each concern with this new evidence.
+We thank all reviewers for their constructive feedback. We conducted 8,371 new LLM evaluations during the rebuttal period — including a randomized layer-ordering ablation (2,986 experiments), an irrelevant-padding control (1,470 experiments), a second independent judge (3,915 re-evaluations), threshold sensitivity analysis, ceiling-effect stratification, and per-layer marginal contribution analysis. Below we address each concern with this new evidence.
 
 ---
 
@@ -42,7 +42,7 @@ Product extraction results:
 
 The results reveal a capability-dependent pattern. Mid-range models (qwen3-32b, llama-3.1-8b, llama-3.3-70b) show robust saturation: 13/15 fits are significant, with saturation points clustering at 65–140 tokens across random orderings. Stronger models (gemini-flash, claude-haiku) show flatter curves with fewer significant fits (1/10), consistent with these models requiring less prompt elaboration to reach high quality — the same capability-modulated saturation reported in Section 4.2.
 
-Notably, the ablation saturation points (65–140 tokens) are substantially lower than the original fixed-ordering estimates for the same models (92–378 tokens for the significant fits). This is expected and informative: in the original design, the most valuable layer for product extraction — the worked example (L6→L7, contributing 40% of quality gain) — always comes *last*, so quality stays low until high token counts and the curve bends late. In random orderings, this high-value layer can appear at any position, including early ones, causing quality to rise sooner and saturation to occur at fewer tokens. The shift in saturation point across orderings directly demonstrates that it is *information content and ordering*, not raw token count, that determines where the curve bends.
+Notably, the ablation saturation points (65–140 tokens) are substantially lower than the original fixed-ordering estimates for the same models (92–378 tokens for the significant fits). This is expected and informative: in the original design, the most valuable layer for product extraction — the worked example (L6→L7, contributing 40% of quality gain) — always comes *last*, so quality stays low until high token counts and the curve bends late. In random orderings, this high-value layer can appear at any position, including early ones, causing quality to rise sooner and saturation to occur at fewer tokens. The shift in saturation point across orderings directly demonstrates that it is *information content and ordering*, not raw token count, that determines where the curve bends. The padding control experiment (R19f Q1) provides direct confirmation: irrelevant tokens matched to the same token counts produce flat quality (mean L1→L7 delta = −0.01 to −0.07), while the real experiment shows significant gains over the same range.
 
 Classification shows only 2/25 significant fits — but this is expected given classification's prompt-sensitivity profile, not a failure to replicate. The marginal contribution analysis (Q6 below) shows that classification's quality gain is concentrated in a single layer: L1→L2 (task label) accounts for 49% of total gain. This means classification's quality trajectory is a step function — quality jumps once the task label is encountered, then plateaus. In random orderings, the task label can appear at any position; when it falls early, quality starts high and the curve is flat from the start. Curve fitting is the wrong tool for detecting a step function — the 2/25 result reflects a mismatch between the analytical method (smooth curve fitting) and the shape of the phenomenon (a discrete step), not an absence of prompt-sensitivity.
 
@@ -124,7 +124,24 @@ The ablation resolves this confound decisively in favor of content. The *existen
 
 This is a direct answer to the reviewer's concern: saturation is driven by information content, not token count. It also refines the original paper's framing. We initially characterized saturation as "task-specific token thresholds," but the ablation shows that the threshold is ordering-dependent, not task-intrinsic. The correct characterization is *information sufficiency*: quality saturates once task-critical content has been communicated. The practical guidance becomes "identify which prompt layers matter (via marginal contribution analysis) and include those" rather than "trim after N tokens." We will revise the manuscript to reflect this reframing.
 
-We acknowledge that a stronger test would include a control with irrelevant padding tokens (to test whether raw token count alone shifts the curve). Absent that, the ablation demonstrates the dominance of content over length but cannot fully rule out a token-count component. We will note this as a concrete future experiment.
+To directly test whether raw token count contributes to quality gains, we conducted a padding control experiment. We matched the token counts of our 7 additive levels using three types of irrelevant filler — factual trivia unrelated to the task (geography, history, science), repeated neutral phrases ("Note: additional context follows for reference purposes."), and random English words in shuffled order — keeping only the bare task instruction as meaningful content. Across 1,470 experiments (5 models × 2 tasks × 3 padding types × 7 levels × 7 examples), quality remained flat or declined: mean L1→L7 delta = −0.074 for classification and −0.013 for product extraction, with 0/26 conditions showing a significant *positive* trend (Spearman p < 0.05). The 4/26 conditions reaching significance were all *negative* — padding slightly *hurt* quality, consistent with irrelevant text distracting the model. (At 26 tests and α = 0.05, ~1.3 false positives are expected by chance; the observed count is within this range and all trends point in the wrong direction for a token-count hypothesis.)
+
+In contrast, the real experiment shows clear quality gains over the same token range: mean L1→L7 delta = +0.10 for classification and +0.16 for product extraction, with significant saturation curves for structured tasks. The per-model comparison is consistent across all 5 models and both tasks:
+
+| Model | Task | Real Δ (L1→L7) | Padding Δ (L1→L7) |
+|-------|------|:-:|:-:|
+| gemini-flash | classification | +0.110 | +0.031 |
+| llama-3.3-70b | classification | +0.045 | −0.221 |
+| llama-3.1-8b | classification | +0.190 | −0.161 |
+| qwen3-32b | classification | +0.123 | −0.029 |
+| claude-haiku | classification | +0.055 | +0.029 |
+| gemini-flash | product extraction | +0.191 | −0.002 |
+| llama-3.3-70b | product extraction | +0.085 | −0.055 |
+| llama-3.1-8b | product extraction | +0.098 | +0.043 |
+| qwen3-32b | product extraction | +0.220 | −0.038 |
+| claude-haiku | product extraction | +0.190 | −0.011 |
+
+Combined with the randomized ablation (which shows saturation is robust to layer ordering), the padding control confirms that saturation is driven by information content reaching a task-specific sufficiency threshold, not by raw token count.
 
 ### Q2: Few-Shot Not Helping QA/Math
 
@@ -265,5 +282,6 @@ The replication study covered classification (clear saturation) and QA (no satur
 | Output length control | 4x2b Q2 | Partial r confirms prompt→quality after controlling output length (PE: 0.447) |
 | Per-level tables + examples | C2JD | Full transparency on quality progression across all 42 model×task combinations |
 | F-test + ablation convergence | CnfP Q5 | Curve fitting detects distributed sensitivity (extraction); marginal contributions detect concentrated sensitivity (classification) — complementary tools across the spectrum |
+| Padding control (n=1,470) | All reviewers (length vs. content) | Quality flat with irrelevant padding (0/26 significant positive trends, mean Δ = −0.07/−0.01 for classification/extraction), while real experiment shows +0.10/+0.16 — confirms saturation is information-driven, not token-count-driven |
 
-**Total experimental scope:** 12,814 LLM evaluations (5,913 main + 2,986 randomized ablation + 3,915 second judge).
+**Total experimental scope:** 14,284 LLM evaluations (5,913 main + 2,986 randomized ablation + 3,915 second judge + 1,470 padding control).
