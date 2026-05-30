@@ -216,6 +216,39 @@ class TogetherProvider(LLMProvider):
         )
 
 
+class HuggingFaceProvider(LLMProvider):
+    """Hugging Face Inference API wrapper for open-source models."""
+
+    def __init__(self, api_key: str, model: str = "meta-llama/Llama-3.2-3B-Instruct"):
+        try:
+            from huggingface_hub import InferenceClient
+        except ImportError:
+            raise ImportError("Install huggingface_hub: pip install huggingface_hub")
+
+        self.client = InferenceClient(api_key=api_key)
+        self.model = model
+
+    def generate(self, prompt: str, max_tokens: int = 500) -> LLMResponse:
+        start = time.time()
+
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=max_tokens,
+            temperature=0,
+        )
+
+        latency = (time.time() - start) * 1000
+
+        return LLMResponse(
+            text=response.choices[0].message.content,
+            input_tokens=response.usage.prompt_tokens,
+            output_tokens=response.usage.completion_tokens,
+            latency_ms=latency,
+            model=self.model
+        )
+
+
 class MockProvider(LLMProvider):
     """Mock provider for testing without API calls."""
 

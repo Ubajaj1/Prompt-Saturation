@@ -32,7 +32,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from greenprompt.llm import (
     LLMProvider, OpenAIProvider, AnthropicProvider,
-    GeminiProvider, GroqProvider, MockProvider,
+    GeminiProvider, GroqProvider, HuggingFaceProvider, MockProvider,
 )
 from greenprompt.evaluators import (
     get_evaluator, InstructionFollowingEvaluator,
@@ -48,7 +48,7 @@ TASKS = ['qa', 'summarization', 'classification', 'instruction_following', 'math
 
 MODEL_CONFIGS: dict[str, dict] = {
     'llama-3.1-8b':  {'provider_cls': GroqProvider,      'model': 'llama-3.1-8b-instant',          'env_key': 'GROQ_API_KEY'},
-    'llama-3.2-3b':  {'provider_cls': GroqProvider,      'model': 'llama-3.2-3b-preview',           'env_key': 'GROQ_API_KEY'},
+    'llama-3.2-3b':  {'provider_cls': HuggingFaceProvider, 'model': 'meta-llama/Llama-3.2-1B-Instruct', 'env_key': 'HF_TOKEN'},
     'llama-3.3-70b': {'provider_cls': GroqProvider,      'model': 'llama-3.3-70b-versatile',        'env_key': 'GROQ_API_KEY'},
     'qwen3-32b':     {'provider_cls': GroqProvider,      'model': 'qwen/qwen3-32b',                 'env_key': 'GROQ_API_KEY'},
     'kimi-k2':       {'provider_cls': GroqProvider,      'model': 'moonshotai/kimi-k2-instruct',    'env_key': 'GROQ_API_KEY'},

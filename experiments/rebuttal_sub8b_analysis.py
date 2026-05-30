@@ -20,7 +20,8 @@ from statistics import mean, stdev
 
 REPO = Path(__file__).parent.parent
 SUB8B_PATH = REPO / 'results' / 'rebuttal' / 'sub8b_results.json'
-MAIN_PATH = REPO / 'results' / 'saturation_judge' / 'saturation_results.json'
+MAIN_PATH = REPO / 'results' / 'saturation_results_judge.json'
+NEW_TASKS_PATH = REPO / 'results' / 'saturation_results_new_tasks.json'
 OUT_PATH = REPO / 'results' / 'rebuttal' / 'sub8b_analysis.json'
 
 TASKS = ['classification', 'product_extraction']
@@ -66,7 +67,7 @@ def fmt(x: float, n: int = 3) -> str:
 
 def main():
     sub8b = load(SUB8B_PATH)
-    main_data = load(MAIN_PATH)
+    main_data = load(MAIN_PATH) + load(NEW_TASKS_PATH)
 
     summary: dict = {'sub8b_model': 'llama-3.2-3b', 'tasks': {}}
 

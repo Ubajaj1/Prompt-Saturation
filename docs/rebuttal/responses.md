@@ -72,7 +72,7 @@ We propose a revised title: **"When Does Prompt Elaboration Stop Helping? Prompt
 | Output-length partial correlations | — | Output-length confound (4x2b) |
 | Per-level quality tables + qualitative examples | — | Transparency (C2JD) |
 
-**Total experimental scope (with rebuttal additions):** 17,046 LLM evaluations — 5,875 main + ≈2,800 200-example replication + 2,986 randomized ablation + 3,915 second judge + 1,470 padding control.
+**Total experimental scope (with rebuttal additions):** 17,378 LLM evaluations — 5,875 main + ≈2,800 200-example replication + 2,986 randomized ablation + 3,915 second judge + 1,470 padding control + 332 sub-8B (Llama-3.2-1B).
 
 ---
 
@@ -236,7 +236,14 @@ This reversal is itself a novel finding: model capability and prompt saturation 
 
 Beyond the speed of saturation, models also differ in *how* they saturate. Most models fit sigmoid curves on classification (sharp plateau after L3–L4), but qwen3-32b fits a logarithmic curve — it keeps extracting incremental gains from later layers where other models show zero late-level gain. This suggests that models differ not just in when they saturate but in how gradually they integrate prompt elaboration, which has practical implications: prompt optimization should be model-specific, not one-size-fits-all.
 
-**On weaker open-source models specifically.** The reviewer's question targets the lower end of the capability spectrum, and we did not include sub-8B models (e.g., Phi-3-mini-3.8B, Qwen2.5-3B, Llama-3.2-1B/3B). The omission was not a cost decision — these models are cheaper than the API tier, not more expensive — but a deliberate scope choice: at very low capability, ceiling effects flip in the opposite direction (floor effects, where models fail regardless of prompt elaboration), which would obscure rather than illuminate saturation dynamics. That said, llama-3.1-8b is the weakest model in our set and already shows the predicted pattern: it requires the most prompt elaboration on classification (~70 tokens vs. gemini-flash's ~31) and saturates at the lowest asymptote on product extraction (q≈0.87 vs. claude-haiku's q≈0.99). The capability-modulated trend is monotonic across our 8B → 32B → 70B → API-tier range, which lets us extrapolate the direction (if not the magnitude) into smaller models. We will add this as an explicit empirical hypothesis for follow-up work and flag the floor-effect risk as a methodological caveat for sub-8B saturation studies.
+**On weaker open-source models specifically.** To directly test whether capability-modulated saturation extends below our original 8B floor, we ran Llama-3.2-1B-Instruct (1B parameters) on classification and product extraction using the same examples, prompts, and LLM judge (gpt-4o-mini) as the main study (332 successful runs across 7 levels × 2 tasks).
+
+The results confirm the predicted pattern and reveal the floor effects we anticipated:
+
+- **Classification:** Llama-3.2-1B starts significantly lower than the 8B model at L1 (q=0.467 vs. 0.780) and gains 1.58× more from prompt elaboration (L1→L7 Δ=+0.300 vs. +0.190). However, even at L7 the 1B model reaches only q=0.767 (vs. 0.970 for 8B), and the quality trajectory is non-monotonic (L2=0.900, L3=0.667, L4=0.733) — the model is too unreliable for prompt elaboration to produce smooth improvement.
+- **Product extraction:** The 1B model exhibits a dramatic floor effect: it *completely fails* at L1–L2 (q=0.000), then jumps to q=0.776 at L3 when format specifications are introduced, and plateaus around q=0.850 from L5 onward. The 8B model, by contrast, already achieves q=0.767 at L1 and shows only modest improvement (Δ=+0.098). The effect-size ratio is 8.72× — the 1B model is dramatically more prompt-dependent.
+
+These results extend the capability-modulated trend monotonically from 1B → 8B → 32B → 70B → API-tier: weaker models consistently require more prompt elaboration and benefit more from it, but saturate at lower asymptotic quality. The floor effects at 1B are real — the model fails entirely on product extraction without format specifications, and quality fluctuates unpredictably on classification — which validates our original scope decision while confirming the direction of the capability-saturation interaction below 8B.
 
 We do not include true frontier models (GPT-4, Claude Opus) due to cost constraints, and will note the reversed saturation pattern and model-specific curve shapes as concrete hypotheses for future work with larger models.
 
@@ -244,7 +251,7 @@ We do not include true frontier models (GPT-4, Claude Opus) due to cost constrai
 
 We agree the study focuses on single-turn instruction tasks and will explicitly scope our claims to this setting. This is a genuine limitation: agentic, RAG, and multi-turn settings may exhibit different saturation dynamics. We chose single-turn scope because it enables clean isolation of the prompt-content → quality relationship without confounds from tool selection, retrieval quality, or multi-turn drift. Rather than leaving extension as undifferentiated future work, our mechanism-level findings yield concrete, testable predictions: the schema-compliance mechanism that drives extraction saturation (one layer = 40% of gain) plausibly predicts that tool-call format specifications in agentic settings will exhibit similar concentration — one well-specified schema layer should suffice. RAG settings introduce an orthogonal content-quality confound that our framework does *not* cover (retrieved content varies in relevance per query); we predict saturation in RAG depends on retrieval quality rather than prompt length, itself a testable hypothesis. Extending to these settings is a priority for future work.
 
-In total, the study encompasses 5,875 main experiments (7 models × 6 tasks × 7 levels × 20 examples = 5,880 attempted, 5,875 successful) plus ≈2,800 additional runs for 200-example replications on classification and QA, alongside 2,986 randomized ablation experiments, 3,915 second-judge re-evaluations, and 1,470 padding-control experiments — 17,046 total LLM evaluations across the main study and rebuttal period. This scope provides a rigorous foundation for establishing and characterizing the saturation phenomenon.
+In total, the study encompasses 5,875 main experiments (7 models × 6 tasks × 7 levels × 20 examples = 5,880 attempted, 5,875 successful) plus ≈2,800 additional runs for 200-example replications on classification and QA, alongside 2,986 randomized ablation experiments, 3,915 second-judge re-evaluations, 1,470 padding-control experiments, and 332 sub-8B experiments (Llama-3.2-1B-Instruct on classification and product extraction) — 17,378 total LLM evaluations across the main study and rebuttal period. This scope provides a rigorous foundation for establishing and characterizing the saturation phenomenon.
 
 ---
 
@@ -412,4 +419,4 @@ That said, the rebuttal experiments do provide partial replication for product e
 | F-test + ablation convergence | CnfP Q5 | Curve fitting detects distributed sensitivity (extraction); marginal contributions detect concentrated sensitivity (classification) — complementary tools |
 | Padding control (n=1,470) | All reviewers (length vs. content) | Quality flat with irrelevant padding (1/26 significant positive trend — ceiling noise; 3/26 significant negative trends; mean Δ = −0.07/−0.01 for classification/extraction), while real experiment shows +0.10/+0.16 — confirms saturation is information-driven, not token-count-driven |
 
-**Total experimental scope:** 17,046 LLM evaluations (5,875 main + ≈2,800 200-example replication + 2,986 randomized ablation + 3,915 second judge + 1,470 padding control).
+**Total experimental scope:** 17,378 LLM evaluations (5,875 main + ≈2,800 200-example replication + 2,986 randomized ablation + 3,915 second judge + 1,470 padding control + 332 sub-8B).

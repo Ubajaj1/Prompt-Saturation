@@ -51,8 +51,8 @@ def main():
         print(f"Error: '{MODEL}' not in MODEL_CONFIGS. Add it to saturation_benchmark.py.")
         sys.exit(1)
 
-    if not os.environ.get('GROQ_API_KEY'):
-        print("Error: GROQ_API_KEY missing in environment / .env")
+    if not os.environ.get('HF_TOKEN'):
+        print("Error: HF_TOKEN missing in environment / .env")
         sys.exit(1)
     if not os.environ.get('OPENAI_API_KEY'):
         print("Error: OPENAI_API_KEY missing (needed for gpt-4o-mini judge)")
