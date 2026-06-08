@@ -1,0 +1,31 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have presented a controlled study of prompt sensitivity across six tasks,
+eight models (1B--frontier), and 17,378 LLM evaluations.
+Through a combination of additive prompt levels, randomised layer-ordering
+ablation, and irrelevant-padding controls, we demonstrate that response
+quality is governed by \textbf{information sufficiency}: quality saturates
+once task-critical content has been communicated, irrespective of raw token
+count or layer ordering.
+
+Tasks differ in a \textbf{prompt-sensitivity gradient}: classification gain
+is concentrated in a single mechanism (task label), product extraction gain
+is distributed across multiple mechanisms, and QA/math are insensitive
+(already at ceiling from the bare input).
+This gradient, supported by marginal contribution analysis, ceiling
+stratification, and dual-judge validation, replaces the binary
+structured--open framing and provides concrete guidance for prompt authoring:
+identify which prompt mechanisms matter for your task type, include those,
+and stop.
+
+\paragraph{Future directions.}
+Extending the study to additional structured tasks (code generation with type
+annotations, data-to-text generation) would test whether the gradient
+generalises.
+Mechanistic interpretability analyses could directly test the
+schema-compliance hypothesis.
+Studying saturation in multi-turn and agentic settings---where context
+accumulates across turns and tool-call format specifications may exhibit
+concentrated sensitivity---would address the increasingly common deployment
+pattern of long-horizon LLM agents.

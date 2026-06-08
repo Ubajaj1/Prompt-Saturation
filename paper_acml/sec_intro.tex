@@ -1,0 +1,79 @@
+\section{Introduction}
+\label{sec:intro}
+
+The rapid adoption of large language models (LLMs) in production systems
+has generated a body of prompt engineering heuristics: add role descriptions,
+include worked examples, append step-by-step instructions, and specify output
+formats in detail~\citep{brown2020gpt3,wei2022cot,zhou2022large}.
+Official guidance from major providers recommends structured prompts with
+role, objective, instructions, reasoning steps, output format, examples,
+and context---each section adding tokens~\citep{sahoo2024systematic,schulhoff2024prompt}.
+These practices implicitly assume a monotone relationship between prompt
+elaboration and response quality.
+But is this assumption empirically justified, and if so, \emph{up to what
+point}?
+
+Token costs are not merely economic.
+Longer prompts consume more inference compute, fill context windows faster,
+and can \emph{degrade} performance when key information is buried in
+irrelevant context~\citep{liu2023lost}.
+The prompt compression literature~\citep{jiang2023llmlingua,pan2024llmlingua2}
+has demonstrated that many tokens are expendable without quality loss, but
+these methods operate on already-verbose prompts and assume compression is
+safe.
+A more fundamental question is: \emph{when does prompt elaboration stop
+helping in the first place?}
+
+We address this through a controlled \textbf{prompt sensitivity study}.
+For each of six tasks we construct seven strictly additive prompt templates:
+each template is a proper superset of the previous, adding exactly one
+\emph{mechanism} of elaboration (task label, output format, field definitions,
+persona, guidelines, worked example).
+We run every (model, task, level, example) combination for seven frontier
+LLMs and fit quality-versus-token curves to measure where quality plateaus.
+Critically, we disentangle information content from token count through two
+complementary controls: a randomised layer-ordering ablation that shuffles
+which mechanism appears at each token count, and an irrelevant-padding
+experiment that matches token counts with meaningless filler.
+
+Our results show that quality is governed by \emph{information sufficiency}---the
+curve bends once task-critical content has been communicated, irrespective of
+position or raw token count.
+Tasks differ not in whether they saturate, but in \emph{how} their quality
+gain is distributed across prompt mechanisms.
+We describe this as a \textbf{prompt-sensitivity gradient}:
+\begin{itemize}
+  \item \textbf{Concentrated:} classification---49\% of quality gain from one
+    layer (task label).
+  \item \textbf{Distributed:} product extraction---gains accumulate across
+    multiple layers (task label 32\%, worked example 40\%).
+  \item \textbf{Diffuse:} instruction following---small gains spread across
+    many layers.
+  \item \textbf{Insensitive:} QA, math reasoning, summarisation---near-zero
+    or negative total gain; models are already at ceiling from the bare input.
+\end{itemize}
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item A reusable \textbf{additive prompt-level methodology} with randomised
+    ablation and padding controls for measuring prompt sensitivity, with
+    open-source code and data.
+  \item Empirical evidence that prompt saturation is driven by
+    \textbf{information sufficiency}, not token count, demonstrated through
+    ablation (2,986 runs) and padding control (1,470 runs) experiments.
+  \item A \textbf{prompt-sensitivity gradient} characterising how quality
+    gain distributes across prompt mechanisms, from concentrated (one
+    critical layer) to insensitive (already at ceiling).
+  \item \textbf{Dual-judge validation}: an independent second judge
+    (3,915 re-evaluations) confirms the primary patterns where signal exists
+    and reveals ceiling compression as the source of apparent disagreement.
+  \item \textbf{Capability-modulated saturation} across model scales from
+    1B to frontier API models: weaker models require more prompt elaboration
+    and benefit more from it, but saturate at lower quality.
+\end{enumerate}
+
+The total experimental scope is 17,378 LLM evaluations across the main study,
+replication, ablation, padding control, second-judge validation, and sub-8B
+experiments.
+All prompts, evaluation code, and data are included in the supplementary
+material.

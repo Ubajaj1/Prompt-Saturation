@@ -1,0 +1,369 @@
+\section{Results}
+\label{sec:results}
+
+\subsection{Quality-versus-Token Curves Reveal Task-Dependent Saturation}
+\label{sec:result-curves}
+
+Figure~\ref{fig:scaling} shows quality-versus-token curves for all six tasks
+and seven models.
+Classification curves rise steeply at low token counts and flatten well before
+level 7, with four of seven models producing F-test-significant saturating
+curves ($p < 0.05$; Table~\ref{tab:ftest}).
+Saturation points for these four models range from 42 to 64 tokens,
+well below a typical worked-example prompt (level 7: $\approx$300--400 tokens).
+
+Product extraction curves are similarly sigmoidal: three of seven models are
+significant, with saturation points ranging from 92 (llama-3.3-70b) to 536
+(claude-haiku) tokens.
+The wider range reflects greater schema complexity: a four-field JSON
+extraction requires more elaboration cues than binary sentiment labelling.
+For all significant product extraction pairs, R$^2 > 0.70$, confirming
+strong curve fit.
+
+QA and math reasoning yield zero significant pairs out of seven models each.
+Fitted curves have low R$^2$ (QA: 0.06--0.69; math: 0.12--0.34) and fail
+to beat the flat null model at $\alpha = 0.05$ in every case.
+This is a \emph{meaningful negative result}: the same experimental setup
+detects strong saturation in classification, ruling out methodological
+artefact.
+
+Summarisation (1/7 significant, claude-haiku only) and instruction following
+(1/7 significant, llama-3.1-8b only) occupy an intermediate position.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_sat1_scaling_curves.png}
+  \caption{Quality (LLM judge, normalised to [0,1]) vs.\ mean prompt tokens
+    across seven levels, for all six tasks and seven models.
+    Dashed lines show the best-fit log/sigmoid curve; dotted verticals mark
+    the 95\%-of-asymptote saturation point.
+    Classification and product extraction show clear sigmoid curves;
+    QA and math reasoning are flat.}
+  \label{fig:scaling}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{F-test results and saturation points for the main study.
+  Bold rows are significant ($p < 0.05$).
+  CI: 95\% bootstrap confidence interval on saturation token count $T^*$.}
+\label{tab:ftest}
+\small
+\begin{tabular}{llrrrr}
+\toprule
+Task & Model & $F$ & $p$ & $T^*$ & 95\% CI \\
+\midrule
+\multirow{4}{*}{Classification}
+  & \textbf{gemini-flash}  & 14.5 & 0.027 & \textbf{42}  & [29, 147]  \\
+  & \textbf{kimi-k2}       & 21.1 & 0.016 & \textbf{57}  & [55, 237]  \\
+  & \textbf{gpt-4o-mini}   & 42.0 & 0.006 & \textbf{50}  & [46, 230]  \\
+  & \textbf{llama-3.3-70b} & 22.3 & 0.015 & \textbf{64}  & [63, 72]   \\
+\midrule
+\multirow{3}{*}{Product Extraction}
+  & \textbf{llama-3.3-70b} & 16.4 & 0.023 & \textbf{92}  & [83, 312]  \\
+  & \textbf{qwen3-32b}     & 26.6 & 0.005 & \textbf{378} & [118, 506] \\
+  & \textbf{claude-haiku}  & 49.6 & 0.005 & \textbf{536} & [233, 586] \\
+\midrule
+Summarisation      & \textbf{claude-haiku}  &  9.4 & 0.031 & \textbf{83}  & [78, 87]   \\
+Instr.\ Following  & \textbf{llama-3.1-8b}  & 13.1 & 0.031 & \textbf{112} & [50, 314]  \\
+\midrule
+QA (all 7)   & \multicolumn{4}{l}{All $p > 0.12$; not significant}      & ---        \\
+Math (all 7) & \multicolumn{4}{l}{All $p > 0.70$; not significant}      & ---        \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Ablation Confirms Information Content, Not Token Count}
+\label{sec:result-ablation}
+
+The randomised layer-ordering ablation tests whether the saturation curve is
+driven by information content or raw token count.
+Table~\ref{tab:ablation} summarises the product extraction results.
+
+\begin{table}[t]
+\centering
+\caption{Randomised ablation results for product extraction.
+  Mean $\pm$ standard deviation of saturation points across 5 random
+  permutations.
+  Significant fits: number of permutations producing $p < 0.05$.}
+\label{tab:ablation}
+\small
+\begin{tabular}{lcrr}
+\toprule
+Model & $T^*$ Mean $\pm$ Std (tokens) & Range & Sig.\ fits \\
+\midrule
+qwen3-32b     & $95 \pm 26$  & [65, 134]  & 5/5 \\
+llama-3.1-8b  & $110 \pm 24$ & [84, 140]  & 4/5 \\
+llama-3.3-70b & $110 \pm 22$ & [80, 131]  & 4/5 \\
+gemini-flash  & $57 \pm 17$  & [49, 91]   & 1/5 \\
+claude-haiku  & $58 \pm 0$   & [58, 58]   & 0/5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Models that require more prompt elaboration to reach high quality---qwen3-32b,
+llama-3.1-8b, and llama-3.3-70b---show robust saturation across orderings:
+13/15 fits are significant, with saturation points clustering at 65--140
+tokens regardless of which layers come first.
+Stronger models (gemini-flash, claude-haiku) show flatter curves with fewer
+significant fits (1/10), consistent with these models reaching high quality
+from minimal prompting.
+
+The ablation saturation points (65--140 tokens) are substantially lower than
+the original fixed-ordering estimates for the same models (92--378 tokens).
+This is expected: in the fixed ordering, the most valuable layer for product
+extraction---the worked example (contributing 40\% of quality gain; see
+Section~\ref{sec:result-marginal})---always comes last, so quality stays low
+until high token counts.
+In random orderings, this high-value layer can appear at any position,
+causing quality to rise sooner and saturation to occur at fewer tokens.
+The shift in saturation point directly demonstrates that it is
+\emph{information content and ordering}, not raw token count, that determines
+where the curve bends.
+
+Classification shows only 2/25 significant fits in the ablation---but this
+is expected given classification's prompt-sensitivity profile.
+Classification's quality gain is concentrated in a single layer
+(Section~\ref{sec:result-marginal}): once the task label appears at any
+position, quality jumps and the curve is flat thereafter.
+Curve fitting is the wrong tool for detecting a step function; the 2/25
+result reflects a method-shape mismatch, not an absence of prompt sensitivity.
+
+\subsection{Padding Control Confirms the Token-Count Null}
+\label{sec:result-padding}
+
+The irrelevant-padding experiment provides a direct test: do tokens
+themselves buy quality?
+Across 1,470 runs, quality with irrelevant padding remained flat or declined
+(mean L1$\to$L7 $\Delta = -0.074$ for classification, $-0.013$ for product
+extraction).
+Only 1 of 26 conditions showed a significant positive trend (Spearman
+$p < 0.05$)---a near-ceiling case (claude-haiku classification,
+$\Delta = +0.03$, from 0.97 to 1.00) consistent with chance at 26 tests.
+Three of 26 significant trends were negative: padding slightly \emph{hurt}
+quality.
+
+In contrast, real prompt content over the same token range produced clear
+gains: $+0.10$ for classification and $+0.16$ for product extraction.
+Table~\ref{tab:padding} shows the per-model comparison.
+Real content exceeds padding for 9 of 10 model--task pairs, with the
+largest gaps in llama-3.1-8b classification ($+0.190$ vs.\ $-0.161$) and
+qwen3-32b product extraction ($+0.220$ vs.\ $-0.038$).
+
+\begin{table}[t]
+\centering
+\caption{Real prompt content vs.\ irrelevant padding: L1$\to$L7 quality
+  delta ($\Delta$) per model and task.
+  Positive values indicate quality improvement from L1 to L7.}
+\label{tab:padding}
+\small
+\begin{tabular}{llrr}
+\toprule
+Model & Task & Real $\Delta$ & Padding $\Delta$ \\
+\midrule
+gemini-flash  & classification & $+0.110$ & $+0.031$ \\
+llama-3.3-70b & classification & $+0.045$ & $-0.221$ \\
+llama-3.1-8b  & classification & $+0.190$ & $-0.161$ \\
+qwen3-32b     & classification & $+0.123$ & $-0.029$ \\
+claude-haiku  & classification & $+0.055$ & $+0.029$ \\
+\midrule
+gemini-flash  & product extraction & $+0.191$ & $-0.002$ \\
+llama-3.3-70b & product extraction & $+0.085$ & $-0.055$ \\
+llama-3.1-8b  & product extraction & $+0.098$ & $+0.043$ \\
+qwen3-32b     & product extraction & $+0.220$ & $-0.038$ \\
+claude-haiku  & product extraction & $+0.190$ & $-0.011$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Marginal Contributions Reveal the Prompt-Sensitivity Gradient}
+\label{sec:result-marginal}
+
+Marginal contribution analysis decomposes quality gain into per-mechanism
+contributions, revealing how different tasks distribute their sensitivity
+across prompt layers.
+Figure~\ref{fig:marginal} shows the per-layer quality deltas averaged
+across all seven models.
+
+% TODO: Generate figure from results/rebuttal/marginal_contributions.json
+% Stacked bar chart or heatmap showing per-layer delta for each task
+\begin{figure}[t]
+  \centering
+  % \includegraphics[width=\linewidth]{figures/fig_marginal_contributions.png}
+  \fbox{\parbox{0.9\linewidth}{\centering\vspace{2cm}
+    \textbf{[TODO: Marginal contribution figure]}\\
+    Per-layer quality deltas for each task, showing concentrated vs.\
+    distributed vs.\ diffuse patterns.
+  \vspace{2cm}}}
+  \caption{Per-layer marginal quality contributions ($\Delta_{k \to k+1}$)
+    averaged across seven models.
+    Classification gain is concentrated in L1$\to$L2 (task label);
+    product extraction gain is distributed across L1$\to$L2 and L6$\to$L7
+    (worked example); math reasoning shows a sharp L3 collapse from
+    suppressing chain-of-thought.}
+  \label{fig:marginal}
+\end{figure}
+
+\paragraph{Classification (concentrated).}
+L1$\to$L2 (adding the task label) contributes $+0.073$ quality, accounting
+for 49\% of total positive gain.
+Subsequent layers add diminishing returns: L2$\to$L3 (format spec) $+0.017$,
+L3$\to$L4 (definitions) $+0.030$, L4$\to$L5 (persona) $-0.020$ (slightly
+harmful).
+A single well-chosen instruction captures most of the quality benefit.
+Output length correspondingly drops from 85.1 tokens (L1, verbose
+explanation) to 2.1 tokens (L3+, just the label) as format specification
+takes effect---the prompt teaches the model the output schema, and once
+learned, further elaboration adds nothing.
+
+\paragraph{Product extraction (distributed).}
+Gains accumulate across multiple layers: L1$\to$L2 (field names) $+0.054$
+(32\% of gain), L6$\to$L7 (worked example) $+0.067$ (40\% of gain).
+The two schema-defining layers together account for 72\% of total
+improvement.
+The worked example is critical because product extraction requires
+demonstrating a complex output format (4-field JSON) that cannot be fully
+communicated through format names alone.
+
+\paragraph{Math reasoning (non-monotonic).}
+L3 (``Give only the final numerical answer'') causes a dramatic quality
+collapse: L2$= 0.967 \to$ L3$= 0.601$ ($\Delta = -0.366$), across all
+seven models and both judges.
+L4 restores step-by-step reasoning and quality recovers immediately
+(L4$= 0.964$).
+This non-monotonicity demonstrates that prompt content can be actively
+harmful---certain instructions suppress chain-of-thought reasoning, which
+is critical for math accuracy~\citep{wei2022cot}.
+Excluding L3, the remaining trajectory is flat (L1$= 0.951$, L7$= 0.970$;
+$\Delta = +0.019$), consistent with ceiling-at-L1.
+
+\paragraph{QA (insensitive).}
+Total marginal gain is essentially zero (L1$\to$L7 $\Delta = -0.035$).
+Every layer beyond bare input either adds nothing or slightly hurts---models
+already score 0.89--0.95 at L1.
+
+\paragraph{Prompt-sensitivity gradient.}
+These profiles define a four-level gradient:
+\emph{concentrated} (classification---one layer captures most gain),
+\emph{distributed} (product extraction---gains across multiple layers),
+\emph{diffuse} (instruction following---small gains across many layers,
+largest L5$\to$L6 $= +0.010$),
+and \emph{insensitive} (QA, math, summarisation---near-zero or negative
+total gain).
+Curve fitting detects the distributed pattern (product extraction: 3/7
+original significant, 13/15 in ablation) but not the concentrated pattern
+(classification: 4/7 original, 2/25 in ablation).
+Marginal contribution analysis complements curve fitting by detecting both.
+
+\subsection{Ceiling Stratification Explains Non-Saturation}
+\label{sec:result-ceiling}
+
+Why do QA and math show no saturation?
+Stratifying by Level-1 quality ($\geq 0.85$ threshold) reveals a ceiling
+effect: across models, 16--20 of 20 QA examples already score above 0.85
+at L1, leaving too few below-ceiling examples for reliable curve fitting.
+The above-ceiling subset shows flat-to-declining quality
+(e.g., gemini-flash: L1$=0.94$, L7$=0.91$; mean $\Delta = -0.035$),
+consistent with extra layers adding noise to already-correct responses.
+
+Math shows the same ceiling pattern (17--19 of 20 examples above 0.85 at L1)
+but with the L3 non-monotonicity superimposed.
+
+This confirms that QA and math ``non-saturation'' is ceiling-at-L1: models
+already have sufficient parametric knowledge from the bare question.
+Classification and product extraction start below ceiling because the prompt
+must communicate format requirements that the model cannot infer from the
+input alone.
+
+\subsection{Model Capability Modulates Saturation}
+\label{sec:result-capability}
+
+Within classification, stronger models (gemini-flash, gpt-4o-mini) saturate
+at lower token counts ($\approx$42--50 tokens) than the 70B Llama model
+(64 tokens).
+Within product extraction, the pattern interacts with task structure:
+stronger models saturate \emph{later} (claude-haiku at 536 tokens vs.\
+llama-3.3-70b at 92 tokens) but reach \emph{higher} asymptotic quality.
+For tasks where the model must \emph{infer} what to do (classification),
+stronger models need less prompt.
+For tasks where the prompt provides \emph{actionable format specifications}
+(extraction), stronger models leverage more of them.
+
+\paragraph{Sub-8B extension.}
+To test whether capability-modulated saturation extends below the 8B floor,
+we evaluate Llama-3.2-1B on classification and product extraction
+(332 runs).
+The 1B model starts significantly lower at L1 (classification: $q=0.467$
+vs.\ 0.780 for 8B) and gains 1.58$\times$ more from prompt elaboration
+(L1$\to$L7 $\Delta = +0.300$ vs.\ $+0.190$).
+For product extraction, the 1B model \emph{completely fails} at L1--L2
+($q=0.000$), then jumps to $q=0.776$ at L3 when format specifications are
+introduced.
+These results extend the capability-modulated trend monotonically from 1B
+to 70B+ API-tier models: weaker models require more prompt elaboration
+and benefit more from it, but saturate at lower asymptotic quality.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig_sat2_saturation_points.png}
+  \caption{Saturation token counts (heatmap, model $\times$ task).
+    Darker shading indicates more tokens needed for saturation.
+    Cells for non-significant fits are shown in grey.}
+  \label{fig:heatmap}
+\end{figure}
+
+\subsection{Dual-Judge Agreement}
+\label{sec:result-judge}
+
+Table~\ref{tab:judge} reports inter-judge agreement.
+Agreement is strong where it matters most: classification ($r = 0.835$,
+MAE$= 0.044$) and math reasoning ($r = 0.859$, MAE$= 0.033$).
+For QA and product extraction, Pearson $r$ is low, but this reflects
+ceiling compression rather than pattern disagreement: the gemini judge
+assigns scores $> 0.9$ to 98.8\% of QA responses and 88.7\% of product
+extraction responses, leaving almost no variance to correlate.
+Both judges agree on the L1$\to$L7 direction for 5/7 models on
+classification and 4/7 on product extraction; the 3 product extraction
+non-agreements involve gemini deltas of $\leq 0.003$.
+
+\begin{table}[t]
+\centering
+\caption{Inter-judge agreement between gpt-4o-mini (primary) and
+  gemini-2.0-flash (second judge).}
+\label{tab:judge}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Task & $n$ & Pearson $r$ & MAE & Primary mean & Gemini mean \\
+\midrule
+Classification      & 980 & 0.835 & 0.044 & 0.922 & 0.961 \\
+Math reasoning      & 978 & 0.859 & 0.033 & 0.910 & 0.927 \\
+QA                  & 980 & 0.287 & 0.086 & 0.912 & 0.995 \\
+Product extraction  & 977 & 0.247 & 0.150 & 0.835 & 0.976 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Threshold Sensitivity}
+\label{sec:result-threshold}
+
+For classification, saturation points are stable across threshold choices:
+the median 90\%-to-95\% shift across all 7 models is 3 tokens, and 6 of 7
+models shift by fewer than 11 tokens.
+One outlier---qwen3-32b---follows a logarithmic rather than sigmoid
+trajectory, producing a 95-token shift.
+This model uniquely benefits from the guidelines layer (L6), suggesting it
+integrates detailed instructions more gradually.
+Its threshold-free knee estimate (42 tokens) falls close to the other
+models', confirming similar saturation onset despite the different curve
+shape.
+
+\subsection{Replication on Larger Dataset}
+\label{sec:replication}
+
+The 200-example replication confirms the main-study patterns.
+Classification again exhibits a clear sigmoid relationship, with the
+estimated saturation point at approximately 64 tokens---consistent with
+the main experiment.
+QA shows no significant relationship between prompt length and quality,
+reinforcing the insensitive classification.

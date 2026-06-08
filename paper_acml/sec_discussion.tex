@@ -1,0 +1,127 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Information Sufficiency, Not Token Budgets}
+
+The convergence of three independent experiments---the core saturation study,
+the randomised ablation, and the padding control---supports a single
+mechanism: quality saturates once \emph{task-critical information} has been
+communicated.
+The saturation \emph{shape} (quality rising then plateauing) is robust across
+prompt orderings, but the specific token count at which it occurs is not---it
+shifts with which layers appear early.
+Irrelevant tokens at matched counts produce flat or declining quality.
+The practical implication is that prompt optimisation should focus on
+\emph{which mechanisms to include}, not on \emph{how many tokens to budget}.
+
+\subsection{Schema Compliance as a Mechanism}
+
+Three converging lines of evidence support the hypothesis that structured tasks
+saturate because quality is governed by schema compliance---the model's
+ability to produce a response in the required format:
+
+\begin{enumerate}
+  \item \textbf{Marginal contributions:} The schema-defining layers dominate
+    quality gain. For classification, L1$\to$L2 (task label) and L2$\to$L3
+    (format spec) account for 61\% of total gain. For product extraction,
+    L6$\to$L7 (worked example demonstrating output schema) accounts for 40\%.
+  \item \textbf{Ceiling stratification:} Open-ended tasks (QA, math) reach
+    ceiling at L1 precisely because they do \emph{not} require schema
+    compliance---the model already knows what to output.
+  \item \textbf{Output compression:} Classification output drops from 85
+    tokens (L1, verbose explanation) to 2 tokens (L3+, just the label) as
+    format specification takes effect. Quality tracks this compression.
+\end{enumerate}
+
+We present schema compliance as a hypothesis supported by converging evidence
+rather than a directly tested mechanism.
+Mechanistic interpretability analyses of how models process elaboration levels
+could provide a direct test.
+
+\subsection{Harmful Prompt Content}
+
+The math L3 finding---instructing models to ``give only the final numerical
+answer'' destroys quality by $-0.366$ across all seven models and both
+judges---demonstrates that prompt content can be actively harmful.
+This extends beyond the ``diminishing returns'' framing: certain instructions
+are not merely unhelpful but counterproductive.
+The standard sigmoid saturation model does not capture tasks where
+intermediate prompt layers are detrimental, and this non-monotonicity is
+important for practitioners to be aware of.
+
+\subsection{Practical Guidelines}
+
+The prompt-sensitivity gradient provides concrete, task-specific guidance:
+
+\begin{itemize}
+  \item \textbf{Classification (concentrated):} Specify the task label and
+    output format ($\approx$50 tokens). Adding worked examples
+    ($\approx$300+ tokens) provides no benefit for most models.
+  \item \textbf{Structured extraction (distributed):} Include a worked
+    example demonstrating the expected output format. Models vary
+    substantially (92--536 tokens); weaker models require more schema
+    detail while stronger models infer the schema from minimal cues.
+  \item \textbf{Instruction following (diffuse):} Small gains spread across
+    many layers; no single mechanism dominates.
+  \item \textbf{QA and math reasoning (insensitive):} The bare question
+    suffices. Invest in retrieval-augmented generation (for QA) or
+    chain-of-thought formatting (for reasoning) rather than instruction
+    elaboration. \emph{Avoid} suppressing step-by-step reasoning for math.
+\end{itemize}
+
+\subsection{Relationship to Prompt Compression}
+
+Our work and prompt compression methods (LLMLingua, LLMLingua-2) operate at
+different stages of the prompt lifecycle.
+Compression decides what to keep \emph{given a written prompt}; our marginal
+contribution analysis decides what to \emph{write in the first place}.
+For classification, LLMLingua-2 might compress L7 ($\approx$180 tokens) to
+$\approx$36 tokens by removing filler---but our analysis shows L1$\to$L2
+(adding $\approx$5 tokens of task label) already captures 49\% of the quality
+gain, suggesting the L7 elaboration was largely unnecessary content rather
+than redundantly worded content.
+The two approaches are complementary and stack: author the right mechanisms
+(our work), then compress the wording within them (prompt compression).
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+\paragraph{Statistical power.}
+With $n = 7$ data points per curve, the F-test has limited power.
+Borderline cases (classification for llama-3.1-8b at $p = 0.079$; product
+extraction for kimi-k2 at $p = 0.093$) are plausibly true positives that
+the marginal contribution analysis confirms as prompt-sensitive.
+Future work should use finer-grained level spacing (15--20 levels).
+
+\paragraph{Classification domain breadth.}
+Classification results draw from sentiment analysis only.
+Product extraction provides a second structurally distinct task with the
+same qualitative saturation pattern, but extending to additional
+classification domains (topic, intent, category) would strengthen
+generalisability.
+
+\paragraph{Single-turn scope.}
+The study focuses on single-turn instruction tasks.
+Agentic, RAG, and multi-turn settings may exhibit different saturation
+dynamics---our mechanism-level findings yield testable predictions for
+these settings (e.g., tool-call format specifications may exhibit
+concentrated sensitivity analogous to classification).
+
+\paragraph{English only.}
+All prompts and examples are in English.
+Saturation behaviour may differ for low-resource languages where prompt
+elaboration is more necessary to disambiguate tasks.
+
+\paragraph{Model deprecation.}
+kimi-k2 was deprecated by Groq between the main study (March 2026) and
+the ablation experiments (May 2026), producing 404 errors on all 490
+ablation attempts.
+Main-study data from kimi-k2 is retained (recorded outputs are immutable),
+and the ablation analyses are restricted to the 5 models with complete data.
+
+\paragraph{Post-hoc gradient.}
+The prompt-sensitivity gradient (concentrated $\to$ distributed $\to$
+diffuse $\to$ insensitive) is a post-hoc descriptive framework supported by
+three independent analyses (ceiling stratification, marginal contributions,
+ablation), not a pre-registered taxonomy.
+Validation as a predictive framework requires testing on new tasks.

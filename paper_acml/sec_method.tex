@@ -1,0 +1,246 @@
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Additive Prompt Levels}
+\label{sec:levels}
+
+For each task we define seven prompt templates $T_1 \subset T_2 \subset
+\cdots \subset T_7$, where $\subset$ denotes strict token superset.
+Each level appends one layer of elaboration---a distinct prompt
+\emph{mechanism}---to all previous content; no layer modifies earlier text.
+Table~\ref{tab:levels} shows the layer structure for all six tasks.
+
+\begin{table}[t]
+\centering
+\caption{Additive prompt layers by task. Each row adds content to all
+  previous rows. Layers represent qualitatively different prompt
+  mechanisms, not homogeneous units of length.}
+\label{tab:levels}
+\small
+\resizebox{\textwidth}{!}{
+\begin{tabular}{cllllllll}
+\toprule
+Lv & Mechanism & Classification & Prod.\ Extraction & QA & Math Reasoning & Summarisation & Instr.\ Following \\
+\midrule
+1 & Bare input   & Raw text only & Product text & Question only & Problem statement & Article text & Topic prompt \\
+2 & Task label   & ``Classify sentiment'' & List field names & ``Answer the question'' & ``Solve the problem'' & ``Summarise this'' & Task + constraints \\
+3 & Format spec  & ``Pos/Neg/Neu'' & JSON format & ``Answer concisely'' & ``Give a number'' & Length target & Format specification \\
+4 & Definitions  & Label definitions & Field definitions & Domain context & Show-work instr. & Content guidance & Constraint definitions \\
+5 & Persona      & Expert analyst & Expert extractor & Domain expert & Math tutor & Journalist & Writing expert \\
+6 & Guidelines   & Mixed/ironic rules & Edge cases & Uncertainty & Step-by-step rules & Quality rules & Formatting rules \\
+7 & Example      & Worked example & Worked example & Worked example & Worked example & Worked example & Worked example \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+The additive design is critical: because level $k+1$ contains all tokens of
+level $k$ plus exactly one new mechanism, any quality difference between
+adjacent levels is attributable solely to that mechanism.
+No layer is filler; every added layer is meaningful instruction that could
+plausibly improve performance.
+
+\subsection{Tasks}
+\label{sec:tasks}
+
+We study six tasks spanning a spectrum of output structure:
+
+\begin{itemize}
+  \item \textbf{Classification}: sentiment classification (positive / negative
+    / neutral) over 20 product reviews and social media posts.
+    Heuristic evaluator: correct label present in response.
+  \item \textbf{Product extraction}: extract name, price, brand, category
+    from product listings in JSON format.
+    20 examples with varying difficulty (buried prices, implicit brand names).
+    Heuristic: fraction of four fields correctly matched.
+  \item \textbf{Question answering (QA)}: factoid questions across geography,
+    science, and history. 20 examples with ground-truth strings.
+    Heuristic: word-overlap recall (ROUGE-1).
+  \item \textbf{Math reasoning}: 2--3 step arithmetic, rate, and geometry
+    problems. 20 examples (10 easy, 10 medium).
+    Heuristic: exact numerical match on the last number in the response.
+  \item \textbf{Summarisation}: abstractive summarisation of news passages.
+    20 examples with reference summaries.
+    Heuristic: length score + ROUGE-1 recall.
+  \item \textbf{Instruction following}: responses must satisfy explicit
+    structural constraints (bullet points, numbered list, single word).
+    20 examples, each with 1--2 constraints.
+    Heuristic: fraction of constraints satisfied.
+\end{itemize}
+
+To assess robustness to dataset size, we additionally run a replication
+experiment on 200 examples for classification (SST-2; \citealt{socher2013recursive})
+and QA (SQuAD; \citealt{rajpurkar2016squad}), preserving the same prompt
+templates and evaluation procedure.
+
+\subsection{Models}
+\label{sec:models}
+
+We evaluate eight LLMs across four providers, covering a broad capability
+and size range (Table~\ref{tab:models}).
+All models are accessed via production APIs with default temperature settings.
+Each response is capped at 512 output tokens.
+The sub-8B model (Llama-3.2-1B) is included to test whether
+capability-modulated saturation extends below the original 8B floor.
+
+\begin{table}[t]
+\centering
+\caption{Models evaluated. Parameter counts are listed where publicly
+  disclosed; ``undiscl.''\ indicates the provider has not released this
+  information. Llama-3.2-1B is evaluated on classification and product
+  extraction only.}
+\label{tab:models}
+\small
+\begin{tabular}{lllr}
+\toprule
+Model (alias) & Provider & API & Parameters \\
+\midrule
+llama-3.2-1b-instruct   & Meta       & Groq      & 1B        \\
+llama-3.1-8b-instant    & Meta       & Groq      & 8B        \\
+qwen/qwen3-32b          & Alibaba    & Groq      & 32B       \\
+llama-3.3-70b-versatile & Meta       & Groq      & 70B       \\
+gemini-2.0-flash        & Google     & Gemini    & undiscl.  \\
+moonshotai/kimi-k2      & Moonshot   & Groq      & undiscl.  \\
+gpt-4o-mini             & OpenAI     & OpenAI    & undiscl.  \\
+claude-haiku-4-5        & Anthropic  & Anthropic & undiscl.  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Evaluation}
+\label{sec:eval}
+
+\paragraph{Primary judge.}
+Following \citet{zheng2023judging}, all responses are scored by
+\texttt{gpt-4o-mini} on four dimensions (correctness, completeness,
+reasoning, conciseness), each rated 1--5.
+The aggregate quality score is the normalised sum:
+$q = \frac{\sum_i s_i}{20} \in [0, 1]$.
+We provide task-specific rubrics to the judge (e.g., for classification:
+focus on whether the label matches; for product extraction: whether all four
+fields are present and correct).
+
+\paragraph{Independent second judge.}
+To assess judge reliability, all 3,915 main-study responses for the four
+tasks with the strongest and weakest saturation signals (classification,
+math reasoning, QA, product extraction) are re-evaluated by
+\texttt{gemini-2.0-flash} using the identical rubric.
+
+\paragraph{Heuristic validation.}
+We validate the LLM judges against task-specific heuristic evaluators on the
+full dataset (Pearson $r = 0.986$ for the primary judge), confirming that
+judge scores are reliable.
+
+\paragraph{Aggregation.}
+For each (model, task, level) triplet, we aggregate quality across all 20
+examples by taking the mean, yielding 7 data points per (model, task) curve.
+
+\subsection{Curve Fitting and Saturation Points}
+\label{sec:fitting}
+
+For each (model, task) pair we fit two functional forms to the 7 level means:
+\begin{equation}
+  q_{\log}(x) = a \log(bx) + c, \qquad
+  q_{\text{sig}}(x) = \frac{L}{1 + e^{-k(x - x_0)}} + c
+  \label{eq:curves}
+\end{equation}
+where $x$ is the mean prompt token count at each level.
+We select the form with lower RMSE.
+The \textbf{saturation point} $T^*$ is defined as the smallest $x$ such that:
+\begin{equation}
+  q(x) \geq 0.95 \times \max_{x} q(x)
+  \label{eq:satpoint}
+\end{equation}
+
+\paragraph{Null model F-test.}
+To test whether a fitted curve is significantly better than a flat line
+($q(x) = \bar{q}$), we compute:
+\begin{equation}
+  F = \frac{(SS_{\text{null}} - SS_{\text{fit}}) / (k - 1)}{SS_{\text{fit}} / (n - k)}
+  \label{eq:ftest}
+\end{equation}
+where $k \in \{3, 4\}$ is the number of curve parameters, $n = 7$ is the
+number of level means, and $\alpha = 0.05$.
+
+\paragraph{Bootstrap confidence intervals.}
+We estimate 95\% CIs on $T^*$ via 1,000-iteration bootstrap.
+On each iteration we resample the 20 example indices \emph{with replacement}
+and apply the same resample across all seven levels, preserving paired
+structure.
+
+\paragraph{Threshold sensitivity.}
+To assess robustness of saturation estimates, we recompute $T^*$ at four
+threshold levels (85\%, 90\%, 95\%, 99\% of the fitted asymptote) and
+using a threshold-free second-derivative knee estimator.
+
+\subsection{Marginal Contribution Analysis}
+\label{sec:marginal}
+
+For each task, we compute the quality delta between adjacent level pairs
+($\Delta_{k \to k+1} = \bar{q}_{k+1} - \bar{q}_k$), averaged across all
+models.
+This decomposes the total quality gain into per-mechanism contributions,
+revealing which prompt layers drive improvement and which are redundant.
+The marginal contribution profile characterises a task's position on the
+prompt-sensitivity gradient.
+
+\subsection{Randomised Layer-Ordering Ablation}
+\label{sec:ablation}
+
+To disentangle information content from token count, we conduct a randomised
+ablation.
+For classification and product extraction---the tasks with significant
+saturation in the core study---we shuffle the introduction order of all
+six prompt layers (layers 2--7; layer 1 is always the bare input),
+generating 5 random permutations per task.
+Each permutation is run on 7 curated examples per task across 6 models
+(2,986 total runs; 2,450 analysed after excluding kimi-k2 due to API
+deprecation between study phases).
+
+If saturation is driven by token count, shuffling should not affect the
+quality-versus-token curve.
+If saturation is driven by information content, the saturation \emph{point}
+(in tokens) should shift with ordering---because high-value layers can now
+appear early---while the saturation \emph{shape} (quality rising then
+plateauing) should persist.
+
+\subsection{Irrelevant-Padding Control}
+\label{sec:padding}
+
+As a direct test of the token-count null hypothesis, we replace real prompt
+content with irrelevant filler matched to the same token counts.
+Three padding types are used: factual trivia unrelated to the task
+(geography, history, science), repeated neutral phrases, and random
+English words in shuffled order.
+The bare task instruction is preserved as the only meaningful content.
+This yields 1,470 runs (5 models $\times$ 2 tasks $\times$ 3 padding types
+$\times$ 7 levels $\times$ 7 examples).
+
+If tokens themselves drive quality, padded prompts should show the same
+saturation curve as real prompts at matched token counts.
+
+\subsection{Experimental Scale}
+\label{sec:scale}
+
+Table~\ref{tab:scale} summarises the total experimental scope.
+
+\begin{table}[t]
+\centering
+\caption{Experimental scale across all study components.}
+\label{tab:scale}
+\small
+\begin{tabular}{lr}
+\toprule
+Component & Evaluations \\
+\midrule
+Main study (7 models $\times$ 6 tasks $\times$ 7 levels $\times$ 20 examples) & 5,875 \\
+200-example replication (classification + QA) & $\approx$2,800 \\
+Randomised layer-ordering ablation & 2,986 \\
+Irrelevant-padding control & 1,470 \\
+Independent second judge (gemini-2.0-flash) & 3,915 \\
+Sub-8B experiment (Llama-3.2-1B) & 332 \\
+\midrule
+\textbf{Total} & \textbf{17,378} \\
+\bottomrule
+\end{tabular}
+\end{table}

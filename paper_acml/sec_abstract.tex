@@ -1,0 +1,35 @@
+\begin{abstract}
+Practitioners routinely craft increasingly verbose prompts under the
+assumption that more context yields better responses.
+We test this assumption with a controlled study spanning 17,378 LLM-evaluated
+responses across seven large language models, six tasks, and seven additive
+prompt-elaboration levels.
+Our methodology isolates the effect of prompt content from prompt length
+through three complementary experiments: (1)~a core saturation study in which
+each prompt level adds exactly one elaboration layer (task label, format
+specification, definitions, persona, guidelines, worked example);
+(2)~a randomised layer-ordering ablation (2,986~runs) that shuffles the
+introduction order of prompt layers; and (3)~an irrelevant-padding control
+(1,470~runs) that matches token counts with meaningless filler.
+We find that response quality is governed by \emph{information sufficiency},
+not token count: quality saturates once task-critical content has been
+communicated, regardless of when it appears in the prompt or how many
+tokens surround it.
+Tasks vary in a four-level \emph{prompt-sensitivity gradient}:
+\emph{concentrated} (classification---49\% of quality gain from one layer),
+\emph{distributed} (product extraction---gains across multiple layers),
+\emph{diffuse} (instruction following---small gains across many layers),
+and \emph{insensitive} (QA, math, summarisation---at ceiling from the bare
+input).
+An independent second judge (gemini-2.0-flash, 3,915~re-evaluations)
+confirms the primary patterns.
+Model capability modulates the effect: weaker models (1B--8B) require more
+prompt elaboration and benefit more from it, but saturate at lower quality.
+These findings provide concrete, task-specific guidance for prompt authoring:
+for classification, specify the task label; for structured extraction, include
+a worked example; for QA and math, the bare question suffices.
+\end{abstract}
+\begin{keywords}
+prompt engineering; LLM evaluation; prompt saturation; information sufficiency;
+prompt sensitivity
+\end{keywords}

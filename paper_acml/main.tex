@@ -1,0 +1,56 @@
+%\documentclass[wcp,gray]{jmlr} % test grayscale version
+\documentclass[wcp]{jmlr}
+
+% Automatically loaded: amsmath, amssymb, natbib, graphicx, url, algorithm2e
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\definecolor{darkblue}{rgb}{0, 0, 0.5}
+\hypersetup{colorlinks=true, citecolor=darkblue, linkcolor=darkblue, urlcolor=darkblue}
+
+\pagenumbering{gobble}
+\newcommand{\cs}[1]{\texttt{\char`\\#1}}
+\makeatletter
+\let\Ginclude@graphics\@org@Ginclude@graphics
+\makeatother
+
+% Update these for ACML 2026
+\jmlrvolume{}
+\jmlryear{2026}
+\jmlrworkshop{ACML 2026}
+
+\title[Prompt Elaboration]{When Does Prompt Elaboration Stop Helping?
+       A Controlled Study of Prompt Sensitivity Across LLM Tasks}
+
+% Anonymous for double-blind review
+\author{\Name{Anonymous Author(s)} \Email{anonymous@example.com}\\
+\addr Anonymous Institution}
+
+\editors{TBD}
+
+\begin{document}
+
+\makeatletter
+\let \@jmlrpages \@empty
+\makeatother
+
+\maketitle
+
+\input{sec_abstract}
+\input{sec_intro}
+\input{sec_related}
+\input{sec_method}
+\input{sec_results}
+\input{sec_discussion}
+\input{sec_conclusion}
+
+\bibliography{references}
+
+\appendix
+\input{sec_appendix}
+
+\end{document}
