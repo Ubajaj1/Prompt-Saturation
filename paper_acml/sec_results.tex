@@ -101,13 +101,13 @@ claude-haiku  & $58 \pm 0$   & [58, 58]   & 0/5 \\
 \end{tabular}
 \end{table}
 
-Models that require more prompt elaboration to reach high quality---qwen3-32b,
+The three models that are most prompt-sensitive in the main study---qwen3-32b,
 llama-3.1-8b, and llama-3.3-70b---show robust saturation across orderings:
 13/15 fits are significant, with saturation points clustering at 65--140
 tokens regardless of which layers come first.
-Stronger models (gemini-flash, claude-haiku) show flatter curves with fewer
-significant fits (1/10), consistent with these models reaching high quality
-from minimal prompting.
+The more prompt-insensitive models (gemini-flash, claude-haiku) show flatter
+curves with fewer significant fits (1/10), consistent with these models
+reaching high quality from minimal prompting.
 
 The ablation saturation points (65--140 tokens) are substantially lower than
 the original fixed-ordering estimates for the same models (92--378 tokens).
@@ -278,16 +278,18 @@ input alone.
 \subsection{Model Capability Modulates Saturation}
 \label{sec:result-capability}
 
-Within classification, stronger models (gemini-flash, gpt-4o-mini) saturate
+Within classification, API-tier models (gemini-flash, gpt-4o-mini) saturate
 at lower token counts ($\approx$42--50 tokens) than the 70B Llama model
-(64 tokens).
-Within product extraction, the pattern interacts with task structure:
-stronger models saturate \emph{later} (claude-haiku at 536 tokens vs.\
-llama-3.3-70b at 92 tokens) but reach \emph{higher} asymptotic quality.
+(64 tokens): models that can infer the task from less context reach the
+quality plateau sooner.
+Within product extraction, the pattern reverses: API-tier models saturate
+\emph{later} (claude-haiku at 536 tokens vs.\ llama-3.3-70b at 92 tokens)
+but reach \emph{higher} asymptotic quality.
 For tasks where the model must \emph{infer} what to do (classification),
-stronger models need less prompt.
+more capable models need less prompt.
 For tasks where the prompt provides \emph{actionable format specifications}
-(extraction), stronger models leverage more of them.
+(extraction), more capable models leverage more of them, continuing to
+improve where smaller models plateau early at lower quality.
 
 \paragraph{Sub-8B extension.}
 To test whether capability-modulated saturation extends below the 8B floor,
@@ -300,8 +302,9 @@ For product extraction, the 1B model \emph{completely fails} at L1--L2
 ($q=0.000$), then jumps to $q=0.776$ at L3 when format specifications are
 introduced.
 These results extend the capability-modulated trend monotonically from 1B
-to 70B+ API-tier models: weaker models require more prompt elaboration
-and benefit more from it, but saturate at lower asymptotic quality.
+to 70B+ API-tier models: smaller models are more prompt-sensitive---they
+require more elaboration and benefit more from it---but saturate at lower
+asymptotic quality.
 
 \begin{figure}[t]
   \centering

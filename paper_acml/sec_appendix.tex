@@ -218,29 +218,179 @@ claude-haiku  & Math Reasoning     & sig & 0.228 & 0.829 & 60  \\
 \end{tabular}
 \end{table}
 
-\section{Qualitative Examples}
-\label{app:examples}
+\section{Full Prompt Walkthrough: Classification}
+\label{app:cls-walkthrough}
 
-\paragraph{Classification (gpt-4o-mini, ``Absolutely love this laptop...'').}
+Below is the complete prompt text at each of the seven additive levels for
+a single classification input: \textit{``The product works great and I'm very
+happy with my purchase.''}
+Each level is a strict superset of the previous.
+
+\paragraph{Level 1 (bare input).}
+\begin{quote}\small\ttfamily
+Classify: The product works great and I'm very happy with my purchase.
+\end{quote}
+
+\paragraph{Level 2 (+ task label).}
+\begin{quote}\small\ttfamily
+Classify sentiment as positive, negative, or neutral: The product works great
+and I'm very happy with my purchase.
+\end{quote}
+
+\paragraph{Level 3 (+ format spec).}
+\begin{quote}\small\ttfamily
+Classify sentiment as positive, negative, or neutral. Respond with only the
+label: The product works great and I'm very happy with my purchase.
+\end{quote}
+
+\paragraph{Level 4 (+ definitions).}
+\begin{quote}\small\ttfamily
+Classify the sentiment of the following text as positive, negative, or neutral.
+Respond with only the label.\\[4pt]
+Definitions:\\
+- positive: overall favorable or optimistic tone\\
+- negative: overall unfavorable or critical tone\\
+- neutral: balanced, factual, or no clear sentiment\\[4pt]
+Text: The product works great and I'm very happy with my purchase.
+\end{quote}
+
+\paragraph{Level 5 (+ persona).}
+\begin{quote}\small\ttfamily
+You are an expert sentiment analyst. Classify the sentiment of the following
+text as positive, negative, or neutral. Respond with only the label.\\[4pt]
+Definitions:\\
+- positive: overall favorable or optimistic tone\\
+- negative: overall unfavorable or critical tone\\
+- neutral: balanced, factual, or no clear sentiment\\[4pt]
+Text: The product works great and I'm very happy with my purchase.
+\end{quote}
+
+\paragraph{Level 6 (+ guidelines).}
+\begin{quote}\small\ttfamily
+You are an expert sentiment analyst. Classify the sentiment of the following
+text as positive, negative, or neutral.\\[4pt]
+Rules:\\
+1. Respond with ONLY one word: positive, negative, or neutral\\
+2. Base your judgment on the overall tone, not individual words\\
+3. Positive: clearly favorable, optimistic, praising, or satisfied\\
+4. Negative: clearly unfavorable, critical, pessimistic, or dissatisfied\\
+5. Neutral: factual reporting, balanced views, or no discernible sentiment\\
+6. If mixed, choose the dominant sentiment; if equal, use neutral\\
+7. Take text at face value; do not attempt sarcasm detection\\[4pt]
+Text: The product works great and I'm very happy with my purchase.
+\end{quote}
+
+\paragraph{Level 7 (+ worked example).}
+\begin{quote}\small\ttfamily
+You are an expert sentiment analyst. Classify the sentiment of the following
+text as positive, negative, or neutral.\\[4pt]
+Rules:\\
+1. Respond with ONLY one word: positive, negative, or neutral\\
+2. Base your judgment on the overall tone, not individual words\\
+3. Positive: clearly favorable, optimistic, praising, or satisfied\\
+4. Negative: clearly unfavorable, critical, pessimistic, or dissatisfied\\
+5. Neutral: factual reporting, balanced views, or no discernible sentiment\\
+6. If mixed, choose the dominant sentiment; if equal, use neutral\\
+7. Take text at face value; do not attempt sarcasm detection\\[4pt]
+Example:\\
+Text: The product works great and I'm very happy with my purchase.\\
+Label: positive\\[4pt]
+Now classify:\\
+Text: The product works great and I'm very happy with my purchase.
+\end{quote}
+
+\paragraph{Model responses (gpt-4o-mini).}
 \begin{itemize}
-  \item \textbf{L1} (30 tokens, $q=0.90$): ``This review can be classified as
-    \textbf{Positive}.''---correct label embedded in verbose explanation.
-  \item \textbf{L3} (44 tokens, $q=1.00$): ``Positive''---just the label,
-    higher quality because format matches.
-  \item \textbf{L7} (182 tokens, $q=1.00$): ``positive''---no further
-    improvement despite 6$\times$ more prompt tokens.
+  \item \textbf{L1} ($q=0.90$): ``This review can be classified as
+    \textbf{Positive}.''---correct label, but verbose explanation; format
+    does not match.
+  \item \textbf{L3} ($q=1.00$): ``Positive''---just the label, format matches.
+  \item \textbf{L5--L7} ($q=1.00$): ``positive''---no further improvement
+    despite 3--6$\times$ more prompt tokens.
 \end{itemize}
 
-\paragraph{Product extraction (gemini-flash, ``Nike Air Max 270...'').}
+\section{Full Prompt Walkthrough: Product Extraction}
+\label{app:pe-walkthrough}
+
+Input: \textit{``Check out the Nike Air Max 270 - the ultimate sneaker for
+style and comfort. Priced at just \$150, these shoes feature a large Air
+unit in the heel for all-day cushioning.''}
+
+\paragraph{Level 1 (bare input).}
+\begin{quote}\small\ttfamily
+Extract information from this product listing:\\
+Check out the Nike Air Max 270 - the ultimate sneaker for style and comfort.
+Priced at just \$150, these shoes feature a large Air unit in the heel for
+all-day cushioning.
+\end{quote}
+
+\paragraph{Level 2 (+ field names).}
+\begin{quote}\small\ttfamily
+Extract the following information from this product listing: name, price,
+brand, category.\\[4pt]
+Product: Check out the Nike Air Max 270 - the ultimate sneaker for style
+and comfort. Priced at just \$150, these shoes feature a large Air unit
+in the heel for all-day cushioning.
+\end{quote}
+
+\paragraph{Level 3 (+ JSON format).}
+\begin{quote}\small\ttfamily
+Extract the following information from this product listing and return it
+as JSON with these exact keys: name, price, brand, category.\\[4pt]
+Product: Check out the Nike Air Max 270 [...]
+\end{quote}
+
+\paragraph{Level 4 (+ field definitions).}
+\begin{quote}\small\ttfamily
+[...as L3, plus:]\\[4pt]
+Field definitions:\\
+- name: the full product title\\
+- price: numeric value without currency symbol\\
+- brand: the manufacturer or brand name\\
+- category: the product type or category\\[4pt]
+Product: Check out the Nike Air Max 270 [...]
+\end{quote}
+
+\paragraph{Level 5 (+ persona \& null handling).}
+\begin{quote}\small\ttfamily
+You are an expert product data analyst. [...]\\[4pt]
+If a field is not present in the listing, use null.\\[4pt]
+Product: Check out the Nike Air Max 270 [...]
+\end{quote}
+
+\paragraph{Level 6 (+ edge-case guidelines).}
+\begin{quote}\small\ttfamily
+[...as L5, plus:]\\[4pt]
+Guidelines for ambiguous cases:\\
+- For implied brand names, infer from product name if possible\\
+- For price ranges, use the lower bound\\
+- For composite product names, include the full name as listed\\[4pt]
+Product: Check out the Nike Air Max 270 [...]
+\end{quote}
+
+\paragraph{Level 7 (+ worked example).}
+\begin{quote}\small\ttfamily
+[...as L6, plus:]\\[4pt]
+Example:\\
+Product: ``Premium Sony WH-1000XM5 wireless headphones, now on sale for
+\$298. Features industry-leading noise cancellation.''\\
+Output: \{"name": "Sony WH-1000XM5", "price": "298", "brand": "Sony",
+"category": "headphones"\}\\[4pt]
+Now extract from:\\
+Product: Check out the Nike Air Max 270 [...]
+\end{quote}
+
+\paragraph{Model responses (gemini-flash).}
 \begin{itemize}
-  \item \textbf{L1} (37 tokens, $q=0.70$): Bulleted list with extra
-    fields---correct information but wrong format.
-  \item \textbf{L3} (63 tokens, $q=0.80$): JSON with correct fields, but
-    ``Air Max 270'' instead of ``Nike Air Max 270'' for name.
-  \item \textbf{L7} (271 tokens, $q=1.00$):
+  \item \textbf{L1} ($q=0.70$): Bulleted list with extra fields (Product Type,
+    Key Features, Availability)---correct information but wrong format.
+  \item \textbf{L3} ($q=0.80$): JSON with correct keys, but ``Air Max 270''
+    instead of ``Nike Air Max 270'' for the name field.
+  \item \textbf{L7} ($q=1.00$):
     \texttt{\{"name": "Nike Air Max 270", "price": "150", "brand": "Nike",
     "category": "shoes"\}}---the worked example teaches the exact output
-    schema.
+    schema, producing the quality jump that marginal analysis identifies as
+    40\% of total gain.
 \end{itemize}
 
 \section{Output Length Control}
