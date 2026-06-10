@@ -44,7 +44,7 @@ from experiments.saturation_prompts import (
 from experiments.prompting_strategies import BENCHMARK_EXAMPLES
 
 
-TASKS = ['qa', 'summarization', 'classification', 'instruction_following', 'math_reasoning', 'product_extraction']
+TASKS = ['qa', 'summarization', 'classification', 'instruction_following', 'math_reasoning', 'product_extraction', 'ner']
 
 MODEL_CONFIGS: dict[str, dict] = {
     'llama-3.1-8b':  {'provider_cls': GroqProvider,      'model': 'llama-3.1-8b-instant',          'env_key': 'GROQ_API_KEY'},
@@ -78,7 +78,7 @@ def _load_existing(output_path: str, resume: bool) -> tuple[list[dict], set[tupl
         with open(output_path) as f:
             existing = json.load(f)
         done = {
-            (r['model'], r['task'], r['level'], r['example_id'])
+            (r['model'], r['task'], r['level'], r['example_id'], r.get('run_id', 0))
             for r in existing
             if 'error' not in r
         }
@@ -104,6 +104,7 @@ def run_saturation_benchmark(
     resume: bool = False,
     evaluator_type: str = 'heuristic',
     judge_provider: 'Optional[LLMProvider]' = None,
+    run_id: int = 0,
 ) -> list[dict]:
 
     results, done = _load_existing(output_path, resume)
@@ -119,7 +120,7 @@ def run_saturation_benchmark(
                 level = level_idx + 1  # 1-indexed
 
                 for ex_idx, example in enumerate(examples):
-                    key = (model_name, task, level, ex_idx)
+                    key = (model_name, task, level, ex_idx, run_id)
                     if key in done:
                         print(f"[{model_name} | {task} | level {level} | ex {ex_idx+1}] SKIP")
                         continue
@@ -157,6 +158,7 @@ def run_saturation_benchmark(
                             'task':          task,
                             'level':         level,
                             'example_id':    ex_idx,
+                            'run_id':        run_id,
                             'prompt_tokens': response.input_tokens,
                             'output_tokens': response.output_tokens,
                             'response_text': response.text,
@@ -174,6 +176,7 @@ def run_saturation_benchmark(
                             'task':       task,
                             'level':      level,
                             'example_id': ex_idx,
+                            'run_id':     run_id,
                             'error':      str(e),
                             'timestamp':  datetime.now().isoformat(),
                         }
@@ -201,6 +204,8 @@ def main():
     parser.add_argument('--output',      default='results/saturation_results.json')
     parser.add_argument('--delay',       type=float, default=2.0)
     parser.add_argument('--resume',      action='store_true')
+    parser.add_argument('--run-id',     type=int, default=0,
+                        help='Run identifier for repeated runs (0, 1, 2, ...)')
     parser.add_argument('--evaluator',   default='heuristic',
                         choices=['heuristic', 'llm_judge'])
     parser.add_argument('--judge-model', default='gpt-4o-mini',
@@ -238,6 +243,7 @@ def main():
         resume=args.resume,
         evaluator_type=args.evaluator,
         judge_provider=judge_provider,
+        run_id=args.run_id,
     )
 
 

@@ -290,6 +290,59 @@ class ProductExtractionEvaluator(QualityEvaluator):
         return quality, completed
 
 
+class NERExtractionEvaluator(QualityEvaluator):
+    """Evaluate NER by comparing extracted entity sets per type against ground truth."""
+
+    def _parse_entities(self, text: str) -> Optional[dict[str, list[str]]]:
+        cleaned = re.sub(r'```(?:json)?\s*', '', text.strip()).rstrip('`')
+        match = re.search(r'\{.*\}', cleaned, re.DOTALL)
+        if not match:
+            return None
+        try:
+            parsed = json.loads(match.group())
+            if isinstance(parsed, dict):
+                return {k: [str(v).lower() for v in vs] if isinstance(vs, list) else [str(vs).lower()]
+                        for k, vs in parsed.items()}
+        except (json.JSONDecodeError, TypeError):
+            pass
+        return None
+
+    def evaluate(self, response: str, ground_truth: Optional[str] = None) -> tuple[float, bool]:
+        response = response.strip()
+        if not response or ground_truth is None:
+            return 0.0, False
+
+        try:
+            gt_dict = json.loads(ground_truth)
+        except (json.JSONDecodeError, TypeError):
+            return 0.0, False
+
+        extracted = self._parse_entities(response)
+        if not extracted:
+            return 0.0, False
+
+        f1_scores = []
+        for etype, gt_entities in gt_dict.items():
+            gt_set = {e.lower() for e in gt_entities}
+            pred_set = {e.lower() for e in extracted.get(etype, [])}
+            if not gt_set:
+                continue
+            tp = len(gt_set & pred_set)
+            precision = tp / len(pred_set) if pred_set else 0.0
+            recall = tp / len(gt_set)
+            if precision + recall > 0:
+                f1 = 2 * precision * recall / (precision + recall)
+            else:
+                f1 = 0.0
+            f1_scores.append(f1)
+
+        if not f1_scores:
+            return 0.0, False
+
+        quality = sum(f1_scores) / len(f1_scores)
+        return quality, quality >= 0.5
+
+
 def get_evaluator(task_type: str) -> QualityEvaluator:
     """Get the appropriate evaluator for a task type."""
     evaluators = {
@@ -301,6 +354,7 @@ def get_evaluator(task_type: str) -> QualityEvaluator:
         'instruction_following': InstructionFollowingEvaluator(),
         'math_reasoning': MathReasoningEvaluator(),
         'product_extraction': ProductExtractionEvaluator(),
+        'ner': NERExtractionEvaluator(),
     }
     return evaluators.get(task_type.lower(), QAEvaluator())
 

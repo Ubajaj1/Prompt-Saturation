@@ -47,7 +47,7 @@ class GeminiProvider(LLMProvider):
         response = self.client.models.generate_content(
             model=self.model_name,
             contents=prompt,
-            config={"max_output_tokens": max_tokens}
+            config={"max_output_tokens": max_tokens, "temperature": 0}
         )
 
         latency = (time.time() - start) * 1000
@@ -101,6 +101,7 @@ class GroqProvider(LLMProvider):
             model=self.model,
             messages=[{"role": "user", "content": prompt}],
             max_tokens=max_tokens,
+            temperature=0,
         )
         if self._disable_reasoning:
             kwargs["reasoning_effort"] = "none"
@@ -169,6 +170,7 @@ class AnthropicProvider(LLMProvider):
         response = self.client.messages.create(
             model=self.model,
             max_tokens=max_tokens,
+            temperature=0,
             messages=[{"role": "user", "content": prompt}],
         )
 

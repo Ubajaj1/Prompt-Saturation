@@ -15,6 +15,7 @@ TASK_INPUT_KEY = {
     'instruction_following':  'instruction',
     'math_reasoning':         'problem',
     'product_extraction':     'product_text',
+    'ner':                    'text',
 }
 
 SATURATION_TEMPLATES: dict[str, list[str]] = {
@@ -443,6 +444,88 @@ SATURATION_TEMPLATES: dict[str, list[str]] = {
             "\"brand\": \"Bose\", \"category\": \"speaker\"}\n\n"
             "Now extract:\n"
             "{product_text}"
+        ),
+    ],
+
+    # ── NER (NAMED ENTITY RECOGNITION) ──────────────────────────────────────
+    'ner': [
+        # Level 1: bare input
+        "Extract entities: {text}",
+
+        # Level 2: + entity type names
+        "Extract all person names (PERSON), organizations (ORG), and locations (LOC) from this text: {text}",
+
+        # Level 3: + output format
+        (
+            "Extract all named entities from this text. "
+            "Return as JSON with keys: PERSON, ORG, LOC. Each key maps to a list of strings.\n\n"
+            "{text}"
+        ),
+
+        # Level 4: + type definitions
+        (
+            "Extract all named entities from this text. "
+            "Return as JSON with keys: PERSON, ORG, LOC.\n\n"
+            "Type definitions:\n"
+            "- PERSON: full names of individual people (not titles alone)\n"
+            "- ORG: companies, agencies, institutions, teams, publications\n"
+            "- LOC: cities, countries, regions, specific addresses\n\n"
+            "{text}"
+        ),
+
+        # Level 5: + role + edge case handling
+        (
+            "You are an expert named entity recognition system. "
+            "Extract all named entities from the text below. "
+            "Return as JSON with keys: PERSON, ORG, LOC.\n\n"
+            "Type definitions:\n"
+            "- PERSON: full names of individual people (not titles alone)\n"
+            "- ORG: companies, agencies, institutions, teams, publications\n"
+            "- LOC: cities, countries, regions, specific addresses\n\n"
+            "If no entities of a type are found, use an empty list.\n\n"
+            "{text}"
+        ),
+
+        # Level 6: + detailed guidelines
+        (
+            "You are an expert named entity recognition system. "
+            "Extract all named entities from the text below. "
+            "Return as JSON with keys: PERSON, ORG, LOC.\n\n"
+            "Type definitions:\n"
+            "- PERSON: full names of individual people (not titles alone)\n"
+            "- ORG: companies, agencies, institutions, teams, publications\n"
+            "- LOC: cities, countries, regions, specific addresses\n\n"
+            "Guidelines:\n"
+            "- Use the exact name as written in the text\n"
+            "- Include all instances, even if repeated\n"
+            "- A name can belong to multiple types if contextually appropriate\n"
+            "- Do not extract adjective forms (e.g., 'American' as LOC unless it names a place)\n"
+            "- If no entities of a type exist, use an empty list\n"
+            "- Return ONLY valid JSON, no extra text\n\n"
+            "{text}"
+        ),
+
+        # Level 7: + worked example
+        (
+            "You are an expert named entity recognition system. "
+            "Extract all named entities from the text below. "
+            "Return as JSON with keys: PERSON, ORG, LOC.\n\n"
+            "Type definitions:\n"
+            "- PERSON: full names of individual people (not titles alone)\n"
+            "- ORG: companies, agencies, institutions, teams, publications\n"
+            "- LOC: cities, countries, regions, specific addresses\n\n"
+            "Guidelines:\n"
+            "- Use the exact name as written in the text\n"
+            "- Include all instances, even if repeated\n"
+            "- A name can belong to multiple types if contextually appropriate\n"
+            "- Do not extract adjective forms (e.g., 'American' as LOC unless it names a place)\n"
+            "- If no entities of a type exist, use an empty list\n"
+            "- Return ONLY valid JSON, no extra text\n\n"
+            "Example:\n"
+            "Text: Sundar Pichai announced Google's new AI lab in Zurich, partnering with ETH.\n"
+            "Output: {\"PERSON\": [\"Sundar Pichai\"], \"ORG\": [\"Google\", \"ETH\"], \"LOC\": [\"Zurich\"]}\n\n"
+            "Now extract:\n"
+            "{text}"
         ),
     ],
 }
