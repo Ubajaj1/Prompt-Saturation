@@ -1,0 +1,404 @@
+{
+  "classification": {
+    "dimensions": {
+      "correctness": {
+        "L1_mean_1to5": 4.05,
+        "L7_mean_1to5": 4.743,
+        "L1_L7_delta_1to5": 0.693,
+        "delta_in_q_units": 0.0346,
+        "level_means_1to5": [
+          4.05,
+          4.557,
+          4.514,
+          4.714,
+          4.571,
+          4.657,
+          4.743
+        ]
+      },
+      "completeness": {
+        "L1_mean_1to5": 4.136,
+        "L7_mean_1to5": 4.743,
+        "L1_L7_delta_1to5": 0.607,
+        "delta_in_q_units": 0.0304,
+        "level_means_1to5": [
+          4.136,
+          4.4,
+          4.471,
+          4.671,
+          4.543,
+          4.657,
+          4.743
+        ]
+      },
+      "reasoning": {
+        "L1_mean_1to5": 4.186,
+        "L7_mean_1to5": 4.743,
+        "L1_L7_delta_1to5": 0.557,
+        "delta_in_q_units": 0.0279,
+        "level_means_1to5": [
+          4.186,
+          4.45,
+          4.471,
+          4.671,
+          4.543,
+          4.657,
+          4.743
+        ]
+      },
+      "conciseness": {
+        "L1_mean_1to5": 4.293,
+        "L7_mean_1to5": 5.0,
+        "L1_L7_delta_1to5": 0.707,
+        "delta_in_q_units": 0.0354,
+        "level_means_1to5": [
+          4.293,
+          4.707,
+          5.0,
+          5.0,
+          5.0,
+          5.0,
+          5.0
+        ]
+      }
+    },
+    "driver_dimension": "conciseness",
+    "driver_share_of_q_delta": 0.276,
+    "total_q_L1_L7_delta": 0.1283
+  },
+  "product_extraction": {
+    "dimensions": {
+      "correctness": {
+        "L1_mean_1to5": 4.757,
+        "L7_mean_1to5": 4.59,
+        "L1_L7_delta_1to5": -0.167,
+        "delta_in_q_units": -0.0084,
+        "level_means_1to5": [
+          4.757,
+          4.4,
+          3.929,
+          4.072,
+          4.086,
+          4.3,
+          4.59
+        ]
+      },
+      "completeness": {
+        "L1_mean_1to5": 3.45,
+        "L7_mean_1to5": 4.849,
+        "L1_L7_delta_1to5": 1.399,
+        "delta_in_q_units": 0.0699,
+        "level_means_1to5": [
+          3.45,
+          4.179,
+          4.464,
+          4.669,
+          4.719,
+          4.814,
+          4.849
+        ]
+      },
+      "reasoning": {
+        "L1_mean_1to5": 3.0,
+        "L7_mean_1to5": 4.187,
+        "L1_L7_delta_1to5": 1.187,
+        "delta_in_q_units": 0.0594,
+        "level_means_1to5": [
+          3.0,
+          3.329,
+          3.121,
+          3.324,
+          3.46,
+          3.55,
+          4.187
+        ]
+      },
+      "conciseness": {
+        "L1_mean_1to5": 4.036,
+        "L7_mean_1to5": 4.871,
+        "L1_L7_delta_1to5": 0.835,
+        "delta_in_q_units": 0.0417,
+        "level_means_1to5": [
+          4.036,
+          4.407,
+          4.729,
+          4.547,
+          4.59,
+          4.493,
+          4.871
+        ]
+      }
+    },
+    "driver_dimension": "completeness",
+    "driver_share_of_q_delta": 0.43,
+    "total_q_L1_L7_delta": 0.1626
+  },
+  "qa": {
+    "dimensions": {
+      "correctness": {
+        "L1_mean_1to5": 4.971,
+        "L7_mean_1to5": 4.936,
+        "L1_L7_delta_1to5": -0.036,
+        "delta_in_q_units": -0.0018,
+        "level_means_1to5": [
+          4.971,
+          4.943,
+          4.964,
+          4.979,
+          4.979,
+          4.993,
+          4.936
+        ]
+      },
+      "completeness": {
+        "L1_mean_1to5": 4.314,
+        "L7_mean_1to5": 3.593,
+        "L1_L7_delta_1to5": -0.721,
+        "delta_in_q_units": -0.0361,
+        "level_means_1to5": [
+          4.314,
+          4.114,
+          3.836,
+          3.986,
+          4.05,
+          3.871,
+          3.593
+        ]
+      },
+      "reasoning": {
+        "L1_mean_1to5": 4.657,
+        "L7_mean_1to5": 4.357,
+        "L1_L7_delta_1to5": -0.3,
+        "delta_in_q_units": -0.015,
+        "level_means_1to5": [
+          4.657,
+          4.607,
+          4.386,
+          4.636,
+          4.636,
+          4.521,
+          4.357
+        ]
+      },
+      "conciseness": {
+        "L1_mean_1to5": 4.529,
+        "L7_mean_1to5": 4.893,
+        "L1_L7_delta_1to5": 0.364,
+        "delta_in_q_units": 0.0182,
+        "level_means_1to5": [
+          4.529,
+          4.65,
+          4.936,
+          4.771,
+          4.707,
+          4.85,
+          4.893
+        ]
+      }
+    },
+    "driver_dimension": "conciseness",
+    "driver_share_of_q_delta": -0.524,
+    "total_q_L1_L7_delta": -0.0347
+  },
+  "math_reasoning": {
+    "dimensions": {
+      "correctness": {
+        "L1_mean_1to5": 4.676,
+        "L7_mean_1to5": 4.743,
+        "L1_L7_delta_1to5": 0.067,
+        "delta_in_q_units": 0.0033,
+        "level_means_1to5": [
+          4.676,
+          4.75,
+          4.05,
+          4.729,
+          4.657,
+          4.626,
+          4.743
+        ]
+      },
+      "completeness": {
+        "L1_mean_1to5": 4.82,
+        "L7_mean_1to5": 4.914,
+        "L1_L7_delta_1to5": 0.094,
+        "delta_in_q_units": 0.0047,
+        "level_means_1to5": [
+          4.82,
+          4.871,
+          1.507,
+          4.921,
+          4.914,
+          4.892,
+          4.914
+        ]
+      },
+      "reasoning": {
+        "L1_mean_1to5": 4.784,
+        "L7_mean_1to5": 4.864,
+        "L1_L7_delta_1to5": 0.08,
+        "delta_in_q_units": 0.004,
+        "level_means_1to5": [
+          4.784,
+          4.857,
+          1.543,
+          4.886,
+          4.85,
+          4.82,
+          4.864
+        ]
+      },
+      "conciseness": {
+        "L1_mean_1to5": 4.734,
+        "L7_mean_1to5": 4.879,
+        "L1_L7_delta_1to5": 0.145,
+        "delta_in_q_units": 0.0072,
+        "level_means_1to5": [
+          4.734,
+          4.857,
+          4.921,
+          4.743,
+          4.786,
+          4.748,
+          4.879
+        ]
+      }
+    },
+    "driver_dimension": "conciseness",
+    "driver_share_of_q_delta": 0.375,
+    "total_q_L1_L7_delta": 0.0192
+  },
+  "summarization": {
+    "dimensions": {
+      "correctness": {
+        "L1_mean_1to5": 4.993,
+        "L7_mean_1to5": 4.979,
+        "L1_L7_delta_1to5": -0.014,
+        "delta_in_q_units": -0.0007,
+        "level_means_1to5": [
+          4.993,
+          4.986,
+          4.993,
+          4.993,
+          4.993,
+          4.986,
+          4.979
+        ]
+      },
+      "completeness": {
+        "L1_mean_1to5": 4.779,
+        "L7_mean_1to5": 4.75,
+        "L1_L7_delta_1to5": -0.029,
+        "delta_in_q_units": -0.0014,
+        "level_means_1to5": [
+          4.779,
+          4.793,
+          4.757,
+          4.779,
+          4.85,
+          4.793,
+          4.75
+        ]
+      },
+      "reasoning": {
+        "L1_mean_1to5": 4.971,
+        "L7_mean_1to5": 4.971,
+        "L1_L7_delta_1to5": 0.0,
+        "delta_in_q_units": 0.0,
+        "level_means_1to5": [
+          4.971,
+          4.971,
+          4.979,
+          5.0,
+          4.986,
+          4.979,
+          4.971
+        ]
+      },
+      "conciseness": {
+        "L1_mean_1to5": 4.393,
+        "L7_mean_1to5": 4.243,
+        "L1_L7_delta_1to5": -0.15,
+        "delta_in_q_units": -0.0075,
+        "level_means_1to5": [
+          4.393,
+          4.293,
+          4.386,
+          4.286,
+          4.243,
+          4.179,
+          4.243
+        ]
+      }
+    },
+    "driver_dimension": "reasoning",
+    "driver_share_of_q_delta": -0.0,
+    "total_q_L1_L7_delta": -0.0096
+  },
+  "instruction_following": {
+    "dimensions": {
+      "correctness": {
+        "L1_mean_1to5": 3.8,
+        "L7_mean_1to5": 3.836,
+        "L1_L7_delta_1to5": 0.036,
+        "delta_in_q_units": 0.0018,
+        "level_means_1to5": [
+          3.8,
+          3.793,
+          3.8,
+          3.814,
+          3.764,
+          3.829,
+          3.836
+        ]
+      },
+      "completeness": {
+        "L1_mean_1to5": 3.629,
+        "L7_mean_1to5": 3.5,
+        "L1_L7_delta_1to5": -0.129,
+        "delta_in_q_units": -0.0064,
+        "level_means_1to5": [
+          3.629,
+          3.614,
+          3.586,
+          3.486,
+          3.493,
+          3.543,
+          3.5
+        ]
+      },
+      "reasoning": {
+        "L1_mean_1to5": 3.736,
+        "L7_mean_1to5": 3.629,
+        "L1_L7_delta_1to5": -0.107,
+        "delta_in_q_units": -0.0054,
+        "level_means_1to5": [
+          3.736,
+          3.707,
+          3.729,
+          3.629,
+          3.621,
+          3.686,
+          3.629
+        ]
+      },
+      "conciseness": {
+        "L1_mean_1to5": 4.693,
+        "L7_mean_1to5": 4.864,
+        "L1_L7_delta_1to5": 0.171,
+        "delta_in_q_units": 0.0086,
+        "level_means_1to5": [
+          4.693,
+          4.65,
+          4.6,
+          4.75,
+          4.893,
+          4.914,
+          4.864
+        ]
+      }
+    },
+    "driver_dimension": "conciseness",
+    "driver_share_of_q_delta": -6.143,
+    "total_q_L1_L7_delta": -0.0014
+  }
+}

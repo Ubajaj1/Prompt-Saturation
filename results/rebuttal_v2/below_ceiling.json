@@ -1,0 +1,102 @@
+{
+  "classification": {
+    "n_below_ceiling": 46,
+    "n_above_ceiling": 94,
+    "pct_below_ceiling": 0.329,
+    "below_ceiling_mean_L1_L7_delta": 0.3163,
+    "above_ceiling_mean_L1_L7_delta": 0.0362,
+    "below_ceiling_mean_curve": [
+      0.566,
+      0.811,
+      0.791,
+      0.883,
+      0.817,
+      0.857,
+      0.883
+    ],
+    "pct_examples_significant_positive_trend": 0.2,
+    "n_example_curves": 140
+  },
+  "product_extraction": {
+    "n_below_ceiling": 128,
+    "n_above_ceiling": 10,
+    "pct_below_ceiling": 0.928,
+    "below_ceiling_mean_L1_L7_delta": 0.1668,
+    "above_ceiling_mean_L1_L7_delta": 0.12,
+    "below_ceiling_mean_curve": [
+      0.755,
+      0.812,
+      0.81,
+      0.829,
+      0.843,
+      0.86,
+      0.922
+    ],
+    "pct_examples_significant_positive_trend": 0.362,
+    "n_example_curves": 138
+  },
+  "qa": {
+    "n_below_ceiling": 14,
+    "n_above_ceiling": 126,
+    "pct_below_ceiling": 0.1,
+    "below_ceiling_mean_L1_L7_delta": 0.0607,
+    "above_ceiling_mean_L1_L7_delta": -0.0452,
+    "below_ceiling_mean_curve": [
+      0.768,
+      0.818,
+      0.796,
+      0.871,
+      0.871,
+      0.843,
+      0.829
+    ],
+    "pct_examples_significant_positive_trend": 0.057,
+    "n_example_curves": 140
+  },
+  "math_reasoning": {
+    "n_below_ceiling": 13,
+    "n_above_ceiling": 125,
+    "pct_below_ceiling": 0.094,
+    "below_ceiling_mean_L1_L7_delta": 0.2038,
+    "above_ceiling_mean_L1_L7_delta": -0.0004,
+    "below_ceiling_mean_curve": [
+      0.554,
+      0.712,
+      0.531,
+      0.777,
+      0.735,
+      0.712,
+      0.758
+    ],
+    "pct_examples_significant_positive_trend": 0.051,
+    "n_example_curves": 138
+  },
+  "summarization": {
+    "n_below_ceiling": 0,
+    "n_above_ceiling": 140,
+    "pct_below_ceiling": 0.0,
+    "below_ceiling_mean_L1_L7_delta": null,
+    "above_ceiling_mean_L1_L7_delta": -0.0096,
+    "below_ceiling_mean_curve": null,
+    "pct_examples_significant_positive_trend": 0.014,
+    "n_example_curves": 140
+  },
+  "instruction_following": {
+    "n_below_ceiling": 45,
+    "n_above_ceiling": 95,
+    "pct_below_ceiling": 0.321,
+    "below_ceiling_mean_L1_L7_delta": 0.0133,
+    "above_ceiling_mean_L1_L7_delta": -0.0084,
+    "below_ceiling_mean_curve": [
+      0.426,
+      0.408,
+      0.406,
+      0.407,
+      0.421,
+      0.448,
+      0.439
+    ],
+    "pct_examples_significant_positive_trend": 0.121,
+    "n_example_curves": 140
+  }
+}
