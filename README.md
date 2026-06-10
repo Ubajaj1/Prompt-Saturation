@@ -10,7 +10,7 @@ LLM response quality stops improving as prompt length increases.
 - **Structured-output tasks saturate**: classification at ~42–64 tokens, product extraction at ~92–536 tokens
 - **Open-ended tasks do not saturate**: QA and math reasoning show no significant quality improvement from longer prompts
 - **Stronger models saturate earlier**: requiring fewer instruction tokens to reach peak quality
-- **Structured–open dichotomy**: task type, not prompt length, determines whether elaboration helps
+- **Prompt-sensitivity gradient**: tasks range from concentrated (classification) through distributed (extraction) and diffuse (instruction following) to insensitive (QA, math)
 
 ## Repository Structure
 

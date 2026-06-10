@@ -85,7 +85,8 @@ Product extraction receives independent confirmation through the ablation
 We evaluate eight LLMs across four providers, spanning 1B to 70B disclosed
 parameters plus four API-tier models with undisclosed sizes
 (Table~\ref{tab:models}).
-All models are accessed via production APIs with default temperature settings.
+All models are accessed via production APIs with temperature set to 0
+(greedy decoding) for deterministic outputs.
 Each response is capped at 512 output tokens.
 The seven primary models run all six tasks; Llama-3.2-1B is evaluated on
 classification and product extraction only---the two tasks where saturation
@@ -224,6 +225,8 @@ English words in shuffled order.
 The bare task instruction is preserved as the only meaningful content.
 This yields 1,470 runs (5 models $\times$ 2 tasks $\times$ 3 padding types
 $\times$ 7 levels $\times$ 7 examples).
+The 7 examples per task are drawn from the main study's curated set, not a
+separate sample.
 
 If tokens themselves drive quality, padded prompts should show the same
 saturation curve as real prompts at matched token counts.

@@ -185,16 +185,9 @@ across prompt layers.
 Figure~\ref{fig:marginal} shows the per-layer quality deltas averaged
 across all seven models.
 
-% TODO: Generate figure from results/rebuttal/marginal_contributions.json
-% Stacked bar chart or heatmap showing per-layer delta for each task
 \begin{figure}[t]
   \centering
-  % \includegraphics[width=\linewidth]{figures/fig_marginal_contributions.png}
-  \fbox{\parbox{0.9\linewidth}{\centering\vspace{2cm}
-    \textbf{[TODO: Marginal contribution figure]}\\
-    Per-layer quality deltas for each task, showing concentrated vs.\
-    distributed vs.\ diffuse patterns.
-  \vspace{2cm}}}
+  \includegraphics[width=\linewidth]{figures/fig2_marginal_contributions.png}
   \caption{Per-layer marginal quality contributions ($\Delta_{k \to k+1}$)
     averaged across seven models.
     Classification gain is concentrated in L1$\to$L2 (task label);
@@ -275,6 +268,22 @@ Classification and product extraction start below ceiling because the prompt
 must communicate format requirements that the model cannot infer from the
 input alone.
 
+\paragraph{Below-ceiling stratification.}
+Restricting to examples that start below $q = 0.85$ at L1 reveals latent
+prompt sensitivity.
+Classification below-ceiling examples (32.9\% of model$\times$example
+pairs) gain $+0.316$ from L1 to L7; product extraction (92.8\% below
+ceiling) gains $+0.167$.
+For math reasoning, only 9.4\% of examples start below ceiling, but these
+gain $+0.204$---harder math problems \emph{do} respond to prompt
+elaboration.
+The ``insensitive'' label for QA and math should therefore be qualified:
+these tasks are insensitive \textbf{at the ceiling-dominated difficulty
+of the current example set}, not necessarily in general.
+\emph{Caveat:} below-ceiling examples are selected on low L1 quality, so
+part of the positive $\Delta$ may reflect regression to the mean rather
+than true prompt sensitivity.
+
 \subsection{Model Capability Modulates Saturation}
 \label{sec:result-capability}
 
@@ -346,6 +355,64 @@ Product extraction  & 977 & 0.247 & 0.150 & 0.835 & 0.976 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Heuristic Evaluation Confirms Saturation}
+\label{sec:result-heuristic}
+
+To address reliance on LLM judges, we re-scored all 3,915 main-study
+responses for the four ground-truth tasks using deterministic heuristic
+evaluators (exact-match for classification and math, field-matching for
+product extraction, substring containment for QA).
+Table~\ref{tab:heuristic-agreement} compares judge and heuristic metrics.
+
+\begin{table}[t]
+\centering
+\caption{Judge vs.\ heuristic agreement. Per-record Pearson~$r$ and MAE
+  measure point-level agreement; curve-shape~$r$ measures whether the
+  7-level quality trajectory agrees; direction agreement counts how many
+  of 7 models show the same L1$\to$L7 sign.}
+\label{tab:heuristic-agreement}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Task & per-record $r$ & MAE & curve-shape $r$ & L1$\to$L7 dir.\ & heuristic sig. \\
+\midrule
+Classification      & 0.926 & 0.069 & 0.839 & 6/7 & 2/7 \\
+Product extraction  & 0.415 & 0.300 & 0.660 & 7/7 & 7/7 \\
+QA                  & 0.178 & 0.127 & 0.098 & 0/7 & 0/7 \\
+Math reasoning      & 0.539 & 0.144 & 0.525 & 5/7 & 1/7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Product extraction---the task with the poorest inter-judge agreement
+($r = 0.247$)---shows \textbf{7/7 significant} saturation fits under the
+heuristic metric and 7/7 L1$\to$L7 direction agreement with the judge.
+The saturation signal is \emph{stronger} on ground-truth matching, not an
+artefact of judge noise.
+QA is flat under both metrics (0/7 significant), independently confirming
+the ``insensitive'' classification.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_heuristic_vs_judge.png}
+  \caption{Saturation curves under judge (solid) vs.\ heuristic (dashed)
+    scoring for four ground-truth tasks. Product extraction saturation is
+    confirmed by the heuristic; QA flatness is confirmed independently.}
+  \label{fig:heuristic-vs-judge}
+\end{figure}
+
+\paragraph{Per-dimension decomposition.}
+Decomposing the aggregate quality $q = \sum s_i / 20$ into its four
+subscores reveals which dimensions drive saturation.
+For product extraction, \textbf{completeness} accounts for 43\% of the
+total L1$\to$L7 gain (+1.40 on the 1--5 subscale), confirming that
+elaboration teaches the model to emit all four required fields.
+Classification gain is spread across all four dimensions (correctness
++0.69, completeness +0.61, reasoning +0.56, conciseness +0.71)---
+concentrated in \emph{tokens} but distributed across \emph{dimensions}.
+For QA, the aggregate $\Delta$ is negative, driven by a completeness drop
+($-0.72$) as extra prompt layers add noise to already-correct answers.
 
 \subsection{Threshold Sensitivity}
 \label{sec:result-threshold}
