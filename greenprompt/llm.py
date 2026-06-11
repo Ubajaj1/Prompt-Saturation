@@ -251,6 +251,52 @@ class HuggingFaceProvider(LLMProvider):
         )
 
 
+class BedrockProvider(LLMProvider):
+    """AWS Bedrock wrapper using the Converse API.
+
+    Uses boto3 default credentials (no api_key). Note that llama-3.3-70b on
+    Bedrock requires a cross-region inference profile ID (the ``us.`` prefixed
+    form, e.g. ``us.meta.llama3-3-70b-instruct-v1:0``) for on-demand throughput;
+    the raw ``meta.`` model ID is rejected by Converse.
+    """
+
+    def __init__(
+        self,
+        model: str = "us.meta.llama3-3-70b-instruct-v1:0",
+        region: str = "us-west-2",
+        api_key: Optional[str] = None,  # unused; boto3 resolves credentials
+    ):
+        try:
+            import boto3
+        except ImportError:
+            raise ImportError("Install boto3: pip install boto3")
+
+        self.client = boto3.client("bedrock-runtime", region_name=region)
+        self.model = model
+
+    def generate(self, prompt: str, max_tokens: int = 500) -> LLMResponse:
+        start = time.time()
+
+        response = self.client.converse(
+            modelId=self.model,
+            messages=[{"role": "user", "content": [{"text": prompt}]}],
+            inferenceConfig={"maxTokens": max_tokens, "temperature": 0},
+        )
+
+        latency = (time.time() - start) * 1000
+
+        text = response["output"]["message"]["content"][0]["text"]
+        usage = response["usage"]
+
+        return LLMResponse(
+            text=text,
+            input_tokens=usage["inputTokens"],
+            output_tokens=usage["outputTokens"],
+            latency_ms=latency,
+            model=self.model,
+        )
+
+
 class MockProvider(LLMProvider):
     """Mock provider for testing without API calls."""
 

@@ -32,7 +32,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from greenprompt.llm import (
     LLMProvider, OpenAIProvider, AnthropicProvider,
-    GeminiProvider, GroqProvider, HuggingFaceProvider, MockProvider,
+    GeminiProvider, GroqProvider, HuggingFaceProvider, BedrockProvider,
+    MockProvider,
 )
 from greenprompt.evaluators import (
     get_evaluator, InstructionFollowingEvaluator,
@@ -56,7 +57,10 @@ HARD_TO_BASE = {
 MODEL_CONFIGS: dict[str, dict] = {
     'llama-3.1-8b':  {'provider_cls': GroqProvider,      'model': 'llama-3.1-8b-instant',          'env_key': 'GROQ_API_KEY'},
     'llama-3.2-3b':  {'provider_cls': HuggingFaceProvider, 'model': 'meta-llama/Llama-3.2-1B-Instruct', 'env_key': 'HF_TOKEN'},
-    'llama-3.3-70b': {'provider_cls': GroqProvider,      'model': 'llama-3.3-70b-versatile',        'env_key': 'GROQ_API_KEY'},
+    # Pointed at Bedrock (Groq 100k/day exhausted). Keeps key 'llama-3.3-70b'
+    # so records merge with existing run_id=1 records. Bedrock requires the
+    # 'us.' cross-region inference profile ID for on-demand Converse.
+    'llama-3.3-70b': {'provider_cls': BedrockProvider,   'model': 'us.meta.llama3-3-70b-instruct-v1:0', 'env_key': None},
     'qwen3-32b':     {'provider_cls': GroqProvider,      'model': 'qwen/qwen3-32b',                 'env_key': 'GROQ_API_KEY'},
     'kimi-k2':       {'provider_cls': GroqProvider,      'model': 'moonshotai/kimi-k2-instruct',    'env_key': 'GROQ_API_KEY'},
     'gpt-4o-mini':   {'provider_cls': OpenAIProvider,    'model': 'gpt-4o-mini',                    'env_key': 'OPENAI_API_KEY'},
@@ -149,6 +153,28 @@ def run_saturation_benchmark(
                         response = provider.generate(prompt, max_tokens=512)
 
                         eval_task = HARD_TO_BASE.get(task, task)
+                        if evaluator_type == 'none':
+                            # Generation-only: store the response, defer scoring
+                            # to a separate judge pass over response_text.
+                            record = {
+                                'model':         model_name,
+                                'task':          task,
+                                'level':         level,
+                                'example_id':    ex_idx,
+                                'run_id':        run_id,
+                                'prompt_tokens': response.input_tokens,
+                                'output_tokens': response.output_tokens,
+                                'response_text': response.text,
+                                'timestamp':     datetime.now().isoformat(),
+                            }
+                            print(f"{label} GEN tokens={response.input_tokens}->{response.output_tokens}")
+                            results.append(record)
+                            done.add(key)
+                            _save(results, output_path)
+                            if delay_between_calls > 0:
+                                time.sleep(delay_between_calls)
+                            continue
+
                         if evaluator_type == 'llm_judge' and judge_provider is not None:
                             evaluator = LLMJudgeEvaluator(
                                 judge_provider=judge_provider, task_type=eval_task
@@ -225,7 +251,7 @@ def main():
     parser.add_argument('--run-id',     type=int, default=0,
                         help='Run identifier for repeated runs (0, 1, 2, ...)')
     parser.add_argument('--evaluator',   default='heuristic',
-                        choices=['heuristic', 'llm_judge'])
+                        choices=['heuristic', 'llm_judge', 'none'])
     parser.add_argument('--judge-model', default='gpt-4o-mini',
                         help='Model to use as LLM judge (default: gpt-4o-mini)')
     args = parser.parse_args()
