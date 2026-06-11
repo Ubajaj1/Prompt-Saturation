@@ -284,6 +284,51 @@ of the current example set}, not necessarily in general.
 part of the positive $\Delta$ may reflect regression to the mean rather
 than true prompt sensitivity.
 
+\subsection{Hard Examples Test the Ceiling Artefact}
+\label{sec:result-hard}
+
+The below-ceiling stratification (Section~\ref{sec:result-ceiling}) suggests
+that ``insensitive'' may reflect easy examples rather than genuine prompt
+insensitivity.
+We test this directly by re-running three insensitive/diffuse tasks on
+harder examples drawn from public datasets: multi-step GSM8K
+problems~\citep{cobbe2021gsm8k} (5--8 reasoning steps) for math,
+multi-hop HotpotQA questions~\citep{yang2018hotpotqa} for QA,
+and multi-constraint instructions (3--5 simultaneous constraints) for
+instruction following.
+Each task uses 20 hard examples evaluated on three models
+(1,260 judge-scored runs total).
+
+\paragraph{QA remains insensitive.}
+Hard examples successfully push L1 quality below ceiling
+(mean $q_{\text{L1}} = 0.578$ vs.\ $0.918$ on the original set), yet
+L1$\to$L7 gain is still near zero ($\Delta = +0.021$).
+Prompt elaboration does not help even when models start far from perfect:
+QA is genuinely insensitive, not a ceiling artefact.
+
+\paragraph{Instruction following becomes clearly diffuse.}
+Hard examples amplify the diffuse signal 6.6$\times$
+($\Delta = +0.087$ vs.\ $+0.013$ on originals).
+The largest gains come from llama-3.3-70b ($+0.147$) and gemini-flash
+($+0.108$), both starting below 0.80 at L1.
+Multi-constraint instructions reward the additional prompt layers
+(definitions, guidelines) that single-constraint examples cannot
+distinguish from noise.
+
+\paragraph{Math is model-dependent.}
+Gemini-flash drops to $q_{\text{L1}} = 0.225$ on hard math and gains
+$+0.112$ from elaboration; llama-3.3-70b remains at ceiling
+($q_{\text{L1}} = 0.988$, $\Delta = -0.003$).
+Whether math is prompt-sensitive depends on whether the model can solve
+the problem from the bare statement---a function of both problem difficulty
+and model capability.
+
+These results refine the gradient taxonomy: QA is robustly insensitive
+regardless of difficulty; instruction following is diffuse but requires
+sufficiently complex constraints to reveal the pattern; math sensitivity
+is determined by the model--difficulty interaction rather than the task
+category alone.
+
 \subsection{Model Capability Modulates Saturation}
 \label{sec:result-capability}
 
@@ -323,6 +368,51 @@ asymptotic quality.
     Cells for non-significant fits are shown in grey.}
   \label{fig:heatmap}
 \end{figure}
+
+\subsection{Held-Out Task Refines the Gradient}
+\label{sec:result-holdout}
+
+To test whether the prompt-sensitivity gradient generalises beyond the
+six main-study tasks, we pre-registered a prediction and evaluated one
+held-out task: Named Entity Recognition (NER) on five models.
+
+\paragraph{Prediction.}
+NER requires the model to know \emph{which} entity types to extract
+(schema) and \emph{how} to format the output (JSON with typed lists)---
+structurally analogous to product extraction.
+We therefore predicted \textbf{distributed} saturation, with gains
+spread across multiple prompt layers.
+
+\paragraph{Results.}
+Four of five models produce significant saturating curves
+($p < 0.05$; R$^2 > 0.98$ for all four).
+However, the marginal-contribution profile does \emph{not} match the
+distributed prediction.
+Instead, NER is \textbf{concentrated at L3} (JSON format specification):
+L2$\to$L3 accounts for $+0.750$ quality, or 96\% of the total
+L1$\to$L7 gain ($+0.788$).
+Four of five models score exactly $q = 0.000$ at L1--L2---complete task
+failure---then jump to $q > 0.90$ at L3 when the output format is
+specified.
+Subsequent layers (definitions, persona, guidelines, worked example)
+add nothing.
+
+\paragraph{Interpretation.}
+Our prediction was \emph{partially} correct: NER is prompt-sensitive
+(massive L1$\to$L7 gain, 4/5 significant fits), not insensitive like
+QA or math.
+But the specific category---distributed---was wrong.
+NER behaves as a \textbf{concentrated} task, where a single format
+instruction unlocks the task entirely.
+The key difference from product extraction is \emph{schema complexity}:
+NER requires three homogeneous entity lists, while product extraction
+requires four heterogeneous fields (name, price, brand, category) that
+benefit from definitions and worked examples.
+This refines the gradient taxonomy: the boundary between concentrated
+and distributed depends on schema complexity, not merely on whether the
+task involves structured output.
+The held-out experiment thus improves the framework rather than merely
+confirming it.
 
 \subsection{Dual-Judge Agreement}
 \label{sec:result-judge}
@@ -437,3 +527,36 @@ estimated saturation point at approximately 64 tokens---consistent with
 the main experiment.
 QA shows no significant relationship between prompt length and quality,
 reinforcing the insensitive classification.
+
+\subsection{Sampling Stability}
+\label{sec:result-stability}
+
+To assess whether findings are robust to sampling variance, we repeat the
+full experiment (3 gradient-critical tasks $\times$ 7 levels $\times$ 20
+examples) twice more with the same temperature-zero setting on
+llama-3.1-8b and gemini-flash.
+Across three runs of llama-3.1-8b (same model version throughout), the
+L1$\to$L7 quality delta is highly stable:
+classification $\Delta = +0.190, +0.235, +0.245$
+(std $= 0.024$),
+product extraction $\Delta = +0.097, +0.133, +0.120$
+(std $= 0.015$),
+instruction following $\Delta = +0.062, -0.005, +0.000$
+(std $= 0.031$).
+Classification and product extraction show positive gains in all three
+runs; instruction following hovers near zero, consistent with its
+``diffuse'' classification.
+L7 quality is especially stable (e.g., classification: 0.970 across all
+three runs), with most variance concentrated at L1 where the bare input
+gives the model less guidance.
+
+Gemini-flash repeated runs used gemini-2.5-flash (the original
+gemini-2.0-flash was deprecated between study phases).
+Runs 1 and 2 (both gemini-2.5-flash) are near-identical
+(classification $\Delta = +0.345$ vs.\ $+0.347$), confirming
+temperature-zero determinism, while the gap from run~0 (gemini-2.0-flash,
+$\Delta = +0.110$) reflects the model version change rather than sampling
+noise.
+Crucially, the \emph{direction} of all effects is preserved across both
+model versions: all three tasks show positive L1$\to$L7 gains under both
+gemini-2.0-flash and gemini-2.5-flash.

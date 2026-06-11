@@ -1,0 +1,981 @@
+==========================================
+REMAINING EXPERIMENTS (skip llama-3.3-70b) — Thu Jun 11 08:13:47 EDT 2026
+==========================================
+
+[1/2] Repeated runs — run_id=1 (2 models × 3 tasks)
+Started: Thu Jun 11 08:13:47 EDT 2026
+Judge model: gpt-4o-mini
+Models:    ['llama-3.1-8b', 'gemini-flash']
+Tasks:     ['classification', 'product_extraction', 'instruction_following']
+Levels:    7 per task
+Evaluator: llm_judge
+Total:     840 experiments
+
+Resuming: 671 experiments already done
+[llama-3.1-8b | classification | level 1 | ex 1] SKIP
+[llama-3.1-8b | classification | level 1 | ex 2] SKIP
+[llama-3.1-8b | classification | level 1 | ex 3] SKIP
+[llama-3.1-8b | classification | level 1 | ex 4] SKIP
+[llama-3.1-8b | classification | level 1 | ex 5] SKIP
+[llama-3.1-8b | classification | level 1 | ex 6] SKIP
+[llama-3.1-8b | classification | level 1 | ex 7] SKIP
+[llama-3.1-8b | classification | level 1 | ex 8] SKIP
+[llama-3.1-8b | classification | level 1 | ex 9] SKIP
+[llama-3.1-8b | classification | level 1 | ex 10] SKIP
+[llama-3.1-8b | classification | level 1 | ex 11] SKIP
+[llama-3.1-8b | classification | level 1 | ex 12] SKIP
+[llama-3.1-8b | classification | level 1 | ex 13] SKIP
+[llama-3.1-8b | classification | level 1 | ex 14] SKIP
+[llama-3.1-8b | classification | level 1 | ex 15] SKIP
+[llama-3.1-8b | classification | level 1 | ex 16] SKIP
+[llama-3.1-8b | classification | level 1 | ex 17] SKIP
+[llama-3.1-8b | classification | level 1 | ex 18] SKIP
+[llama-3.1-8b | classification | level 1 | ex 19] SKIP
+[llama-3.1-8b | classification | level 1 | ex 20] SKIP
+[llama-3.1-8b | classification | level 2 | ex 1] SKIP
+[llama-3.1-8b | classification | level 2 | ex 2] SKIP
+[llama-3.1-8b | classification | level 2 | ex 3] SKIP
+[llama-3.1-8b | classification | level 2 | ex 4] SKIP
+[llama-3.1-8b | classification | level 2 | ex 5] SKIP
+[llama-3.1-8b | classification | level 2 | ex 6] SKIP
+[llama-3.1-8b | classification | level 2 | ex 7] SKIP
+[llama-3.1-8b | classification | level 2 | ex 8] SKIP
+[llama-3.1-8b | classification | level 2 | ex 9] SKIP
+[llama-3.1-8b | classification | level 2 | ex 10] SKIP
+[llama-3.1-8b | classification | level 2 | ex 11] SKIP
+[llama-3.1-8b | classification | level 2 | ex 12] SKIP
+[llama-3.1-8b | classification | level 2 | ex 13] SKIP
+[llama-3.1-8b | classification | level 2 | ex 14] SKIP
+[llama-3.1-8b | classification | level 2 | ex 15] SKIP
+[llama-3.1-8b | classification | level 2 | ex 16] SKIP
+[llama-3.1-8b | classification | level 2 | ex 17] SKIP
+[llama-3.1-8b | classification | level 2 | ex 18] SKIP
+[llama-3.1-8b | classification | level 2 | ex 19] SKIP
+[llama-3.1-8b | classification | level 2 | ex 20] SKIP
+[llama-3.1-8b | classification | level 3 | ex 1] SKIP
+[llama-3.1-8b | classification | level 3 | ex 2] SKIP
+[llama-3.1-8b | classification | level 3 | ex 3] SKIP
+[llama-3.1-8b | classification | level 3 | ex 4] SKIP
+[llama-3.1-8b | classification | level 3 | ex 5] SKIP
+[llama-3.1-8b | classification | level 3 | ex 6] SKIP
+[llama-3.1-8b | classification | level 3 | ex 7] SKIP
+[llama-3.1-8b | classification | level 3 | ex 8] SKIP
+[llama-3.1-8b | classification | level 3 | ex 9] SKIP
+[llama-3.1-8b | classification | level 3 | ex 10] SKIP
+[llama-3.1-8b | classification | level 3 | ex 11] SKIP
+[llama-3.1-8b | classification | level 3 | ex 12] SKIP
+[llama-3.1-8b | classification | level 3 | ex 13] SKIP
+[llama-3.1-8b | classification | level 3 | ex 14] SKIP
+[llama-3.1-8b | classification | level 3 | ex 15] SKIP
+[llama-3.1-8b | classification | level 3 | ex 16] SKIP
+[llama-3.1-8b | classification | level 3 | ex 17] SKIP
+[llama-3.1-8b | classification | level 3 | ex 18] SKIP
+[llama-3.1-8b | classification | level 3 | ex 19] SKIP
+[llama-3.1-8b | classification | level 3 | ex 20] SKIP
+[llama-3.1-8b | classification | level 4 | ex 1] SKIP
+[llama-3.1-8b | classification | level 4 | ex 2] SKIP
+[llama-3.1-8b | classification | level 4 | ex 3] SKIP
+[llama-3.1-8b | classification | level 4 | ex 4] SKIP
+[llama-3.1-8b | classification | level 4 | ex 5] SKIP
+[llama-3.1-8b | classification | level 4 | ex 6] SKIP
+[llama-3.1-8b | classification | level 4 | ex 7] SKIP
+[llama-3.1-8b | classification | level 4 | ex 8] SKIP
+[llama-3.1-8b | classification | level 4 | ex 9] SKIP
+[llama-3.1-8b | classification | level 4 | ex 10] SKIP
+[llama-3.1-8b | classification | level 4 | ex 11] SKIP
+[llama-3.1-8b | classification | level 4 | ex 12] SKIP
+[llama-3.1-8b | classification | level 4 | ex 13] SKIP
+[llama-3.1-8b | classification | level 4 | ex 14] SKIP
+[llama-3.1-8b | classification | level 4 | ex 15] SKIP
+[llama-3.1-8b | classification | level 4 | ex 16] SKIP
+[llama-3.1-8b | classification | level 4 | ex 17] SKIP
+[llama-3.1-8b | classification | level 4 | ex 18] SKIP
+[llama-3.1-8b | classification | level 4 | ex 19] SKIP
+[llama-3.1-8b | classification | level 4 | ex 20] SKIP
+[llama-3.1-8b | classification | level 5 | ex 1] SKIP
+[llama-3.1-8b | classification | level 5 | ex 2] SKIP
+[llama-3.1-8b | classification | level 5 | ex 3] SKIP
+[llama-3.1-8b | classification | level 5 | ex 4] SKIP
+[llama-3.1-8b | classification | level 5 | ex 5] SKIP
+[llama-3.1-8b | classification | level 5 | ex 6] SKIP
+[llama-3.1-8b | classification | level 5 | ex 7] SKIP
+[llama-3.1-8b | classification | level 5 | ex 8] SKIP
+[llama-3.1-8b | classification | level 5 | ex 9] SKIP
+[llama-3.1-8b | classification | level 5 | ex 10] SKIP
+[llama-3.1-8b | classification | level 5 | ex 11] SKIP
+[llama-3.1-8b | classification | level 5 | ex 12] SKIP
+[llama-3.1-8b | classification | level 5 | ex 13] SKIP
+[llama-3.1-8b | classification | level 5 | ex 14] SKIP
+[llama-3.1-8b | classification | level 5 | ex 15] SKIP
+[llama-3.1-8b | classification | level 5 | ex 16] SKIP
+[llama-3.1-8b | classification | level 5 | ex 17] SKIP
+[llama-3.1-8b | classification | level 5 | ex 18] SKIP
+[llama-3.1-8b | classification | level 5 | ex 19] SKIP
+[llama-3.1-8b | classification | level 5 | ex 20] SKIP
+[llama-3.1-8b | classification | level 6 | ex 1] SKIP
+[llama-3.1-8b | classification | level 6 | ex 2] SKIP
+[llama-3.1-8b | classification | level 6 | ex 3] SKIP
+[llama-3.1-8b | classification | level 6 | ex 4] SKIP
+[llama-3.1-8b | classification | level 6 | ex 5] SKIP
+[llama-3.1-8b | classification | level 6 | ex 6] SKIP
+[llama-3.1-8b | classification | level 6 | ex 7] SKIP
+[llama-3.1-8b | classification | level 6 | ex 8] SKIP
+[llama-3.1-8b | classification | level 6 | ex 9] SKIP
+[llama-3.1-8b | classification | level 6 | ex 10] SKIP
+[llama-3.1-8b | classification | level 6 | ex 11] SKIP
+[llama-3.1-8b | classification | level 6 | ex 12] SKIP
+[llama-3.1-8b | classification | level 6 | ex 13] SKIP
+[llama-3.1-8b | classification | level 6 | ex 14] SKIP
+[llama-3.1-8b | classification | level 6 | ex 15] SKIP
+[llama-3.1-8b | classification | level 6 | ex 16] SKIP
+[llama-3.1-8b | classification | level 6 | ex 17] SKIP
+[llama-3.1-8b | classification | level 6 | ex 18] SKIP
+[llama-3.1-8b | classification | level 6 | ex 19] SKIP
+[llama-3.1-8b | classification | level 6 | ex 20] SKIP
+[llama-3.1-8b | classification | level 7 | ex 1] SKIP
+[llama-3.1-8b | classification | level 7 | ex 2] SKIP
+[llama-3.1-8b | classification | level 7 | ex 3] SKIP
+[llama-3.1-8b | classification | level 7 | ex 4] SKIP
+[llama-3.1-8b | classification | level 7 | ex 5] SKIP
+[llama-3.1-8b | classification | level 7 | ex 6] SKIP
+[llama-3.1-8b | classification | level 7 | ex 7] SKIP
+[llama-3.1-8b | classification | level 7 | ex 8] SKIP
+[llama-3.1-8b | classification | level 7 | ex 9] SKIP
+[llama-3.1-8b | classification | level 7 | ex 10] SKIP
+[llama-3.1-8b | classification | level 7 | ex 11] SKIP
+[llama-3.1-8b | classification | level 7 | ex 12] SKIP
+[llama-3.1-8b | classification | level 7 | ex 13] SKIP
+[llama-3.1-8b | classification | level 7 | ex 14] SKIP
+[llama-3.1-8b | classification | level 7 | ex 15] SKIP
+[llama-3.1-8b | classification | level 7 | ex 16] SKIP
+[llama-3.1-8b | classification | level 7 | ex 17] SKIP
+[llama-3.1-8b | classification | level 7 | ex 18] SKIP
+[llama-3.1-8b | classification | level 7 | ex 19] SKIP
+[llama-3.1-8b | classification | level 7 | ex 20] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 1] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 2] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 3] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 4] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 5] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 6] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 7] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 8] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 9] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 10] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 11] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 12] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 13] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 14] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 15] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 16] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 17] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 18] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 19] SKIP
+[llama-3.1-8b | product_extraction | level 1 | ex 20] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 1] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 2] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 3] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 4] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 5] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 6] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 7] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 8] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 9] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 10] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 11] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 12] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 13] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 14] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 15] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 16] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 17] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 18] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 19] SKIP
+[llama-3.1-8b | product_extraction | level 2 | ex 20] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 1] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 2] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 3] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 4] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 5] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 6] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 7] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 8] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 9] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 10] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 11] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 12] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 13] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 14] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 15] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 16] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 17] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 18] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 19] SKIP
+[llama-3.1-8b | product_extraction | level 3 | ex 20] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 1] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 2] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 3] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 4] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 5] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 6] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 7] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 8] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 9] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 10] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 11] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 12] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 13] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 14] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 15] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 16] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 17] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 18] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 19] SKIP
+[llama-3.1-8b | product_extraction | level 4 | ex 20] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 1] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 2] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 3] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 4] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 5] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 6] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 7] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 8] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 9] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 10] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 11] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 12] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 13] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 14] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 15] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 16] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 17] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 18] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 19] SKIP
+[llama-3.1-8b | product_extraction | level 5 | ex 20] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 1] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 2] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 3] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 4] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 5] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 6] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 7] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 8] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 9] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 10] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 11] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 12] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 13] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 14] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 15] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 16] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 17] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 18] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 19] SKIP
+[llama-3.1-8b | product_extraction | level 6 | ex 20] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 1] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 2] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 3] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 4] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 5] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 6] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 7] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 8] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 9] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 10] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 11] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 12] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 13] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 14] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 15] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 16] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 17] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 18] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 19] SKIP
+[llama-3.1-8b | product_extraction | level 7 | ex 20] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 1] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 2] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 3] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 4] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 5] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 6] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 7] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 8] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 9] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 10] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 11] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 12] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 13] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 14] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 15] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 16] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 17] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 18] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 19] SKIP
+[llama-3.1-8b | instruction_following | level 1 | ex 20] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 1] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 2] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 3] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 4] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 5] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 6] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 7] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 8] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 9] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 10] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 11] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 12] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 13] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 14] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 15] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 16] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 17] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 18] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 19] SKIP
+[llama-3.1-8b | instruction_following | level 2 | ex 20] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 1] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 2] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 3] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 4] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 5] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 6] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 7] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 8] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 9] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 10] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 11] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 12] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 13] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 14] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 15] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 16] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 17] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 18] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 19] SKIP
+[llama-3.1-8b | instruction_following | level 3 | ex 20] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 1] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 2] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 3] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 4] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 5] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 6] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 7] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 8] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 9] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 10] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 11] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 12] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 13] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 14] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 15] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 16] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 17] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 18] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 19] SKIP
+[llama-3.1-8b | instruction_following | level 4 | ex 20] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 1] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 2] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 3] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 4] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 5] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 6] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 7] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 8] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 9] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 10] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 11] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 12] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 13] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 14] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 15] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 16] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 17] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 18] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 19] SKIP
+[llama-3.1-8b | instruction_following | level 5 | ex 20] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 1] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 2] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 3] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 4] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 5] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 6] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 7] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 8] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 9] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 10] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 11] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 12] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 13] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 14] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 15] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 16] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 17] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 18] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 19] SKIP
+[llama-3.1-8b | instruction_following | level 6 | ex 20] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 1] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 2] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 3] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 4] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 5] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 6] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 7] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 8] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 9] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 10] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 11] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 12] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 13] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 14] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 15] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 16] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 17] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 18] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 19] SKIP
+[llama-3.1-8b | instruction_following | level 7 | ex 20] SKIP
+[gemini-flash | classification | level 1 | ex 1] SKIP
+[gemini-flash | classification | level 1 | ex 2] SKIP
+[gemini-flash | classification | level 1 | ex 3] SKIP
+[gemini-flash | classification | level 1 | ex 4] SKIP
+[gemini-flash | classification | level 1 | ex 5] SKIP
+[gemini-flash | classification | level 1 | ex 6] SKIP
+[gemini-flash | classification | level 1 | ex 7] SKIP
+[gemini-flash | classification | level 1 | ex 8] SKIP
+[gemini-flash | classification | level 1 | ex 9] SKIP
+[gemini-flash | classification | level 1 | ex 10] SKIP
+[gemini-flash | classification | level 1 | ex 11] SKIP
+[gemini-flash | classification | level 1 | ex 12] SKIP
+[gemini-flash | classification | level 1 | ex 13] SKIP
+[gemini-flash | classification | level 1 | ex 14] SKIP
+[gemini-flash | classification | level 1 | ex 15] SKIP
+[gemini-flash | classification | level 1 | ex 16] SKIP
+[gemini-flash | classification | level 1 | ex 17] SKIP
+[gemini-flash | classification | level 1 | ex 18] SKIP
+[gemini-flash | classification | level 1 | ex 19] SKIP
+[gemini-flash | classification | level 1 | ex 20] SKIP
+[gemini-flash | classification | level 2 | ex 1] SKIP
+[gemini-flash | classification | level 2 | ex 2] SKIP
+[gemini-flash | classification | level 2 | ex 3] SKIP
+[gemini-flash | classification | level 2 | ex 4] SKIP
+[gemini-flash | classification | level 2 | ex 5] SKIP
+[gemini-flash | classification | level 2 | ex 6] SKIP
+[gemini-flash | classification | level 2 | ex 7] SKIP
+[gemini-flash | classification | level 2 | ex 8] SKIP
+[gemini-flash | classification | level 2 | ex 9] SKIP
+[gemini-flash | classification | level 2 | ex 10] SKIP
+[gemini-flash | classification | level 2 | ex 11] SKIP
+[gemini-flash | classification | level 2 | ex 12] SKIP
+[gemini-flash | classification | level 2 | ex 13] SKIP
+[gemini-flash | classification | level 2 | ex 14] SKIP
+[gemini-flash | classification | level 2 | ex 15] SKIP
+[gemini-flash | classification | level 2 | ex 16] SKIP
+[gemini-flash | classification | level 2 | ex 17] SKIP
+[gemini-flash | classification | level 2 | ex 18] SKIP
+[gemini-flash | classification | level 2 | ex 19] SKIP
+[gemini-flash | classification | level 2 | ex 20] SKIP
+[gemini-flash | classification | level 3 | ex 1] SKIP
+[gemini-flash | classification | level 3 | ex 2] SKIP
+[gemini-flash | classification | level 3 | ex 3] SKIP
+[gemini-flash | classification | level 3 | ex 4] SKIP
+[gemini-flash | classification | level 3 | ex 5] SKIP
+[gemini-flash | classification | level 3 | ex 6] SKIP
+[gemini-flash | classification | level 3 | ex 7] SKIP
+[gemini-flash | classification | level 3 | ex 8] SKIP
+[gemini-flash | classification | level 3 | ex 9] SKIP
+[gemini-flash | classification | level 3 | ex 10] SKIP
+[gemini-flash | classification | level 3 | ex 11] SKIP
+[gemini-flash | classification | level 3 | ex 12] SKIP
+[gemini-flash | classification | level 3 | ex 13] SKIP
+[gemini-flash | classification | level 3 | ex 14] SKIP
+[gemini-flash | classification | level 3 | ex 15] SKIP
+[gemini-flash | classification | level 3 | ex 16] SKIP
+[gemini-flash | classification | level 3 | ex 17] SKIP
+[gemini-flash | classification | level 3 | ex 18] SKIP
+[gemini-flash | classification | level 3 | ex 19] SKIP
+[gemini-flash | classification | level 3 | ex 20] SKIP
+[gemini-flash | classification | level 4 | ex 1] SKIP
+[gemini-flash | classification | level 4 | ex 2] SKIP
+[gemini-flash | classification | level 4 | ex 3] SKIP
+[gemini-flash | classification | level 4 | ex 4] SKIP
+[gemini-flash | classification | level 4 | ex 5] SKIP
+[gemini-flash | classification | level 4 | ex 6] SKIP
+[gemini-flash | classification | level 4 | ex 7] SKIP
+[gemini-flash | classification | level 4 | ex 8] SKIP
+[gemini-flash | classification | level 4 | ex 9] SKIP
+[gemini-flash | classification | level 4 | ex 10] SKIP
+[gemini-flash | classification | level 4 | ex 11] SKIP
+[gemini-flash | classification | level 4 | ex 12] SKIP
+[gemini-flash | classification | level 4 | ex 13] SKIP
+[gemini-flash | classification | level 4 | ex 14] SKIP
+[gemini-flash | classification | level 4 | ex 15] SKIP
+[gemini-flash | classification | level 4 | ex 16] SKIP
+[gemini-flash | classification | level 4 | ex 17] SKIP
+[gemini-flash | classification | level 4 | ex 18] SKIP
+[gemini-flash | classification | level 4 | ex 19] SKIP
+[gemini-flash | classification | level 4 | ex 20] SKIP
+[gemini-flash | classification | level 5 | ex 1] SKIP
+[gemini-flash | classification | level 5 | ex 2] SKIP
+[gemini-flash | classification | level 5 | ex 3] SKIP
+[gemini-flash | classification | level 5 | ex 4] SKIP
+[gemini-flash | classification | level 5 | ex 5] SKIP
+[gemini-flash | classification | level 5 | ex 6] SKIP
+[gemini-flash | classification | level 5 | ex 7] SKIP
+[gemini-flash | classification | level 5 | ex 8] SKIP
+[gemini-flash | classification | level 5 | ex 9] SKIP
+[gemini-flash | classification | level 5 | ex 10] SKIP
+[gemini-flash | classification | level 5 | ex 11] SKIP
+[gemini-flash | classification | level 5 | ex 12] SKIP
+[gemini-flash | classification | level 5 | ex 13] SKIP
+[gemini-flash | classification | level 5 | ex 14] SKIP
+[gemini-flash | classification | level 5 | ex 15] SKIP
+[gemini-flash | classification | level 5 | ex 16] SKIP
+[gemini-flash | classification | level 5 | ex 17] SKIP
+[gemini-flash | classification | level 5 | ex 18] SKIP
+[gemini-flash | classification | level 5 | ex 19] SKIP
+[gemini-flash | classification | level 5 | ex 20] SKIP
+[gemini-flash | classification | level 6 | ex 1] SKIP
+[gemini-flash | classification | level 6 | ex 2] SKIP
+[gemini-flash | classification | level 6 | ex 3] SKIP
+[gemini-flash | classification | level 6 | ex 4] SKIP
+[gemini-flash | classification | level 6 | ex 5] SKIP
+[gemini-flash | classification | level 6 | ex 6] SKIP
+[gemini-flash | classification | level 6 | ex 7] SKIP
+[gemini-flash | classification | level 6 | ex 8] SKIP
+[gemini-flash | classification | level 6 | ex 9] SKIP
+[gemini-flash | classification | level 6 | ex 10] SKIP
+[gemini-flash | classification | level 6 | ex 11] SKIP
+[gemini-flash | classification | level 6 | ex 12] SKIP
+[gemini-flash | classification | level 6 | ex 13] SKIP
+[gemini-flash | classification | level 6 | ex 14] SKIP
+[gemini-flash | classification | level 6 | ex 15] SKIP
+[gemini-flash | classification | level 6 | ex 16] SKIP
+[gemini-flash | classification | level 6 | ex 17] SKIP
+[gemini-flash | classification | level 6 | ex 18] SKIP
+[gemini-flash | classification | level 6 | ex 19] SKIP
+[gemini-flash | classification | level 6 | ex 20] SKIP
+[gemini-flash | classification | level 7 | ex 1] SKIP
+[gemini-flash | classification | level 7 | ex 2] SKIP
+[gemini-flash | classification | level 7 | ex 3] SKIP
+[gemini-flash | classification | level 7 | ex 4] SKIP
+[gemini-flash | classification | level 7 | ex 5] SKIP
+[gemini-flash | classification | level 7 | ex 6] SKIP
+[gemini-flash | classification | level 7 | ex 7] SKIP
+[gemini-flash | classification | level 7 | ex 8] SKIP
+[gemini-flash | classification | level 7 | ex 9] SKIP
+[gemini-flash | classification | level 7 | ex 10] SKIP
+[gemini-flash | classification | level 7 | ex 11] SKIP
+[gemini-flash | classification | level 7 | ex 12] SKIP
+[gemini-flash | classification | level 7 | ex 13] SKIP
+[gemini-flash | classification | level 7 | ex 14] SKIP
+[gemini-flash | classification | level 7 | ex 15] SKIP
+[gemini-flash | classification | level 7 | ex 16] SKIP
+[gemini-flash | classification | level 7 | ex 17] SKIP
+[gemini-flash | classification | level 7 | ex 18] SKIP
+[gemini-flash | classification | level 7 | ex 19] SKIP
+[gemini-flash | classification | level 7 | ex 20] SKIP
+[gemini-flash | product_extraction | level 1 | ex 1] SKIP
+[gemini-flash | product_extraction | level 1 | ex 2] SKIP
+[gemini-flash | product_extraction | level 1 | ex 3] SKIP
+[gemini-flash | product_extraction | level 1 | ex 4] SKIP
+[gemini-flash | product_extraction | level 1 | ex 5] SKIP
+[gemini-flash | product_extraction | level 1 | ex 6] SKIP
+[gemini-flash | product_extraction | level 1 | ex 7] SKIP
+[gemini-flash | product_extraction | level 1 | ex 8] SKIP
+[gemini-flash | product_extraction | level 1 | ex 9] SKIP
+[gemini-flash | product_extraction | level 1 | ex 10] SKIP
+[gemini-flash | product_extraction | level 1 | ex 11] SKIP
+[gemini-flash | product_extraction | level 1 | ex 12] SKIP
+[gemini-flash | product_extraction | level 1 | ex 13] SKIP
+[gemini-flash | product_extraction | level 1 | ex 14] SKIP
+[gemini-flash | product_extraction | level 1 | ex 15] SKIP
+[gemini-flash | product_extraction | level 1 | ex 16] SKIP
+[gemini-flash | product_extraction | level 1 | ex 17] SKIP
+[gemini-flash | product_extraction | level 1 | ex 18] SKIP
+[gemini-flash | product_extraction | level 1 | ex 19] SKIP
+[gemini-flash | product_extraction | level 1 | ex 20] SKIP
+[gemini-flash | product_extraction | level 2 | ex 1] SKIP
+[gemini-flash | product_extraction | level 2 | ex 2] SKIP
+[gemini-flash | product_extraction | level 2 | ex 3] SKIP
+[gemini-flash | product_extraction | level 2 | ex 4] SKIP
+[gemini-flash | product_extraction | level 2 | ex 5] SKIP
+[gemini-flash | product_extraction | level 2 | ex 6] SKIP
+[gemini-flash | product_extraction | level 2 | ex 7] SKIP
+[gemini-flash | product_extraction | level 2 | ex 8] SKIP
+[gemini-flash | product_extraction | level 2 | ex 9] SKIP
+[gemini-flash | product_extraction | level 2 | ex 10] SKIP
+[gemini-flash | product_extraction | level 2 | ex 11] SKIP
+[gemini-flash | product_extraction | level 2 | ex 12] SKIP
+[gemini-flash | product_extraction | level 2 | ex 13] SKIP
+[gemini-flash | product_extraction | level 2 | ex 14] SKIP
+[gemini-flash | product_extraction | level 2 | ex 15] SKIP
+[gemini-flash | product_extraction | level 2 | ex 16] SKIP
+[gemini-flash | product_extraction | level 2 | ex 17] SKIP
+[gemini-flash | product_extraction | level 2 | ex 18] SKIP
+[gemini-flash | product_extraction | level 2 | ex 19] SKIP
+[gemini-flash | product_extraction | level 2 | ex 20] SKIP
+[gemini-flash | product_extraction | level 3 | ex 1] SKIP
+[gemini-flash | product_extraction | level 3 | ex 2] SKIP
+[gemini-flash | product_extraction | level 3 | ex 3] SKIP
+[gemini-flash | product_extraction | level 3 | ex 4] SKIP
+[gemini-flash | product_extraction | level 3 | ex 5] SKIP
+[gemini-flash | product_extraction | level 3 | ex 6] SKIP
+[gemini-flash | product_extraction | level 3 | ex 7] SKIP
+[gemini-flash | product_extraction | level 3 | ex 8] SKIP
+[gemini-flash | product_extraction | level 3 | ex 9] SKIP
+[gemini-flash | product_extraction | level 3 | ex 10] SKIP
+[gemini-flash | product_extraction | level 3 | ex 11] SKIP
+[gemini-flash | product_extraction | level 3 | ex 12] SKIP
+[gemini-flash | product_extraction | level 3 | ex 13] SKIP
+[gemini-flash | product_extraction | level 3 | ex 14] SKIP
+[gemini-flash | product_extraction | level 3 | ex 15] SKIP
+[gemini-flash | product_extraction | level 3 | ex 16] SKIP
+[gemini-flash | product_extraction | level 3 | ex 17] SKIP
+[gemini-flash | product_extraction | level 3 | ex 18] SKIP
+[gemini-flash | product_extraction | level 3 | ex 19] SKIP
+[gemini-flash | product_extraction | level 3 | ex 20] SKIP
+[gemini-flash | product_extraction | level 4 | ex 1] SKIP
+[gemini-flash | product_extraction | level 4 | ex 2] SKIP
+[gemini-flash | product_extraction | level 4 | ex 3] SKIP
+[gemini-flash | product_extraction | level 4 | ex 4] SKIP
+[gemini-flash | product_extraction | level 4 | ex 5] SKIP
+[gemini-flash | product_extraction | level 4 | ex 6] SKIP
+[gemini-flash | product_extraction | level 4 | ex 7] SKIP
+[gemini-flash | product_extraction | level 4 | ex 8] SKIP
+[gemini-flash | product_extraction | level 4 | ex 9] SKIP
+[gemini-flash | product_extraction | level 4 | ex 10] SKIP
+[gemini-flash | product_extraction | level 4 | ex 11] SKIP
+[gemini-flash | product_extraction | level 4 | ex 12] SKIP
+[gemini-flash | product_extraction | level 4 | ex 13] SKIP
+[gemini-flash | product_extraction | level 4 | ex 14] quality=0.850 tokens=125
+[gemini-flash | product_extraction | level 4 | ex 15] quality=0.800 tokens=118
+[gemini-flash | product_extraction | level 4 | ex 16] quality=0.950 tokens=141
+[gemini-flash | product_extraction | level 4 | ex 17] SKIP
+[gemini-flash | product_extraction | level 4 | ex 18] quality=1.000 tokens=126
+[gemini-flash | product_extraction | level 4 | ex 19] quality=0.850 tokens=134
+[gemini-flash | product_extraction | level 4 | ex 20] quality=0.850 tokens=121
+[gemini-flash | product_extraction | level 5 | ex 1] quality=0.800 tokens=132
+[gemini-flash | product_extraction | level 5 | ex 2] quality=0.750 tokens=138
+[gemini-flash | product_extraction | level 5 | ex 3] quality=0.800 tokens=137
+[gemini-flash | product_extraction | level 5 | ex 4] quality=0.700 tokens=126
+[gemini-flash | product_extraction | level 5 | ex 5] quality=0.750 tokens=122
+[gemini-flash | product_extraction | level 5 | ex 6] quality=0.700 tokens=124
+[gemini-flash | product_extraction | level 5 | ex 7] quality=0.800 tokens=134
+[gemini-flash | product_extraction | level 5 | ex 8] quality=0.700 tokens=130
+[gemini-flash | product_extraction | level 5 | ex 9] quality=1.000 tokens=127
+[gemini-flash | product_extraction | level 5 | ex 10] quality=0.700 tokens=127
+[gemini-flash | product_extraction | level 5 | ex 11] quality=0.800 tokens=143
+[gemini-flash | product_extraction | level 5 | ex 12] quality=0.400 tokens=153
+[gemini-flash | product_extraction | level 5 | ex 13] quality=0.850 tokens=139
+[gemini-flash | product_extraction | level 5 | ex 14] quality=0.800 tokens=144
+[gemini-flash | product_extraction | level 5 | ex 15] quality=0.800 tokens=137
+[gemini-flash | product_extraction | level 5 | ex 16] quality=0.950 tokens=160
+[gemini-flash | product_extraction | level 5 | ex 17] quality=0.800 tokens=146
+[gemini-flash | product_extraction | level 5 | ex 18] quality=0.800 tokens=145
+[gemini-flash | product_extraction | level 5 | ex 19] quality=0.850 tokens=153
+[gemini-flash | product_extraction | level 5 | ex 20] quality=0.650 tokens=140
+[gemini-flash | product_extraction | level 6 | ex 1] quality=0.800 tokens=201
+[gemini-flash | product_extraction | level 6 | ex 2] quality=0.750 tokens=207
+[gemini-flash | product_extraction | level 6 | ex 3] quality=0.750 tokens=206
+[gemini-flash | product_extraction | level 6 | ex 4] quality=0.800 tokens=195
+[gemini-flash | product_extraction | level 6 | ex 5] quality=0.800 tokens=191
+[gemini-flash | product_extraction | level 6 | ex 6] quality=0.750 tokens=193
+[gemini-flash | product_extraction | level 6 | ex 7] quality=0.800 tokens=203
+[gemini-flash | product_extraction | level 6 | ex 8] quality=0.750 tokens=199
+[gemini-flash | product_extraction | level 6 | ex 9] quality=1.000 tokens=196
+[gemini-flash | product_extraction | level 6 | ex 10] quality=0.800 tokens=196
+[gemini-flash | product_extraction | level 6 | ex 11] quality=0.800 tokens=212
+[gemini-flash | product_extraction | level 6 | ex 12] quality=0.300 tokens=222
+[gemini-flash | product_extraction | level 6 | ex 13] quality=0.850 tokens=208
+[gemini-flash | product_extraction | level 6 | ex 14] quality=0.850 tokens=213
+[gemini-flash | product_extraction | level 6 | ex 15] quality=0.800 tokens=206
+[gemini-flash | product_extraction | level 6 | ex 16] quality=0.850 tokens=229
+[gemini-flash | product_extraction | level 6 | ex 17] quality=0.800 tokens=215
+[gemini-flash | product_extraction | level 6 | ex 18] quality=1.000 tokens=214
+[gemini-flash | product_extraction | level 6 | ex 19] quality=0.850 tokens=222
+[gemini-flash | product_extraction | level 6 | ex 20] quality=0.850 tokens=209
+[gemini-flash | product_extraction | level 7 | ex 1] quality=0.400 tokens=278
+[gemini-flash | product_extraction | level 7 | ex 2] quality=0.800 tokens=284
+[gemini-flash | product_extraction | level 7 | ex 3] quality=0.800 tokens=283
+[gemini-flash | product_extraction | level 7 | ex 4] quality=0.850 tokens=272
+[gemini-flash | product_extraction | level 7 | ex 5] quality=0.800 tokens=268
+[gemini-flash | product_extraction | level 7 | ex 6] quality=0.750 tokens=270
+[gemini-flash | product_extraction | level 7 | ex 7] quality=0.800 tokens=280
+[gemini-flash | product_extraction | level 7 | ex 8] quality=0.800 tokens=276
+[gemini-flash | product_extraction | level 7 | ex 9] quality=1.000 tokens=273
+[gemini-flash | product_extraction | level 7 | ex 10] quality=0.800 tokens=273
+[gemini-flash | product_extraction | level 7 | ex 11] quality=0.800 tokens=289
+[gemini-flash | product_extraction | level 7 | ex 12] quality=0.250 tokens=299
+[gemini-flash | product_extraction | level 7 | ex 13] quality=0.850 tokens=285
+[gemini-flash | product_extraction | level 7 | ex 14] quality=0.800 tokens=290
+[gemini-flash | product_extraction | level 7 | ex 15] quality=1.000 tokens=283
+[gemini-flash | product_extraction | level 7 | ex 16] quality=1.000 tokens=306
+[gemini-flash | product_extraction | level 7 | ex 17] quality=1.000 tokens=292
+[gemini-flash | product_extraction | level 7 | ex 18] quality=1.000 tokens=291
+[gemini-flash | product_extraction | level 7 | ex 19] quality=1.000 tokens=299
+[gemini-flash | product_extraction | level 7 | ex 20] quality=0.850 tokens=286
+[gemini-flash | instruction_following | level 1 | ex 1] quality=0.400 tokens=17
+[gemini-flash | instruction_following | level 1 | ex 2] quality=0.600 tokens=18
+[gemini-flash | instruction_following | level 1 | ex 3] quality=0.900 tokens=11
+[gemini-flash | instruction_following | level 1 | ex 4] quality=0.500 tokens=16
+[gemini-flash | instruction_following | level 1 | ex 5] quality=0.300 tokens=13
+[gemini-flash | instruction_following | level 1 | ex 6] quality=0.950 tokens=15
+[gemini-flash | instruction_following | level 1 | ex 7] quality=0.250 tokens=16
+[gemini-flash | instruction_following | level 1 | ex 8] quality=0.600 tokens=22
+[gemini-flash | instruction_following | level 1 | ex 9] quality=0.600 tokens=16
+[gemini-flash | instruction_following | level 1 | ex 10] quality=0.600 tokens=17
+[gemini-flash | instruction_following | level 1 | ex 11] quality=1.000 tokens=16
+[gemini-flash | instruction_following | level 1 | ex 12] quality=0.600 tokens=15
+[gemini-flash | instruction_following | level 1 | ex 13] quality=0.600 tokens=18
+[gemini-flash | instruction_following | level 1 | ex 14] quality=0.600 tokens=17
+[gemini-flash | instruction_following | level 1 | ex 15] quality=0.400 tokens=16
+[gemini-flash | instruction_following | level 1 | ex 16] quality=0.400 tokens=14
+[gemini-flash | instruction_following | level 1 | ex 17] quality=0.400 tokens=13
+[gemini-flash | instruction_following | level 1 | ex 18] quality=0.200 tokens=20
+[gemini-flash | instruction_following | level 1 | ex 19] quality=0.400 tokens=18
+[gemini-flash | instruction_following | level 1 | ex 20] quality=0.400 tokens=19
+[gemini-flash | instruction_following | level 2 | ex 1] quality=1.000 tokens=23
+[gemini-flash | instruction_following | level 2 | ex 2] quality=0.600 tokens=24
+[gemini-flash | instruction_following | level 2 | ex 3] quality=0.900 tokens=17
+[gemini-flash | instruction_following | level 2 | ex 4] quality=1.000 tokens=22
+[gemini-flash | instruction_following | level 2 | ex 5] quality=0.750 tokens=19
+[gemini-flash | instruction_following | level 2 | ex 6] quality=0.950 tokens=21
+[gemini-flash | instruction_following | level 2 | ex 7] quality=1.000 tokens=22
+[gemini-flash | instruction_following | level 2 | ex 8] quality=0.850 tokens=28
+[gemini-flash | instruction_following | level 2 | ex 9] quality=0.200 tokens=22
+[gemini-flash | instruction_following | level 2 | ex 10] quality=0.200 tokens=23
+[gemini-flash | instruction_following | level 2 | ex 11] quality=1.000 tokens=22
+[gemini-flash | instruction_following | level 2 | ex 12] quality=0.950 tokens=21
+[gemini-flash | instruction_following | level 2 | ex 13] quality=0.900 tokens=24
+[gemini-flash | instruction_following | level 2 | ex 14] quality=1.000 tokens=23
+[gemini-flash | instruction_following | level 2 | ex 15] quality=0.400 tokens=22
+[gemini-flash | instruction_following | level 2 | ex 16] quality=0.400 tokens=20
+[gemini-flash | instruction_following | level 2 | ex 17] quality=0.400 tokens=19
+[gemini-flash | instruction_following | level 2 | ex 18] quality=0.200 tokens=26
+[gemini-flash | instruction_following | level 2 | ex 19] quality=0.400 tokens=24
+[gemini-flash | instruction_following | level 2 | ex 20] quality=0.400 tokens=25
+[gemini-flash | instruction_following | level 3 | ex 1] quality=0.850 tokens=33
+[gemini-flash | instruction_following | level 3 | ex 2] quality=0.300 tokens=34
+[gemini-flash | instruction_following | level 3 | ex 3] quality=0.900 tokens=27
+[gemini-flash | instruction_following | level 3 | ex 4] quality=0.600 tokens=32
+[gemini-flash | instruction_following | level 3 | ex 5] quality=1.000 tokens=29
+[gemini-flash | instruction_following | level 3 | ex 6] quality=0.950 tokens=31
+[gemini-flash | instruction_following | level 3 | ex 7] quality=1.000 tokens=32
+[gemini-flash | instruction_following | level 3 | ex 8] quality=0.200 tokens=38
+[gemini-flash | instruction_following | level 3 | ex 9] quality=0.200 tokens=32
+[gemini-flash | instruction_following | level 3 | ex 10] quality=0.600 tokens=33
+[gemini-flash | instruction_following | level 3 | ex 11] quality=1.000 tokens=32
+[gemini-flash | instruction_following | level 3 | ex 12] quality=0.200 tokens=31
+[gemini-flash | instruction_following | level 3 | ex 13] quality=0.900 tokens=34
+[gemini-flash | instruction_following | level 3 | ex 14] quality=0.800 tokens=33
+[gemini-flash | instruction_following | level 3 | ex 15] quality=0.400 tokens=32
+[gemini-flash | instruction_following | level 3 | ex 16] quality=0.400 tokens=30
+[gemini-flash | instruction_following | level 3 | ex 17] quality=0.400 tokens=29
+[gemini-flash | instruction_following | level 3 | ex 18] quality=0.200 tokens=36
+[gemini-flash | instruction_following | level 3 | ex 19] quality=0.400 tokens=34
+[gemini-flash | instruction_following | level 3 | ex 20] quality=0.400 tokens=35
+[gemini-flash | instruction_following | level 4 | ex 1] quality=0.750 tokens=49
+[gemini-flash | instruction_following | level 4 | ex 2] quality=1.000 tokens=50
+[gemini-flash | instruction_following | level 4 | ex 3] quality=0.800 tokens=43
+[gemini-flash | instruction_following | level 4 | ex 4] quality=0.600 tokens=48
+[gemini-flash | instruction_following | level 4 | ex 5] quality=0.850 tokens=45
+[gemini-flash | instruction_following | level 4 | ex 6] quality=1.000 tokens=47
+[gemini-flash | instruction_following | level 4 | ex 7] quality=1.000 tokens=48
+[gemini-flash | instruction_following | level 4 | ex 8] quality=0.200 tokens=54
+[gemini-flash | instruction_following | level 4 | ex 9] quality=0.900 tokens=48
+[gemini-flash | instruction_following | level 4 | ex 10] quality=0.600 tokens=49
+[gemini-flash | instruction_following | level 4 | ex 11] quality=0.950 tokens=48
+[gemini-flash | instruction_following | level 4 | ex 12] quality=0.400 tokens=47
+[gemini-flash | instruction_following | level 4 | ex 13] quality=0.950 tokens=50
+[gemini-flash | instruction_following | level 4 | ex 14] quality=1.000 tokens=49
+[gemini-flash | instruction_following | level 4 | ex 15] quality=0.400 tokens=48
+[gemini-flash | instruction_following | level 4 | ex 16] quality=0.400 tokens=46
+[gemini-flash | instruction_following | level 4 | ex 17] quality=0.400 tokens=45
+[gemini-flash | instruction_following | level 4 | ex 18] quality=0.200 tokens=52
+[gemini-flash | instruction_following | level 4 | ex 19] quality=0.400 tokens=50
+[gemini-flash | instruction_following | level 4 | ex 20] quality=0.400 tokens=51
+[gemini-flash | instruction_following | level 5 | ex 1] quality=0.900 tokens=76
+[gemini-flash | instruction_following | level 5 | ex 2] quality=1.000 tokens=77
+[gemini-flash | instruction_following | level 5 | ex 3] quality=0.800 tokens=70
+[gemini-flash | instruction_following | level 5 | ex 4] quality=0.950 tokens=75
+[gemini-flash | instruction_following | level 5 | ex 5] quality=0.950 tokens=72
+[gemini-flash | instruction_following | level 5 | ex 6] quality=1.000 tokens=74
+[gemini-flash | instruction_following | level 5 | ex 7] quality=0.950 tokens=75
+[gemini-flash | instruction_following | level 5 | ex 8] quality=0.600 tokens=81
+[gemini-flash | instruction_following | level 5 | ex 9] quality=1.000 tokens=75
+[gemini-flash | instruction_following | level 5 | ex 10] quality=0.900 tokens=76
+[gemini-flash | instruction_following | level 5 | ex 11] quality=1.000 tokens=75
+[gemini-flash | instruction_following | level 5 | ex 12] quality=0.600 tokens=74
+[gemini-flash | instruction_following | level 5 | ex 13] quality=0.950 tokens=77
+[gemini-flash | instruction_following | level 5 | ex 14] quality=0.950 tokens=76
+[gemini-flash | instruction_following | level 5 | ex 15] quality=0.400 tokens=75
+[gemini-flash | instruction_following | level 5 | ex 16] quality=0.400 tokens=73
+[gemini-flash | instruction_following | level 5 | ex 17] quality=0.400 tokens=72
+[gemini-flash | instruction_following | level 5 | ex 18] quality=0.200 tokens=79
+[gemini-flash | instruction_following | level 5 | ex 19] quality=0.400 tokens=77
+[gemini-flash | instruction_following | level 5 | ex 20] quality=0.400 tokens=78
+[gemini-flash | instruction_following | level 6 | ex 1] quality=0.950 tokens=105
+[gemini-flash | instruction_following | level 6 | ex 2] quality=0.950 tokens=106
+[gemini-flash | instruction_following | level 6 | ex 3] quality=0.800 tokens=99
+[gemini-flash | instruction_following | level 6 | ex 4] quality=0.950 tokens=104
+[gemini-flash | instruction_following | level 6 | ex 5] quality=0.900 tokens=101
+[gemini-flash | instruction_following | level 6 | ex 6] quality=0.850 tokens=103
+[gemini-flash | instruction_following | level 6 | ex 7] quality=1.000 tokens=104
+[gemini-flash | instruction_following | level 6 | ex 8] quality=0.750 tokens=110
+[gemini-flash | instruction_following | level 6 | ex 9] quality=0.900 tokens=104
+[gemini-flash | instruction_following | level 6 | ex 10] quality=0.900 tokens=105
+[gemini-flash | instruction_following | level 6 | ex 11] quality=1.000 tokens=104
+[gemini-flash | instruction_following | level 6 | ex 12] quality=0.950 tokens=103
+[gemini-flash | instruction_following | level 6 | ex 13] quality=0.950 tokens=106
+[gemini-flash | instruction_following | level 6 | ex 14] quality=1.000 tokens=105
+[gemini-flash | instruction_following | level 6 | ex 15] quality=0.400 tokens=104
+[gemini-flash | instruction_following | level 6 | ex 16] quality=0.400 tokens=102
+[gemini-flash | instruction_following | level 6 | ex 17] quality=0.400 tokens=101
+[gemini-flash | instruction_following | level 6 | ex 18] quality=0.400 tokens=108
+[gemini-flash | instruction_following | level 6 | ex 19] quality=0.400 tokens=106
+[gemini-flash | instruction_following | level 6 | ex 20] quality=0.400 tokens=107
+[gemini-flash | instruction_following | level 7 | ex 1] quality=0.600 tokens=136
+[gemini-flash | instruction_following | level 7 | ex 2] quality=1.000 tokens=137
+[gemini-flash | instruction_following | level 7 | ex 3] quality=0.850 tokens=130
+[gemini-flash | instruction_following | level 7 | ex 4] quality=0.950 tokens=135
+[gemini-flash | instruction_following | level 7 | ex 5] quality=0.850 tokens=132
+[gemini-flash | instruction_following | level 7 | ex 6] quality=1.000 tokens=134
+[gemini-flash | instruction_following | level 7 | ex 7] quality=0.950 tokens=135
+[gemini-flash | instruction_following | level 7 | ex 8] quality=0.250 tokens=141
+[gemini-flash | instruction_following | level 7 | ex 9] quality=1.000 tokens=135
+[gemini-flash | instruction_following | level 7 | ex 10] quality=0.900 tokens=136
+[gemini-flash | instruction_following | level 7 | ex 11] quality=1.000 tokens=135
+[gemini-flash | instruction_following | level 7 | ex 12] quality=0.900 tokens=134
+[gemini-flash | instruction_following | level 7 | ex 13] quality=0.950 tokens=137
+[gemini-flash | instruction_following | level 7 | ex 14] quality=0.950 tokens=136
+[gemini-flash | instruction_following | level 7 | ex 15] quality=0.400 tokens=135
+[gemini-flash | instruction_following | level 7 | ex 16] quality=0.400 tokens=133
+[gemini-flash | instruction_following | level 7 | ex 17] quality=0.400 tokens=132
+[gemini-flash | instruction_following | level 7 | ex 18] quality=0.200 tokens=139
+[gemini-flash | instruction_following | level 7 | ex 19] quality=0.400 tokens=137
+[gemini-flash | instruction_following | level 7 | ex 20] quality=0.400 tokens=138
+
+Done. 877 successful records.
+[1/2] Run 1 done: Thu Jun 11 08:33:03 EDT 2026
+
+[2/2] Repeated runs — run_id=2 (2 models × 3 tasks)
+Started: Thu Jun 11 08:33:03 EDT 2026
+0.400 tokens=165
+[llama-3.1-8b | instruction_following | level 7 | ex 20] quality=0.400 tokens=166
+[gemini-flash | classification | level 1 | ex 1] quality=0.650 tokens=24
+[gemini-flash | classification | level 1 | ex 2] quality=0.350 tokens=29
+[gemini-flash | classification | level 1 | ex 3] quality=0.450 tokens=31
+[gemini-flash | classification | level 1 | ex 4] quality=0.900 tokens=35
+[gemini-flash | classification | level 1 | ex 5] quality=0.850 tokens=29
+[gemini-flash | classification | level 1 | ex 6] quality=0.900 tokens=28
+[gemini-flash | classification | level 1 | ex 7] quality=0.950 tokens=32
+[gemini-flash | classification | level 1 | ex 8] quality=0.850 tokens=28
+[gemini-flash | classification | level 1 | ex 9] quality=0.850 tokens=33
+[gemini-flash | classification | level 1 | ex 10] quality=0.900 tokens=34
+[gemini-flash | classification | level 1 | ex 11] quality=0.350 tokens=26
+[gemini-flash | classification | level 1 | ex 12] quality=0.800 tokens=31
+[gemini-flash | classification | level 1 | ex 13] quality=0.400 tokens=34
+[gemini-flash | classification | level 1 | ex 14] quality=0.400 tokens=33
+[gemini-flash | classification | level 1 | ex 15] quality=0.300 tokens=26
+[gemini-flash | classification | level 1 | ex 16] quality=0.500 tokens=28
+[gemini-flash | classification | level 1 | ex 17] quality=0.250 tokens=33
+[gemini-flash | classification | level 1 | ex 18] quality=0.300 tokens=29
+[gemini-flash | classification | level 1 | ex 19] quality=0.450 tokens=26
+[gemini-flash | classification | level 1 | ex 20] quality=0.450 tokens=31
+[gemini-flash | classification | level 2 | ex 1] quality=1.000 tokens=32
+[gemini-flash | classification | level 2 | ex 2] quality=1.000 tokens=37
+[gemini-flash | classification | level 2 | ex 3] quality=1.000 tokens=39
+[gemini-flash | classification | level 2 | ex 4] quality=1.000 tokens=43
+[gemini-flash | classification | level 2 | ex 5] quality=1.000 tokens=37
+[gemini-flash | classification | level 2 | ex 6] quality=1.000 tokens=36
+[gemini-flash | classification | level 2 | ex 7] quality=1.000 tokens=40
+[gemini-flash | classification | level 2 | ex 8] quality=1.000 tokens=36
+[gemini-flash | classification | level 2 | ex 9] quality=1.000 tokens=41
+[gemini-flash | classification | level 2 | ex 10] quality=1.000 tokens=42
+[gemini-flash | classification | level 2 | ex 11] quality=1.000 tokens=34
+[gemini-flash | classification | level 2 | ex 12] quality=1.000 tokens=39
+[gemini-flash | classification | level 2 | ex 13] quality=1.000 tokens=42
+[gemini-flash | classification | level 2 | ex 14] quality=1.000 tokens=41
+[gemini-flash | classification | level 2 | ex 15] quality=0.400 tokens=34
+[gemini-flash | classification | level 2 | ex 16] quality=0.900 tokens=36
+[gemini-flash | classification | level 2 | ex 17] quality=0.450 tokens=41
+[gemini-flash | classification | level 2 | ex 18] quality=0.950 tokens=37
+[gemini-flash | classification | level 2 | ex 19] quality=0.400 tokens=34
+[gemini-flash | classification | level 2 | ex 20] quality=0.750 tokens=39
+[gemini-flash | classification | level 3 | ex 1] quality=1.000 tokens=38
+[gemini-flash | classification | level 3 | ex 2] quality=1.000 tokens=43
+[gemini-flash | classification | level 3 | ex 3] quality=1.000 tokens=45
+[gemini-flash | classification | level 3 | ex 4] quality=1.000 tokens=49
+[gemini-flash | classification | level 3 | ex 5] quality=1.000 tokens=43
+[gemini-flash | classification | level 3 | ex 6] quality=1.000 tokens=42
+[gemini-flash | classification | level 3 | ex 7] quality=1.000 tokens=46
+[gemini-flash | classification | level 3 | ex 8] quality=1.000 tokens=42
+[gemini-flash | classification | level 3 | ex 9] quality=1.000 tokens=47
+[gemini-flash | classification | level 3 | ex 10] quality=1.000 tokens=48
+[gemini-flash | classification | level 3 | ex 11] quality=1.000 tokens=40
+[gemini-flash | classification | level 3 | ex 12] quality=1.000 tokens=45
+[gemini-flash | classification | level 3 | ex 13] quality=1.000 tokens=48
+[gemini-flash | classification | level 3 | ex 14] quality=1.000 tokens=47
+[gemini-flash | classification | level 3 | ex 15] quality=0.400 tokens=40
+[gemini-flash | classification | level 3 | ex 16] quality=0.400 tokens=42
+[gemini-flash | classification | level 3 | ex 17] quality=0.400 tokens=47
+[gemini-flash | classification | level 3 | ex 18] quality=1.000 tokens=43
+[gemini-flash | classification | level 3 | ex 19] quality=0.400 tokens=40
+[gemini-flash | classification | level 3 | ex 20] quality=0.400 tokens=45
+[gemini-flash | classification | level 4 | ex 1] quality=1.000 tokens=79
+[gemini-flash | classification | level 4 | ex 2] quality=1.000 tokens=84
+[gemini-flash | classification | level 4 | ex 3] quality=1.000 tokens=86
+[gemini-flash | classification | level 4 | ex 4] quality=1.000 tokens=90
+[gemini-flash | classification | level 4 | ex 5] quality=1.000 tokens=84
+[gemini-flash | classification | level 4 | ex 6] quality=1.000 tokens=83
+[gemini-flash | classification | level 4 | ex 7] quality=1.000 tokens=87
+[gemini-flash | classification | level 4 | ex 8] quality=1.000 tokens=83
+[gemini-flash | classification | level 4 | ex 9] quality=1.000 tokens=88
+[gemini-flash | classification | level 4 | ex 10] quality=1.000 tokens=89
+[gemini-flash | classification | level 4 | ex 11] quality=1.000 tokens=81
+[gemini-flash | classification | level 4 | ex 12] quality=1.000 tokens=86
+[gemini-flash | classification | level 4 | ex 13] quality=1.000 tokens=89
+[gemini-flash | classification | level 4 | ex 14] quality=1.000 tokens=88
+[gemini-flash | classification | level 4 | ex 15] quality=0.400 tokens=81
+[gemini-flash | classification | level 4 | ex 16] quality=0.400 tokens=83
+[gemini-flash | classification | level 4 | ex 17] quality=0.400 tokens=88
+[gemini-flash | classification | level 4 | ex 18] quality=1.000 tokens=84
+[gemini-flash | classification | level 4 | ex 19] quality=0.400 tokens=81
+[gemini-flash | classification | level 4 | ex 20] quality=0.400 tokens=86
+[gemini-flash | classification | level 5 | ex 1] quality=1.000 tokens=102
+[gemini-flash | classification | level 5 | ex 2] quality=1.000 tokens=107
+[gemini-flash | classification | level 5 | ex 3] quality=1.000 tokens=109
+[gemini-flash | classification | level 5 | ex 4] quality=1.000 tokens=113
+[gemini-flash | classification | level 5 | ex 5] quality=1.000 tokens=107
+[gemini-flash | classification | level 5 | ex 6] quality=1.000 tokens=106
+[gemini-flash | classification | level 5 | ex 7] quality=1.000 tokens=110
+[gemini-flash | classification | level 5 | ex 8] quality=1.000 tokens=106
+[gemini-flash | classification | level 5 | ex 9] quality=1.000 tokens=111
+Traceback (most recent call last):
+  File "/Users/utkarshbajaj/Documents/05-Code-Projects/GreenPES/experiments/saturation_benchmark.py", line 269, in <module>
+    main()
+    ~~~~^^
+  File "/Users/utkarshbajaj/Documents/05-Code-Projects/GreenPES/experiments/saturation_benchmark.py", line 255, in main
+    run_saturation_benchmark(
+    ~~~~~~~~~~~~~~~~~~~~~~~~^
+        providers=providers,
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        run_id=args.run_id,
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/utkarshbajaj/Documents/05-Code-Projects/GreenPES/experiments/saturation_benchmark.py", line 206, in run_saturation_benchmark
+    _save(results, output_path)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/utkarshbajaj/Documents/05-Code-Projects/GreenPES/experiments/saturation_benchmark.py", line 101, in _save
+    json.dump(results, f, indent=2)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/json/__init__.py", line 180, in dump
+    fp.write(chunk)
+    ~~~~~~~~^^^^^^^
+OSError: [Errno 28] No space left on device
+[2/2] finished with errors at Thu Jun 11 09:09:38 EDT 2026
+[2/2] Run 2 done: Thu Jun 11 09:09:38 EDT 2026
+
+==========================================
+DONE — Thu Jun 11 09:09:38 EDT 2026
+==========================================

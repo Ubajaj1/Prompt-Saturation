@@ -45,6 +45,13 @@ from experiments.prompting_strategies import BENCHMARK_EXAMPLES
 
 
 TASKS = ['qa', 'summarization', 'classification', 'instruction_following', 'math_reasoning', 'product_extraction', 'ner']
+HARD_TASKS = ['math_reasoning_hard', 'qa_hard', 'instruction_following_hard']
+
+HARD_TO_BASE = {
+    'math_reasoning_hard': 'math_reasoning',
+    'qa_hard': 'qa',
+    'instruction_following_hard': 'instruction_following',
+}
 
 MODEL_CONFIGS: dict[str, dict] = {
     'llama-3.1-8b':  {'provider_cls': GroqProvider,      'model': 'llama-3.1-8b-instant',          'env_key': 'GROQ_API_KEY'},
@@ -54,7 +61,7 @@ MODEL_CONFIGS: dict[str, dict] = {
     'kimi-k2':       {'provider_cls': GroqProvider,      'model': 'moonshotai/kimi-k2-instruct',    'env_key': 'GROQ_API_KEY'},
     'gpt-4o-mini':   {'provider_cls': OpenAIProvider,    'model': 'gpt-4o-mini',                    'env_key': 'OPENAI_API_KEY'},
     'claude-haiku':  {'provider_cls': AnthropicProvider, 'model': 'claude-haiku-4-5-20251001',      'env_key': 'ANTHROPIC_API_KEY'},
-    'gemini-flash':  {'provider_cls': GeminiProvider,    'model': 'gemini-2.0-flash',               'env_key': 'GEMINI_API_KEY'},
+    'gemini-flash':  {'provider_cls': GeminiProvider,    'model': 'gemini-2.5-flash',               'env_key': 'GEMINI_API_KEY'},
     'mock':          {'provider_cls': MockProvider,      'model': 'mock',                           'env_key': None},
 }
 
@@ -111,10 +118,20 @@ def run_saturation_benchmark(
     print(f"Resuming: {len(done)} experiments already done" if resume and done
           else "Starting fresh run")
 
+    hard_examples = {}
+    hard_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hard_examples.json")
+    if os.path.exists(hard_path):
+        with open(hard_path) as f:
+            hard_examples = json.load(f)
+
     for model_name, provider in providers:
         for task in tasks:
-            examples = BENCHMARK_EXAMPLES[task][:examples_per_task]
-            templates = SATURATION_TEMPLATES[task]
+            base_task = HARD_TO_BASE.get(task, task)
+            if task in hard_examples:
+                examples = hard_examples[task][:examples_per_task]
+            else:
+                examples = BENCHMARK_EXAMPLES[task][:examples_per_task]
+            templates = SATURATION_TEMPLATES[base_task]
 
             for level_idx, template in enumerate(templates):
                 level = level_idx + 1  # 1-indexed
@@ -125,22 +142,23 @@ def run_saturation_benchmark(
                         print(f"[{model_name} | {task} | level {level} | ex {ex_idx+1}] SKIP")
                         continue
 
-                    prompt = format_prompt(template, task, example)
+                    prompt = format_prompt(template, base_task, example)
                     label = f"[{model_name} | {task} | level {level} | ex {ex_idx+1}]"
 
                     try:
                         response = provider.generate(prompt, max_tokens=512)
 
+                        eval_task = HARD_TO_BASE.get(task, task)
                         if evaluator_type == 'llm_judge' and judge_provider is not None:
                             evaluator = LLMJudgeEvaluator(
-                                judge_provider=judge_provider, task_type=task
+                                judge_provider=judge_provider, task_type=eval_task
                             )
-                        elif task == 'instruction_following':
+                        elif eval_task == 'instruction_following':
                             evaluator = InstructionFollowingEvaluator(
                                 constraints=example.get('constraints', [])
                             )
                         else:
-                            evaluator = get_evaluator(task)
+                            evaluator = get_evaluator(eval_task)
 
                         quality, completed = evaluator.evaluate(
                             response.text,
@@ -199,7 +217,7 @@ def main():
     parser = argparse.ArgumentParser(description='Saturation benchmark runner')
     parser.add_argument('--models',      nargs='+', default=list(MODEL_CONFIGS.keys()),
                         choices=list(MODEL_CONFIGS.keys()))
-    parser.add_argument('--tasks',       nargs='+', default=TASKS, choices=TASKS)
+    parser.add_argument('--tasks',       nargs='+', default=TASKS, choices=TASKS + HARD_TASKS)
     parser.add_argument('--examples',    type=int,  default=20)
     parser.add_argument('--output',      default='results/saturation_results.json')
     parser.add_argument('--delay',       type=float, default=2.0)

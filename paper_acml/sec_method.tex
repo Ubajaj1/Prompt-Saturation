@@ -66,6 +66,15 @@ We study six tasks spanning a spectrum of output structure:
     structural constraints (bullet points, numbered list, single word).
     20 examples, each with 1--2 constraints.
     Heuristic: fraction of constraints satisfied.
+  \item \textbf{Named Entity Recognition (NER, held-out validation):}
+    extract person names, organisations, and locations from news-style
+    sentences. 20 curated examples spanning easy (single entity type) to
+    hard (multiple overlapping entities). Heuristic: per-type F1 averaged
+    across entity categories.
+    This task was selected \emph{after} the main study to validate the
+    prompt-sensitivity gradient: we predicted NER would show
+    \textbf{distributed} saturation, like product extraction, because
+    both tasks require schema demonstration.
 \end{itemize}
 
 To assess robustness to dataset size, we replicate the experiment on
@@ -78,6 +87,13 @@ negative findings at larger scale bounds the intermediate tasks.
 Product extraction receives independent confirmation through the ablation
 (2,986 runs with new orderings and examples) and padding control
 (1,470 runs) rather than a separate replication.
+
+To test whether ``insensitive'' classifications reflect genuinely easy
+examples rather than true prompt insensitivity, we run a hard-example
+stress test: 20 multi-step GSM8K problems~\citep{cobbe2021gsm8k} for
+math reasoning, 20 multi-hop HotpotQA questions~\citep{yang2018hotpotqa}
+for QA, and 20 multi-constraint instructions for instruction following,
+evaluated on three models across all seven levels (1,260 runs).
 
 \subsection{Models}
 \label{sec:models}
@@ -98,7 +114,9 @@ size range below 8B without inflating the experiment matrix.
 \caption{Models evaluated. Parameter counts are listed where publicly
   disclosed; ``undiscl.''\ indicates the provider has not released this
   information. $\dagger$Evaluated on classification and product extraction
-  only (see text).}
+  only. $\ddagger$Deprecated between study phases; supplementary
+  experiments (NER, hard examples, stability) use gemini-2.5-flash and
+  exclude kimi-k2.}
 \label{tab:models}
 \small
 \begin{tabular}{lllr}
@@ -109,8 +127,8 @@ llama-3.2-1b-instruct$^\dagger$ & Meta & Groq     & 1B        \\
 llama-3.1-8b-instant    & Meta       & Groq      & 8B        \\
 qwen/qwen3-32b          & Alibaba    & Groq      & 32B       \\
 llama-3.3-70b-versatile & Meta       & Groq      & 70B       \\
-gemini-2.0-flash        & Google     & Gemini    & undiscl.  \\
-moonshotai/kimi-k2      & Moonshot   & Groq      & undiscl.  \\
+gemini-2.0-flash$^\ddagger$ & Google  & Gemini    & undiscl.  \\
+moonshotai/kimi-k2$^\ddagger$ & Moonshot & Groq   & undiscl.  \\
 gpt-4o-mini             & OpenAI     & OpenAI    & undiscl.  \\
 claude-haiku-4-5        & Anthropic  & Anthropic & undiscl.  \\
 \bottomrule
@@ -251,8 +269,11 @@ Randomised layer-ordering ablation & 2,986 \\
 Irrelevant-padding control & 1,470 \\
 Independent second judge (gemini-2.0-flash) & 3,915 \\
 Sub-8B experiment (Llama-3.2-1B) & 332 \\
+Held-out NER validation (5 models $\times$ 7 levels $\times$ 20 examples) & 700 \\
+Hard-example stress test (3 models $\times$ 3 tasks $\times$ 7 levels $\times$ 20 examples) & 1,260 \\
+Sampling stability (1 model $\times$ 3 tasks $\times$ 7 levels $\times$ 20 examples $\times$ 2 repeats) & 840 \\
 \midrule
-\textbf{Total} & \textbf{17,378} \\
+\textbf{Total} & \textbf{20,178} \\
 \bottomrule
 \end{tabular}
 \end{table}

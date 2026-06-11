@@ -1,9 +1,9 @@
 \begin{abstract}
 Practitioners routinely craft increasingly verbose prompts under the
 assumption that more context yields better responses.
-We test this assumption with a controlled study spanning 17,378 LLM-evaluated
+We test this assumption with a controlled study spanning 20,178 LLM-evaluated
 responses across eight large language models (seven running all six tasks), seven additive
-prompt-elaboration levels.
+prompt-elaboration levels, and three supplementary experiments.
 Our methodology isolates the effect of prompt content from prompt length
 through three complementary experiments: (1)~a core saturation study in which
 each prompt level adds exactly one elaboration layer (task label, format
@@ -15,6 +15,13 @@ We find that response quality is governed by \emph{information sufficiency},
 not token count: quality saturates once task-critical content has been
 communicated, regardless of when it appears in the prompt or how many
 tokens surround it.
+A hard-example stress test on public benchmarks (GSM8K, HotpotQA)
+confirms that QA insensitivity is genuine, not a ceiling artefact,
+while instruction following sensitivity strengthens 6.6$\times$ with
+harder examples.
+A held-out task (NER, 700~runs) partially validates the taxonomy and
+refines it: schema complexity---not merely structured output---determines
+whether a task is concentrated or distributed.
 Tasks vary in a four-level \emph{prompt-sensitivity gradient}:
 \emph{concentrated} (classification---49\% of quality gain from one layer),
 \emph{distributed} (product extraction---gains across multiple layers),
