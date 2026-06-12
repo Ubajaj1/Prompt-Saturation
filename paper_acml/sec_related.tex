@@ -9,7 +9,7 @@ demonstrating substantial token redundancy.
 soft tokens.
 More recent pipelines such as CompactPrompt~\citep{wang2025compactprompt}
 combine token pruning with n-gram abbreviation for end-to-end compression.
-These methods operate \emph{at inference time, per instance}---compressing a
+These methods operate \emph{at inference time, per instance}, compressing a
 written prompt by removing low-information tokens.
 Our work operates \emph{at authoring time, per task}: we provide priors on
 which prompt mechanisms yield quality gains for a given task type, before
@@ -56,7 +56,7 @@ to paraphrased prompts while holding information constant.
 (separators, casing) substantially affect in-context learning accuracy.
 \citet{voronov2024mind} demonstrate that inconsistent prompt formatting
 confounds evaluation of in-context learning improvements.
-These works study sensitivity along the \emph{formatting} axis---varying
+These works study sensitivity along the \emph{formatting} axis, varying
 phrasing or layout while holding information constant.
 Our work studies the complementary \emph{information} axis: we hold
 phrasing fixed (via strict additive nesting) and vary how much

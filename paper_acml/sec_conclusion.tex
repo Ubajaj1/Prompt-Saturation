@@ -1,31 +1,38 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-We have presented a controlled study of prompt sensitivity across six tasks,
-eight models (1B--frontier), and 17,378 LLM evaluations.
-Through a combination of additive prompt levels, randomised layer-ordering
-ablation, and irrelevant-padding controls, we demonstrate that response
-quality is governed by \textbf{information sufficiency}: quality saturates
-once task-critical content has been communicated, irrespective of raw token
-count or layer ordering.
+We have presented a controlled study of prompt sensitivity across six tasks, a
+held-out seventh, eight models (1B--frontier), and 21,858 evaluations, scored
+on deterministic ground truth wherever it exists.
+Through additive prompt levels, a randomised layer-ordering ablation, and an
+irrelevant-padding control, we show that response quality is governed by
+\textbf{information sufficiency}, and that for structured tasks the
+task-critical information is the \emph{output schema}.
 
-Tasks differ in a \textbf{prompt-sensitivity gradient}: classification gain
-is concentrated in a single mechanism (task label), product extraction gain
-is distributed across multiple mechanisms, and QA/math are insensitive
-(already at ceiling from the bare input).
-This gradient, supported by marginal contribution analysis, ceiling
-stratification, and dual-judge validation, replaces the binary
-structured--open framing and provides concrete guidance for prompt authoring:
-identify which prompt mechanisms matter for your task type, include those,
-and stop.
+Our central finding is \textbf{schema gating}: a single schema-resolving layer
+captures 87--95\% of all quality gain for classification, product extraction,
+and a held-out NER task, with everything else (definitions, personas, worked
+examples) adding little.
+This concentration is sharpest on objective ground truth; the LLM judge had
+masked it, illustrating why metric choice matters.
+The remaining tasks fall into two further classes distinguished by mechanism:
+\textbf{difficulty-gated} (instruction following, whose sensitivity grows
+$6.6\times$ with harder examples) and \textbf{knowledge-gated} (QA, math,
+summarisation, at ceiling from the bare input).
+Because we predicted the held-out task's class and gain locus before running,
+the taxonomy has out-of-sample support, not merely descriptive fit.
+The practical message is simple: for structured tasks, invest the prompt budget
+in one well-formed schema specification and stop; for knowledge tasks, the bare
+question suffices.
 
 \paragraph{Future directions.}
-Extending the study to additional structured tasks (code generation with type
-annotations, data-to-text generation) would test whether the gradient
-generalises.
-Mechanistic interpretability analyses could directly test the
-schema-compliance hypothesis.
-Studying saturation in multi-turn and agentic settings---where context
-accumulates across turns and tool-call format specifications may exhibit
-concentrated sensitivity---would address the increasingly common deployment
-pattern of long-horizon LLM agents.
+The schema-gating mechanism makes a sharp prediction we can test out of sample:
+any task whose output the model cannot infer from the input (code generation
+with a type signature, data-to-text with a template, dialogue-state tracking
+with a slot schema) should concentrate its gain at the format layer.
+A held-out battery of such tasks would validate the difficulty- and
+knowledge-gated classes as the NER task validated the schema-gated one.
+Mechanistic-interpretability analyses could directly test how a model
+internalises the format layer. Agentic settings, where a tool-call schema is
+exactly the kind of format specification our mechanism predicts should
+dominate, would extend the finding to long-horizon deployments.

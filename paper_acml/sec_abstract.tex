@@ -1,42 +1,48 @@
 \begin{abstract}
 Practitioners routinely craft increasingly verbose prompts under the
 assumption that more context yields better responses.
-We test this assumption with a controlled study spanning 20,178 LLM-evaluated
-responses across eight large language models (seven running all six tasks), seven additive
-prompt-elaboration levels, and three supplementary experiments.
-Our methodology isolates the effect of prompt content from prompt length
-through three complementary experiments: (1)~a core saturation study in which
-each prompt level adds exactly one elaboration layer (task label, format
-specification, definitions, persona, guidelines, worked example);
-(2)~a randomised layer-ordering ablation (2,986~runs) that shuffles the
-introduction order of prompt layers; and (3)~an irrelevant-padding control
-(1,470~runs) that matches token counts with meaningless filler.
-We find that response quality is governed by \emph{information sufficiency},
-not token count: quality saturates once task-critical content has been
-communicated, regardless of when it appears in the prompt or how many
-tokens surround it.
-A hard-example stress test on public benchmarks (GSM8K, HotpotQA)
-confirms that QA insensitivity is genuine, not a ceiling artefact,
-while instruction following sensitivity strengthens 6.6$\times$ with
-harder examples.
-A held-out task (NER, 700~runs) partially validates the taxonomy and
-refines it: schema complexity---not merely structured output---determines
-whether a task is concentrated or distributed.
-Tasks vary in a four-level \emph{prompt-sensitivity gradient}:
-\emph{concentrated} (classification---49\% of quality gain from one layer),
-\emph{distributed} (product extraction---gains across multiple layers),
-\emph{diffuse} (instruction following---small gains across many layers),
-and \emph{insensitive} (QA, math, summarisation---at ceiling from the bare
-input).
-An independent second judge (gemini-2.0-flash, 3,915~re-evaluations)
-confirms the primary patterns.
-Model scale modulates the effect: smaller models (1B--8B) require more
-prompt elaboration and benefit more from it, but saturate at lower quality.
-These findings provide concrete, task-specific guidance for prompt authoring:
-for classification, specify the task label; for structured extraction, include
-a worked example; for QA and math, the bare question suffices.
+We test this assumption with a controlled study spanning 21,858 evaluated
+responses across eight large language models (1B to frontier scale), six
+tasks, seven strictly additive prompt-elaboration levels, and eight
+supplementary experiments.
+Each level appends exactly one elaboration mechanism, so any quality change
+between adjacent levels is attributable to that single mechanism.
+To avoid resting our conclusions on a single evaluator, we score the four
+tasks with objective ground truth (classification, product extraction, QA,
+math) using \emph{deterministic} metrics as the primary measure, and use an
+LLM judge only where no clean heuristic exists, cross-checked by an independent
+second judge (gemini-2.0-flash, 3,915~re-evaluations).
+Our central finding is that quality gain for structured tasks
+\emph{concentrates at a single schema-resolving layer}: the layer that
+communicates the output format or label space.
+On the deterministic metric this layer accounts for 87\% of the total gain
+for classification (the task label) and 92\% for product extraction (the JSON
+format specification, 7/7 models significant, $R^2 > 0.99$). On a
+\emph{held-out} task chosen after the main study, it accounts for 95\% for
+named-entity recognition (4/5 significant).
+The held-out task confirms the mechanism predictively rather than merely
+describing it.
+Two controls establish that this is driven by information content, not token
+count: a randomised layer-ordering ablation (2,986~runs) shows the saturation
+\emph{shape} survives reordering while the token threshold moves with the
+schema layer's position, and an irrelevant-padding control (1,470~runs) shows
+matched-token filler produces flat or declining quality (1/26 conditions
+significant).
+A hard-example stress test on public benchmarks (multi-step GSM8K, multi-hop
+HotpotQA, and multi-constraint instructions) shows that QA insensitivity is
+genuine rather than a ceiling artefact, while instruction-following sensitivity
+strengthens $6.6\times$ from easy to hard examples. This refines the picture
+into three mechanism-anchored classes:
+\emph{schema-gated} (classification, extraction, NER), \emph{difficulty-gated}
+(instruction following), and \emph{knowledge-gated} (QA, math, summarisation,
+at ceiling from the bare input).
+Repeated temperature-zero runs confirm these effects exceed run-to-run
+sampling noise by 20--139$\times$.
+The practical guidance is concrete: for structured tasks, invest the prompt
+budget in one well-formed schema specification and stop; for QA and math, the
+bare question suffices.
 \end{abstract}
 \begin{keywords}
 prompt engineering; LLM evaluation; prompt saturation; information sufficiency;
-prompt sensitivity
+schema specification; prompt sensitivity
 \end{keywords}

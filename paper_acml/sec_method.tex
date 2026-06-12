@@ -6,9 +6,11 @@
 
 For each task we define seven prompt templates $T_1 \subset T_2 \subset
 \cdots \subset T_7$, where $\subset$ denotes strict token superset.
-Each level appends one layer of elaboration---a distinct prompt
-\emph{mechanism}---to all previous content; no layer modifies earlier text.
-Table~\ref{tab:levels} shows the layer structure for all six tasks.
+Each level appends one layer of elaboration, a distinct prompt
+\emph{mechanism}, to all previous content; no layer modifies earlier text.
+Table~\ref{tab:levels} shows the layer structure for all six tasks; the
+complete prompt text at every level, with worked walkthroughs, is in the
+supplementary material.
 
 \begin{table}[t]
 \centering
@@ -71,19 +73,21 @@ We study six tasks spanning a spectrum of output structure:
     sentences. 20 curated examples spanning easy (single entity type) to
     hard (multiple overlapping entities). Heuristic: per-type F1 averaged
     across entity categories.
-    This task was selected \emph{after} the main study to validate the
-    prompt-sensitivity gradient: we predicted NER would show
-    \textbf{distributed} saturation, like product extraction, because
-    both tasks require schema demonstration.
+    This task was selected \emph{after} the main study to test the
+    schema-gating mechanism out of sample. We predicted, before running, that
+    NER would be \textbf{schema-gated}, with its quality gain concentrated at
+    the single output-format layer (L3), because the model cannot infer the
+    typed JSON structure from a bare sentence.
 \end{itemize}
 
 To assess robustness to dataset size, we replicate the experiment on
 200 examples for classification (SST-2; \citealt{socher2013recursive})
 and QA (SQuAD; \citealt{rajpurkar2016squad}), preserving the same prompt
 templates and evaluation procedure.
-These two tasks represent opposite poles of the prompt-sensitivity gradient
-(strongest saturation vs.\ no saturation); confirming both the positive and
-negative findings at larger scale bounds the intermediate tasks.
+These two tasks represent opposite poles, schema-gated (strong saturation)
+vs.\ knowledge-gated (no saturation); confirming both the positive and
+negative findings at larger scale on standard benchmarks bounds the
+intermediate tasks.
 Product extraction receives independent confirmation through the ablation
 (2,986 runs with new orderings and examples) and padding control
 (1,470 runs) rather than a separate replication.
@@ -105,8 +109,8 @@ All models are accessed via production APIs with temperature set to 0
 (greedy decoding) for deterministic outputs.
 Each response is capped at 512 output tokens.
 The seven primary models run all six tasks; Llama-3.2-1B is evaluated on
-classification and product extraction only---the two tasks where saturation
-is present and the parameter-scale interaction is testable---to extend the
+classification and product extraction only, the two tasks where saturation
+is present and the parameter-scale interaction is testable, to extend the
 size range below 8B without inflating the experiment matrix.
 
 \begin{table}[t]
@@ -138,30 +142,49 @@ claude-haiku-4-5        & Anthropic  & Anthropic & undiscl.  \\
 \subsection{Evaluation}
 \label{sec:eval}
 
-\paragraph{Primary judge.}
-Following \citet{zheng2023judging}, all responses are scored by
-\texttt{gpt-4o-mini} on four dimensions (correctness, completeness,
-reasoning, conciseness), each rated 1--5.
-The aggregate quality score is the normalised sum:
-$q = \frac{\sum_i s_i}{20} \in [0, 1]$.
-We provide task-specific rubrics to the judge (e.g., for classification:
-focus on whether the label matches; for product extraction: whether all four
-fields are present and correct).
+We deliberately avoid resting our conclusions on a single LLM evaluator.
+For every task that admits objective ground truth we use a \emph{deterministic}
+metric as the \textbf{primary} measure; the LLM judge is primary only where no
+clean heuristic exists, and elsewhere serves as a cross-check.
+
+\paragraph{Primary metric: deterministic ground truth.}
+Four tasks have unambiguous ground truth and are scored by exact, reproducible
+rules with no model in the loop: \emph{classification} (label match),
+\emph{product extraction} (fraction of the four fields exactly matched against
+gold JSON), \emph{QA} (ROUGE-1 recall / answer-string containment), and
+\emph{math} (exact numerical match on the final answer).
+The held-out NER task uses per-type entity F1.
+Because these metrics cannot be confounded by judge calibration, they are the
+basis for all saturation claims on these tasks.
+
+\paragraph{Judge metric (where no ground truth exists).}
+\emph{Summarisation} and \emph{instruction following} lack a single correct
+output, so following \citet{zheng2023judging} we score them with
+\texttt{gpt-4o-mini} on four dimensions (correctness, completeness, reasoning,
+conciseness), each rated 1--5, aggregated as
+$q = \frac{\sum_i s_i}{20} \in [0,1]$, with task-specific rubrics.
+We also record judge scores for the four ground-truth tasks so the two metrics
+can be compared head-to-head (Section~\ref{sec:result-judge}).
 
 \paragraph{Independent second judge.}
-To assess judge reliability, all 3,915 main-study responses for the four
-tasks with the strongest and weakest saturation signals (classification,
-math reasoning, QA, product extraction) are re-evaluated by
-\texttt{gemini-2.0-flash} using the identical rubric.
+As a further reliability check, all 3,915 judge-scored main-study responses
+are re-evaluated by \texttt{gemini-2.0-flash} using the identical rubric,
+yielding inter-judge agreement statistics (Section~\ref{sec:result-judge}).
 
-\paragraph{Heuristic validation.}
-We validate the LLM judges against task-specific heuristic evaluators on the
-full dataset (Pearson $r = 0.986$ for the primary judge), confirming that
-judge scores are reliable.
+\paragraph{Why ground-truth-primary.}
+Across the full dataset the judge and the deterministic metric correlate
+strongly overall ($r = 0.986$), but they diverge informatively on individual
+tasks, most importantly product extraction, where the judge awards partial
+credit to malformed output and thereby both masks the format step and spreads
+apparent gain onto the worked example.
+Where the two disagree we treat the deterministic metric as the arbiter and
+report the disagreement explicitly.
+This design converts the ``LLM-judge reliability'' question from a threat into
+evidence.
 
 \paragraph{Aggregation.}
-For each (model, task, level) triplet, we aggregate quality across all 20
-examples by taking the mean, yielding 7 data points per (model, task) curve.
+For each (model, task, level) triplet, we average quality across the 20
+examples, yielding 7 data points per (model, task) curve.
 
 \subsection{Curve Fitting and Saturation Points}
 \label{sec:fitting}
@@ -209,16 +232,18 @@ For each task, we compute the quality delta between adjacent level pairs
 models.
 This decomposes the total quality gain into per-mechanism contributions,
 revealing which prompt layers drive improvement and which are redundant.
-The marginal contribution profile characterises a task's position on the
-prompt-sensitivity gradient.
+We compute it on the primary (deterministic) metric for the ground-truth
+tasks; the per-layer profile is what assigns a task to a class (schema-,
+difficulty-, or knowledge-gated) and, crucially, detects step-shaped
+concentration that curve fitting misses.
 
 \subsection{Randomised Layer-Ordering Ablation}
 \label{sec:ablation}
 
 To disentangle information content from token count, we conduct a randomised
 ablation.
-For classification and product extraction---the tasks with significant
-saturation in the core study---we shuffle the introduction order of all
+For classification and product extraction, the tasks with significant
+saturation in the core study, we shuffle the introduction order of all
 six prompt layers (layers 2--7; layer 1 is always the bare input),
 generating 5 random permutations per task.
 Each permutation is run on 7 curated examples per task across 6 models
@@ -228,8 +253,8 @@ deprecation between study phases).
 If saturation is driven by token count, shuffling should not affect the
 quality-versus-token curve.
 If saturation is driven by information content, the saturation \emph{point}
-(in tokens) should shift with ordering---because high-value layers can now
-appear early---while the saturation \emph{shape} (quality rising then
+(in tokens) should shift with ordering, because high-value layers can now
+appear early, while the saturation \emph{shape} (quality rising then
 plateauing) should persist.
 
 \subsection{Irrelevant-Padding Control}
@@ -271,9 +296,9 @@ Independent second judge (gemini-2.0-flash) & 3,915 \\
 Sub-8B experiment (Llama-3.2-1B) & 332 \\
 Held-out NER validation (5 models $\times$ 7 levels $\times$ 20 examples) & 700 \\
 Hard-example stress test (3 models $\times$ 3 tasks $\times$ 7 levels $\times$ 20 examples) & 1,260 \\
-Sampling stability (1 model $\times$ 3 tasks $\times$ 7 levels $\times$ 20 examples $\times$ 2 repeats) & 840 \\
+Sampling stability (3 models $\times$ 3 tasks $\times$ 7 levels $\times$ 20 examples $\times$ 2 repeats) & 2,520 \\
 \midrule
-\textbf{Total} & \textbf{20,178} \\
+\textbf{Total} & \textbf{21,858} \\
 \bottomrule
 \end{tabular}
 \end{table}

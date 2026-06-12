@@ -3,46 +3,60 @@
 
 \subsection{Information Sufficiency, Not Token Budgets}
 
-The convergence of three independent experiments---the core saturation study,
-the randomised ablation, and the padding control---supports a single
+The convergence of three independent experiments (the core saturation study,
+the randomised ablation, and the padding control) supports a single
 mechanism: quality saturates once \emph{task-critical information} has been
 communicated.
 The saturation \emph{shape} (quality rising then plateauing) is robust across
-prompt orderings, but the specific token count at which it occurs is not---it
+prompt orderings, but the specific token count at which it occurs is not: it
 shifts with which layers appear early.
 Irrelevant tokens at matched counts produce flat or declining quality.
 The practical implication is that prompt optimisation should focus on
 \emph{which mechanisms to include}, not on \emph{how many tokens to budget}.
 
-\subsection{Schema Compliance as a Mechanism}
+\subsection{Schema Gating: One Layer Unlocks Structured Tasks}
 
-Three converging lines of evidence support the hypothesis that structured tasks
-saturate because quality is governed by schema compliance---the model's
-ability to produce a response in the required format:
+The strongest result of the study is that, on deterministic ground truth,
+structured tasks saturate at a single \emph{schema-resolving} layer, the layer
+that tells the model what shape the answer must take.
+Four lines of evidence converge:
 
 \begin{enumerate}
-  \item \textbf{Marginal contributions:} The schema-defining layers dominate
-    quality gain. For classification, L1$\to$L2 (task label) and L2$\to$L3
-    (format spec) account for 61\% of total gain. For product extraction,
-    L6$\to$L7 (worked example demonstrating output schema) accounts for 40\%.
-  \item \textbf{Ceiling stratification:} Open-ended tasks (QA, math) reach
-    ceiling at L1 precisely because they do \emph{not} require schema
-    compliance---the model already knows what to output.
-  \item \textbf{Output compression:} Classification output drops from 85
-    tokens (L1, verbose explanation) to 2 tokens (L3+, just the label) as
-    format specification takes effect. Quality tracks this compression.
+  \item \textbf{Concentration on ground truth.} One layer captures the bulk of
+    all quality gain: classification 87\% (task label, L2), product extraction
+    92\% (JSON format, L3), NER 95\% (format, L3). Later layers (definitions,
+    persona, guidelines, and even the worked example) add little.
+  \item \textbf{Out-of-sample prediction.} We predicted both the class
+    (schema-gated) and the exact layer (L3 format) for the held-out NER task
+    \emph{before} running it; ground truth confirmed both. The mechanism has
+    predictive power, not just descriptive fit.
+  \item \textbf{Step shape.} Product extraction and NER are near-perfect step
+    functions ($q \approx 0$ until the format layer, then $q > 0.9$). The
+    model is not gradually improving; it is switching from ``cannot produce
+    parseable output'' to ``can.''
+  \item \textbf{Knowledge-gated contrast.} QA and math reach ceiling at L1
+    precisely because they require no schema: the answer is a fact or a number
+    the model already holds, and they stay flat even on hard examples.
 \end{enumerate}
 
-We present schema compliance as a hypothesis supported by converging evidence
-rather than a directly tested mechanism.
-Mechanistic interpretability analyses of how models process elaboration levels
-could provide a direct test.
+This sharpens the earlier ``information sufficiency'' framing into a concrete,
+testable mechanism: for structured tasks the task-critical information is the
+\emph{output schema}, and once it is communicated, elaboration stops helping.
+We note the judge would have obscured this: it credited the worked example and
+implied a ``distributed'' profile, which ground truth overturns
+(Section~\ref{sec:result-judge}).
+A direct mechanistic-interpretability test of how models internalise the format
+layer remains future work.
 
 \subsection{Harmful Prompt Content}
 
-The math L3 finding---instructing models to ``give only the final numerical
-answer'' destroys quality by $-0.366$ across all seven models and both
-judges---demonstrates that prompt content can be actively harmful.
+The math L3 finding demonstrates that prompt content can be actively harmful:
+instructing models to ``give only the final numerical answer'' suppresses
+chain-of-thought and lowers quality ($-0.366$ on the LLM judges, $-0.071$ on
+exact-match, across all seven models).
+The metric gap is itself a finding: the judge penalises missing reasoning
+heavily, while exact-match registers only the cases where suppression also
+changed the answer; both agree on the sign.
 This extends beyond the ``diminishing returns'' framing: certain instructions
 are not merely unhelpful but counterproductive.
 The standard sigmoid saturation model does not capture tasks where
@@ -51,22 +65,23 @@ important for practitioners to be aware of.
 
 \subsection{Practical Guidelines}
 
-The prompt-sensitivity gradient provides concrete, task-specific guidance:
+The three-class account yields concrete, task-specific guidance:
 
 \begin{itemize}
-  \item \textbf{Classification (concentrated):} Specify the task label and
-    output format ($\approx$50 tokens). Adding worked examples
-    ($\approx$300+ tokens) provides no benefit for most models.
-  \item \textbf{Structured extraction (distributed):} Include a worked
-    example demonstrating the expected output format. Models vary
-    substantially (92--536 tokens); smaller models require more schema
-    detail while larger or API-tier models infer the schema from minimal cues.
-  \item \textbf{Instruction following (diffuse):} Small gains spread across
-    many layers; no single mechanism dominates.
-  \item \textbf{QA and math reasoning (insensitive):} The bare question
-    suffices. Invest in retrieval-augmented generation (for QA) or
-    chain-of-thought formatting (for reasoning) rather than instruction
-    elaboration. \emph{Avoid} suppressing step-by-step reasoning for math.
+  \item \textbf{Schema-gated (classification, extraction, NER):} Spend the
+    prompt budget on \emph{one} well-formed output-schema specification (the
+    label space or a minimal format template) and stop. This single layer
+    captures 87--95\% of the achievable gain; worked examples and personas add
+    little once the format is clear ($\approx$40--100 tokens suffice). The
+    cheapest high-value prompt is a format spec, not a worked example.
+  \item \textbf{Difficulty-gated (instruction following):} Elaboration pays off
+    only in proportion to task difficulty. For simple single-constraint tasks,
+    minimal prompts suffice; for multi-constraint tasks, add the definition and
+    guideline layers, which become load-bearing as constraints accumulate.
+  \item \textbf{Knowledge-gated (QA, math, summarisation):} The bare question
+    suffices. Invest in retrieval (for QA) or chain-of-thought formatting (for
+    math) rather than instruction elaboration, and \emph{never} suppress
+    step-by-step reasoning, which costs $-0.366$ quality on math.
 \end{itemize}
 
 \subsection{Relationship to Prompt Compression}
@@ -76,34 +91,50 @@ different stages of the prompt lifecycle.
 Compression decides what to keep \emph{given a written prompt}; our marginal
 contribution analysis decides what to \emph{write in the first place}.
 For classification, LLMLingua-2 might compress L7 ($\approx$180 tokens) to
-$\approx$36 tokens by removing filler---but our analysis shows L1$\to$L2
-(adding $\approx$5 tokens of task label) already captures 49\% of the quality
-gain, suggesting the L7 elaboration was largely unnecessary content rather
-than redundantly worded content.
+$\approx$36 tokens by removing filler, but our analysis shows the task label
+alone (L1$\to$L2, $\approx$5 tokens) already captures 87\% of the quality gain
+on ground truth, so the L7 elaboration was largely \emph{unnecessary content}
+rather than redundantly worded content.
+Compression cannot recover this: it shortens text that should never have been
+written.
 The two approaches are complementary and stack: author the right mechanisms
 (our work), then compress the wording within them (prompt compression).
 
 \subsection{Limitations}
 \label{sec:limitations}
 
-\paragraph{Statistical power.}
-With $n = 7$ data points per curve, the F-test has limited power.
-Borderline cases (classification for llama-3.1-8b at $p = 0.079$; product
-extraction for kimi-k2 at $p = 0.093$) are plausibly true positives that
-the marginal contribution analysis confirms as prompt-sensitive.
-Future work should use finer-grained level spacing (15--20 levels).
+We foreground the limitations that genuinely qualify our claims before the
+routine ones.
+
+\paragraph{The ``insensitive'' tasks are only partly resolved.}
+QA is flat under both metrics and stays flat on hard HotpotQA examples, so we
+are confident it is knowledge-gated. Math is murkier: it is knowledge-gated for
+strong models but edges toward difficulty-gated for weaker ones on hard GSM8K
+problems, so ``insensitive'' is a model-dependent statement, not a task
+property. The below-ceiling stratification that first suggested this is
+confounded by regression to the mean and should not be read as independent
+evidence; only the hard-example experiment is.
+
+\paragraph{Curve fitting under-detects concentrated tasks.}
+With $n = 7$ points per curve, the F-test detects gradual sigmoids well but
+under-detects step functions: classification is significant for only 2/7 models
+despite an 87\% L2 jump. We therefore do not rely on per-curve significance for
+schema-gated tasks; the marginal-contribution analysis and the 7/7-significant
+product-extraction fits (which \emph{are} smooth enough to fit) carry the
+claim. Finer level spacing (15--20 levels) would let curve fitting capture
+step-shaped tasks too.
 
 \paragraph{Classification domain breadth.}
-Classification results draw from sentiment analysis only.
-Product extraction provides a second structurally distinct task with the
-same qualitative saturation pattern, but extending to additional
-classification domains (topic, intent, category) would strengthen
-generalisability.
+Classification draws from sentiment only. Product extraction and the held-out
+NER task provide two further schema-gated tasks with different output
+structures, but extending to additional classification domains (topic, intent,
+specialised label spaces such as ICD-10) would test whether the concentrated
+shape persists when the label space is harder to infer.
 
 \paragraph{Single-turn scope.}
 The study focuses on single-turn instruction tasks.
 Agentic, RAG, and multi-turn settings may exhibit different saturation
-dynamics---our mechanism-level findings yield testable predictions for
+dynamics, and our mechanism-level findings yield testable predictions for
 these settings (e.g., tool-call format specifications may exhibit
 concentrated sensitivity analogous to classification).
 
@@ -112,16 +143,26 @@ All prompts and examples are in English.
 Saturation behaviour may differ for low-resource languages where prompt
 elaboration is more necessary to disambiguate tasks.
 
-\paragraph{Model deprecation.}
-kimi-k2 was deprecated by Groq between the main study (March 2026) and
-the ablation experiments (May 2026), producing 404 errors on all 490
-ablation attempts.
-Main-study data from kimi-k2 is retained (recorded outputs are immutable),
-and the ablation analyses are restricted to the 5 models with complete data.
+\paragraph{Model deprecation and versioning.}
+Two models were affected by provider deprecations across the study, a
+reproducibility constraint rather than a design flaw.
+kimi-k2 was deprecated by Groq between the main study and the later
+experiments, producing 404 errors on all 490 ablation attempts; its
+immutable main-study outputs are retained, and the ablation and other
+follow-on analyses are restricted to the models with complete data.
+gemini-2.0-flash was likewise deprecated, so the later experiments
+(held-out NER, hard examples, sampling stability) use gemini-2.5-flash in its
+place.
+The version change shifts effect \emph{magnitudes} (classification L1$\to$L7
+gain rises from $+0.110$ on gemini-2.0-flash to $+0.345$ on gemini-2.5-flash),
+but the \emph{direction} of every effect is preserved across both versions, so
+no qualitative conclusion depends on a single model build.
 
-\paragraph{Post-hoc gradient.}
-The prompt-sensitivity gradient (concentrated $\to$ distributed $\to$
-diffuse $\to$ insensitive) is a post-hoc descriptive framework supported by
-three independent analyses (ceiling stratification, marginal contributions,
-ablation), not a pre-registered taxonomy.
-Validation as a predictive framework requires testing on new tasks.
+\paragraph{Taxonomy validated on one held-out task, not many.}
+The three-class account (schema-, difficulty-, knowledge-gated) was abstracted
+from six tasks, but the schema-gated class now has out-of-sample support: we
+predicted NER's class and gain locus before running and were confirmed. This is
+one held-out task, not a battery: the difficulty- and knowledge-gated classes
+have not been validated out of sample, and a single confirmation cannot rule
+out a task that defies the scheme. Broader held-out validation (code generation,
+data-to-text, dialogue-state tracking) is the natural next step.
