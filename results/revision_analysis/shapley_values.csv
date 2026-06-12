@@ -1,0 +1,13 @@
+task,mechanism,shapley_value,n
+classification,task_label,0.0229,25
+classification,format_spec,-0.0343,25
+classification,definitions,0.04,25
+classification,persona,-0.0229,25
+classification,edge_cases,0.0629,25
+classification,example,0.0286,25
+product_extraction,task_label,0.0357,25
+product_extraction,format_spec,0.2957,25
+product_extraction,definitions,0.0586,25
+product_extraction,persona,-0.0057,25
+product_extraction,edge_cases,0.02,25
+product_extraction,example,-0.0357,25

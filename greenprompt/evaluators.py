@@ -226,6 +226,21 @@ class ProductExtractionEvaluator(QualityEvaluator):
 
     FIELDS = ['name', 'price', 'brand', 'category']
 
+    FIELD_ALIASES = {
+        'name': ['name', 'product name', 'product'],
+        'price': ['price', 'cost', 'msrp', 'retail price'],
+        'brand': ['brand', 'manufacturer', 'maker', 'company'],
+        'category': ['category', 'type', 'product type', 'product category'],
+    }
+
+    def _strip_markdown(self, line: str) -> str:
+        s = line.strip()
+        s = re.sub(r'^[-*•]\s+', '', s)
+        s = re.sub(r'^\d+[.)]\s+', '', s)
+        s = re.sub(r'\*\*([^*]+)\*\*', r'\1', s)
+        s = re.sub(r'__([^_]+)__', r'\1', s)
+        return s.strip()
+
     def _parse_response(self, text: str) -> Optional[dict]:
         """Try JSON parse, then fallback to key: value line parsing."""
         cleaned = re.sub(r'```(?:json)?\s*', '', text).strip().rstrip('`')
@@ -239,15 +254,20 @@ class ProductExtractionEvaluator(QualityEvaluator):
 
         result = {}
         for line in text.split('\n'):
-            for field in self.FIELDS:
-                pattern = rf'{field}\s*:\s*(.+)'
-                m = re.match(pattern, line.strip(), re.IGNORECASE)
-                if m:
-                    result[field] = m.group(1).strip()
+            stripped = self._strip_markdown(line)
+            for field, aliases in self.FIELD_ALIASES.items():
+                if field in result:
+                    continue
+                for alias in aliases:
+                    pattern = rf'{re.escape(alias)}\s*:\s*(.+)'
+                    m = re.match(pattern, stripped, re.IGNORECASE)
+                    if m:
+                        result[field] = m.group(1).strip().rstrip('*')
+                        break
         return result if result else None
 
     def _normalize_price(self, price_str: str) -> str:
-        cleaned = re.sub(r'[$,]', '', price_str.strip())
+        cleaned = re.sub(r'[^\d.]', '', price_str.strip())
         try:
             num = float(cleaned)
             if num == int(num):
@@ -259,7 +279,7 @@ class ProductExtractionEvaluator(QualityEvaluator):
     def _match_field(self, field: str, extracted: str, expected: str) -> bool:
         if field == 'price':
             return self._normalize_price(extracted) == self._normalize_price(expected)
-        elif field == 'name':
+        elif field in ('name', 'category'):
             return (expected.lower() in extracted.lower() or
                     extracted.lower() in expected.lower())
         else:
@@ -293,19 +313,80 @@ class ProductExtractionEvaluator(QualityEvaluator):
 class NERExtractionEvaluator(QualityEvaluator):
     """Evaluate NER by comparing extracted entity sets per type against ground truth."""
 
+    TYPE_ALIASES = {
+        'PERSON': ['person', 'per', 'people', 'name', 'names'],
+        'ORG': ['org', 'organization', 'organisation', 'company', 'companies',
+                'institution', 'institutions'],
+        'LOC': ['loc', 'location', 'locations', 'place', 'places',
+                'city', 'country', 'gpe'],
+    }
+
+    def _normalize_type(self, label: str) -> Optional[str]:
+        label_lower = label.lower().strip()
+        for canonical, aliases in self.TYPE_ALIASES.items():
+            if label_lower == canonical.lower() or label_lower in aliases:
+                return canonical
+        return None
+
+    def _strip_markdown(self, line: str) -> str:
+        s = line.strip()
+        s = re.sub(r'^[-*•]\s+', '', s)
+        s = re.sub(r'^\d+[.)]\s+', '', s)
+        s = re.sub(r'\*\*([^*]+)\*\*', r'\1', s)
+        s = re.sub(r'__([^_]+)__', r'\1', s)
+        return s.strip()
+
     def _parse_entities(self, text: str) -> Optional[dict[str, list[str]]]:
         cleaned = re.sub(r'```(?:json)?\s*', '', text.strip()).rstrip('`')
         match = re.search(r'\{.*\}', cleaned, re.DOTALL)
-        if not match:
-            return None
-        try:
-            parsed = json.loads(match.group())
-            if isinstance(parsed, dict):
-                return {k: [str(v).lower() for v in vs] if isinstance(vs, list) else [str(vs).lower()]
-                        for k, vs in parsed.items()}
-        except (json.JSONDecodeError, TypeError):
-            pass
-        return None
+        if match:
+            try:
+                parsed = json.loads(match.group())
+                if isinstance(parsed, dict):
+                    return {k: [str(v).lower() for v in vs] if isinstance(vs, list) else [str(vs).lower()]
+                            for k, vs in parsed.items()}
+            except (json.JSONDecodeError, TypeError):
+                pass
+
+        result: dict[str, list[str]] = {}
+        current_type: Optional[str] = None
+
+        for line in text.split('\n'):
+            stripped = self._strip_markdown(line)
+            if not stripped:
+                continue
+
+            m = re.match(r'^([A-Za-z]+(?:\s+[A-Za-z]+)?)\s*:\s*(.*)$', stripped)
+            if m:
+                label, value = m.group(1), m.group(2).strip()
+                norm = self._normalize_type(label)
+                if norm:
+                    current_type = norm
+                    if norm not in result:
+                        result[norm] = []
+                    if value:
+                        for entity in re.split(r',\s*', value):
+                            entity = entity.strip().strip('"\'')
+                            if entity:
+                                result[norm].append(entity.lower())
+                    continue
+
+            m_paren = re.match(r'^(.+?)\s*\(([^)]+)\)\s*$', stripped)
+            if m_paren:
+                entity, label = m_paren.group(1).strip(), m_paren.group(2).strip()
+                norm = self._normalize_type(label)
+                if norm:
+                    if norm not in result:
+                        result[norm] = []
+                    result[norm].append(entity.lower())
+                    continue
+
+            if current_type and stripped and not re.match(r'^(here|the|let|i |note)', stripped.lower()):
+                entity = stripped.strip('- •*').strip()
+                if entity and len(entity) < 100:
+                    result[current_type].append(entity.lower())
+
+        return result if result else None
 
     def evaluate(self, response: str, ground_truth: Optional[str] = None) -> tuple[float, bool]:
         response = response.strip()
@@ -341,6 +422,42 @@ class NERExtractionEvaluator(QualityEvaluator):
 
         quality = sum(f1_scores) / len(f1_scores)
         return quality, quality >= 0.5
+
+
+def content_presence_score(response: str, ground_truth: str, task: str) -> float:
+    """Check if gold values appear anywhere in response text (format-independent)."""
+    response_lower = response.lower()
+    try:
+        gt_dict = json.loads(ground_truth)
+    except (json.JSONDecodeError, TypeError):
+        return 0.0
+
+    if task == 'product_extraction':
+        fields = ['name', 'price', 'brand', 'category']
+        matches = 0
+        for field in fields:
+            if field not in gt_dict:
+                continue
+            val = str(gt_dict[field]).lower()
+            if field == 'price':
+                digits = re.sub(r'[^\d.]', '', val)
+                if digits and digits in re.sub(r'[^\d.]', '', response_lower):
+                    matches += 1
+            else:
+                if val in response_lower:
+                    matches += 1
+        return matches / len(fields)
+
+    elif task == 'ner':
+        recall_scores = []
+        for etype, entities in gt_dict.items():
+            if not entities:
+                continue
+            found = sum(1 for e in entities if e.lower() in response_lower)
+            recall_scores.append(found / len(entities))
+        return sum(recall_scores) / len(recall_scores) if recall_scores else 0.0
+
+    return 0.0
 
 
 def get_evaluator(task_type: str) -> QualityEvaluator:

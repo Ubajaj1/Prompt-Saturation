@@ -1,0 +1,15 @@
+task,level,n,json_pct,markdown_list_pct,bold_keys_pct,plain_keyval_pct,prose_pct
+product_extraction,1,140,0.0,93.6,4.3,2.1,0.0
+product_extraction,2,140,0.0,86.4,13.6,0.0,0.0
+product_extraction,3,140,100.0,0.0,0.0,0.0,0.0
+product_extraction,4,139,98.6,0.0,0.0,1.4,0.0
+product_extraction,5,139,100.0,0.0,0.0,0.0,0.0
+product_extraction,6,140,100.0,0.0,0.0,0.0,0.0
+product_extraction,7,139,100.0,0.0,0.0,0.0,0.0
+ner,1,100,0.0,91.0,3.0,0.0,6.0
+ner,2,100,0.0,98.0,2.0,0.0,0.0
+ner,3,100,89.0,0.0,0.0,0.0,11.0
+ner,4,100,92.0,0.0,0.0,1.0,7.0
+ner,5,100,96.0,0.0,0.0,2.0,2.0
+ner,6,100,99.0,0.0,0.0,0.0,1.0
+ner,7,100,99.0,0.0,0.0,0.0,1.0
